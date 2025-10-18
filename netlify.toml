@@ -21,7 +21,6 @@
   to = "/dashboard.html"
   status = 200
 
-# Redirect any other path to index.html (for SPA-like behavior)
 [[redirects]]
   from = "/*"
   to = "/index.html"
