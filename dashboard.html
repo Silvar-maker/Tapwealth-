@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #0056FF 0%, #C0C0C0 50%, #FFFFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-white to-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-sm border-b border-white/30 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-dollar-sign text-blue-600 text-2xl mr-2"></i>
+                        <a href="index.html" class="text-xl font-bold gradient-text">TapWealth</a>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">Home</a>
+                    <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
+                    <a href="features.html" class="text-gray-600 hover:text-blue-600 font-medium">Features</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-700 font-medium">Welcome, John!</span>
+                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">J</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Main Content -->
+            <div class="flex-1">
+                <h1 class="text-3xl font-bold text-gray-800 mb-8">Dashboard</h1>
+                
+                <!-- Balance Card -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30 mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-gray-800">Available Balance</h2>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 bg-blue-600 text-white rounded-full text-sm font-medium">NGN</button>
+                            <button class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-300">USD</button>
+                        </div>
+                    </div>
+                    <div class="text-4xl font-bold text-blue-600 mb-6">₦24,500.75</div>
+                    <div class="flex gap-4">
+                        <button class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors">
+                            Deposit
+                        </button>
+                        <button class="flex-1 bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition-colors">
+                            Withdraw
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm">Total Earnings</p>
+                                <p class="text-2xl font-bold text-gray-800">₦24,500</p>
+                            </div>
+                            <i class="fas fa-chart-line text-green-600 text-2xl"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm">Completed Tasks</p>
+                                <p class="text-2xl font-bold text-gray-800">47</p>
+                            </div>
+                            <i class="fas fa-tasks text-blue-600 text-2xl"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm">Referrals</p>
+                                <p class="text-2xl font-bold text-gray-800">12</p>
+                            </div>
+                            <i class="fas fa-users text-purple-600 text-2xl"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-600 text-sm">Withdrawals</p>
+                                <p class="text-2xl font-bold text-gray-800">3</p>
+                            </div>
+                            <i class="fas fa-wallet text-orange-600 text-2xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30 mb-8">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Recent Activity</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
+                            <div>
+                                <p class="font-medium text-gray-800">Netflix Sign-up Bonus</p>
+                                <p class="text-sm text-gray-500">Today, 2:30 PM</p>
+                            </div>
+                            <div class="font-bold text-green-600">+₦1,200</div>
+                        </div>
+                        <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
+                            <div>
+                                <p class="font-medium text-gray-800">Referral Bonus</p>
+                                <p class="text-sm text-gray-500">Yesterday, 4:15 PM</p>
+                            </div>
+                            <div class="font-bold text-green-600">+₦500</div>
+                        </div>
+                        <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
+                            <div>
+                                <p class="font-medium text-gray-800">Survey Completion</p>
+                                <p class="text-sm text-gray-500">Jan 15, 2025</p>
+                            </div>
+                            <div class="font-bold text-green-600">+₦800</div>
+                        </div>
+                        <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
+                            <div>
+                                <p class="font-medium text-gray-800">Withdrawal Processed</p>
+                                <p class="text-sm text-gray-500">Jan 10, 2025</p>
+                            </div>
+                            <div class="font-bold text-red-600">-₦5,000</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Available Offers -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30">
+                    <h2 class="text-xl font-bold text-gray-800 mb-6">Available Offers</h2>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-4 bg-blue-50 rounded-lg">
+                            <div>
+                                <p class="font-medium text-gray-800">Sign Up for Jumia</p>
+                                <p class="text-sm text-gray-600">Create account and verify email</p>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <span class="text-lg font-bold text-green-600">₦600</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">Start</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-green-50 rounded-lg">
+                            <div>
+                                <p class="font-medium text-gray-800">Complete Survey Panel</p>
+                                <p class="text-sm text-gray-600">Join and complete first survey</p>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <span class="text-lg font-bold text-green-600">₦800</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">Start</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center p-4 bg-purple-50 rounded-lg">
+                            <div>
+                                <p class="font-medium text-gray-800">Download Gaming App</p>
+                                <p class="text-sm text-gray-600">Install and play for 5 minutes</p>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <span class="text-lg font-bold text-green-600">₦1,500</span>
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">Start</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="lg:w-80">
+                <!-- Referral Program -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30 mb-6">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Referral Program</h3>
+                    <div class="text-center mb-4">
+                        <i class="fas fa-users text-blue-600 text-3xl mb-2"></i>
+                        <p class="text-2xl font-bold text-gray-800">12</p>
+                        <p class="text-sm text-gray-600">Your Referrals</p>
+                    </div>
+                    <div class="bg-gray-100 rounded-lg p-3 mb-4">
+                        <p class="text-sm text-gray-700 mb-2">Your Referral Link:</p>
+                        <div class="flex items-center">
+                            <input type="text" value="https://tapwealth.com/ref/john123" readonly class="flex-1 bg-transparent border-none outline-none text-blue-600 text-sm font-medium">
+                            <button class="ml-2 bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700">Copy</button>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600"><strong>Earn ₦500</strong> for each referral + <strong>10% lifetime commission</strong></p>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Quick Actions</h3>
+                    <div class="space-y-3">
+                        <button class="w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                            <div class="flex items-center">
+                                <i class="fas fa-cog text-gray-600 mr-3"></i>
+                                <span class="text-gray-700">Settings</span>
+                            </div>
+                        </button>
+                        <button class="w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                            <div class="flex items-center">
+                                <i class="fas fa-bell text-gray-600 mr-3"></i>
+                                <span class="text-gray-700">Notifications</span>
+                            </div>
+                        </button>
+                        <button class="w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                            <div class="flex items-center">
+                                <i class="fas fa-question-circle text-gray-600 mr-3"></i>
+                                <span class="text-gray-700">Help Center</span>
+                            </div>
+                        </button>
+                        <button class="w-full text-left p-3 bg-red-100 hover:bg-red-200 rounded-lg transition-colors">
+                            <div class="flex items-center">
+                                <i class="fas fa-sign-out-alt text-red-600 mr-3"></i>
+                                <span class="text-red-700">Logout</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <i class="fas fa-dollar-sign text-blue-400 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold">TapWealth</span>
+                </div>
+                <p class="text-gray-400 mb-6">Empower your earnings and live large with TapWealth</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p class="text-gray-500 text-sm">© 2025 TapWealth. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Copy referral link functionality
+        document.querySelector('.bg-blue-600').addEventListener('click', function() {
+            const text = document.querySelector('input[type="text"]').value;
+            navigator.clipboard.writeText(text).then(() => {
+                this.textContent = 'Copied!';
+                this.classList.remove('bg-blue-600');
+                this.classList.add('bg-green-600');
+                setTimeout(() => {
+                    this.textContent = 'Copy';
+                    this.classList.remove('bg-green-600');
+                    this.classList.add('bg-blue-600');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
