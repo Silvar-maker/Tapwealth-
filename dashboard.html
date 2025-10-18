@@ -20,6 +20,14 @@
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Montserrat', sans-serif;
         }
+        .currency-btn.active {
+            background: #0056FF;
+            color: white;
+        }
+        .currency-btn.inactive {
+            background: #e5e7eb;
+            color: #374151;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 via-white to-gray-100 min-h-screen">
@@ -30,7 +38,7 @@
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
                         <i class="fas fa-dollar-sign text-blue-600 text-2xl mr-2"></i>
-                        <a href="index.html" class="text-xl font-bold gradient-text">TapWealth</a>
+                        <span class="text-xl font-bold gradient-text">TapWealth</span>
                     </div>
                 </div>
                 <div class="hidden md:flex items-center space-x-8">
@@ -59,16 +67,16 @@
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-gray-800">Available Balance</h2>
                         <div class="flex space-x-2">
-                            <button class="px-3 py-1 bg-blue-600 text-white rounded-full text-sm font-medium">NGN</button>
-                            <button class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm font-medium hover:bg-gray-300">USD</button>
+                            <button id="ngn-btn" class="currency-btn active px-3 py-1 bg-blue-600 text-white rounded-full text-sm font-medium">NGN</button>
+                            <button id="usd-btn" class="currency-btn inactive px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm font-medium">USD</button>
                         </div>
                     </div>
-                    <div class="text-4xl font-bold text-blue-600 mb-6">₦24,500.75</div>
+                    <div class="text-4xl font-bold text-blue-600 mb-6" id="balance-display">₦24,500.75</div>
                     <div class="flex gap-4">
-                        <button class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors">
+                        <button class="flex-1 bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition-colors" id="deposit-btn">
                             Deposit
                         </button>
-                        <button class="flex-1 bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition-colors">
+                        <button class="flex-1 bg-red-600 text-white py-3 rounded-lg font-bold hover:bg-red-700 transition-colors" id="withdraw-btn">
                             Withdraw
                         </button>
                     </div>
@@ -204,7 +212,7 @@
                         <p class="text-sm text-gray-700 mb-2">Your Referral Link:</p>
                         <div class="flex items-center">
                             <input type="text" value="https://tapwealth.com/ref/john123" readonly class="flex-1 bg-transparent border-none outline-none text-blue-600 text-sm font-medium">
-                            <button class="ml-2 bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700">Copy</button>
+                            <button class="ml-2 bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700" id="copy-referral">Copy</button>
                         </div>
                     </div>
                     <p class="text-sm text-gray-600"><strong>Earn ₦500</strong> for each referral + <strong>10% lifetime commission</strong></p>
@@ -214,25 +222,25 @@
                 <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-white/30">
                     <h3 class="text-lg font-bold text-gray-800 mb-4">Quick Actions</h3>
                     <div class="space-y-3">
-                        <button class="w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                        <button class="w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" id="settings-btn">
                             <div class="flex items-center">
                                 <i class="fas fa-cog text-gray-600 mr-3"></i>
                                 <span class="text-gray-700">Settings</span>
                             </div>
                         </button>
-                        <button class="w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                        <button class="w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" id="notifications-btn">
                             <div class="flex items-center">
                                 <i class="fas fa-bell text-gray-600 mr-3"></i>
                                 <span class="text-gray-700">Notifications</span>
                             </div>
                         </button>
-                        <button class="w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                        <button class="w-full text-left p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" id="help-btn">
                             <div class="flex items-center">
                                 <i class="fas fa-question-circle text-gray-600 mr-3"></i>
                                 <span class="text-gray-700">Help Center</span>
                             </div>
                         </button>
-                        <button class="w-full text-left p-3 bg-red-100 hover:bg-red-200 rounded-lg transition-colors">
+                        <button class="w-full text-left p-3 bg-red-100 hover:bg-red-200 rounded-lg transition-colors" id="logout-btn">
                             <div class="flex items-center">
                                 <i class="fas fa-sign-out-alt text-red-600 mr-3"></i>
                                 <span class="text-red-700">Logout</span>
@@ -265,8 +273,37 @@
     </footer>
 
     <script>
-        // Copy referral link functionality
-        document.querySelector('.bg-blue-600').addEventListener('click', function() {
+        // Currency Toggle
+        const ngnBtn = document.getElementById('ngn-btn');
+        const usdBtn = document.getElementById('usd-btn');
+        const balanceDisplay = document.getElementById('balance-display');
+        
+        ngnBtn.addEventListener('click', function() {
+            ngnBtn.classList.add('active');
+            ngnBtn.classList.remove('inactive');
+            usdBtn.classList.add('inactive');
+            usdBtn.classList.remove('active');
+            balanceDisplay.textContent = '₦24,500.75';
+        });
+        
+        usdBtn.addEventListener('click', function() {
+            usdBtn.classList.add('active');
+            usdBtn.classList.remove('inactive');
+            ngnBtn.classList.add('inactive');
+            ngnBtn.classList.remove('active');
+            balanceDisplay.textContent = '$16.33';
+        });
+
+        // Button Clicks
+        document.getElementById('deposit-btn').addEventListener('click', function() {
+            alert('Deposit feature coming soon! For now, this is a demo.');
+        });
+        
+        document.getElementById('withdraw-btn').addEventListener('click', function() {
+            alert('Withdrawal feature coming soon! For now, this is a demo.');
+        });
+        
+        document.getElementById('copy-referral').addEventListener('click', function() {
             const text = document.querySelector('input[type="text"]').value;
             navigator.clipboard.writeText(text).then(() => {
                 this.textContent = 'Copied!';
@@ -278,6 +315,24 @@
                     this.classList.add('bg-blue-600');
                 }, 2000);
             });
+        });
+        
+        // Quick Actions
+        document.getElementById('settings-btn').addEventListener('click', function() {
+            alert('Settings page coming soon!');
+        });
+        
+        document.getElementById('notifications-btn').addEventListener('click', function() {
+            alert('Notifications page coming soon!');
+        });
+        
+        document.getElementById('help-btn').addEventListener('click', function() {
+            alert('Help Center coming soon!');
+        });
+        
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            alert('You have been logged out!');
+            window.location.href = 'index.html';
         });
     </script>
 </body>
