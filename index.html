@@ -29,12 +29,6 @@
             background: rgba(30, 41, 59, 0.8);
             border-color: rgba(71, 85, 105, 0.5);
         }
-        .section-tabs {
-            display: none;
-        }
-        .section-tabs.active {
-            display: block;
-        }
         /* LEFT SIDEBAR STYLES */
         .left-sidebar {
             position: fixed;
@@ -82,7 +76,7 @@
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 via-white to-slate-100 dark:bg-slate-900 min-h-screen">
-    <!-- LEFT SIDEBAR (MOVED FROM RIGHT TO LEFT) -->
+    <!-- LEFT SIDEBAR (PERMANENTLY REPLACES RIGHT SIDEBAR) -->
     <div class="left-sidebar dark:border-slate-700/50 z-40">
         <div class="h-full flex flex-col">
             <!-- Logo -->
@@ -132,10 +126,11 @@
                             <span class="font-medium">Settings</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- ADMIN PANEL - ONLY VISIBLE TO wealthysilvar@gmail.com -->
+                    <li id="admin-menu-item" class="hidden">
                         <a href="admin.html" class="left-sidebar-item flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700">
                             <i class="fas fa-shield-alt text-xl mr-3"></i>
-                            <span class="font-medium">Admin</span>
+                            <span class="font-medium">Admin Panel</span>
                         </a>
                     </li>
                 </ul>
@@ -143,21 +138,21 @@
             
             <!-- User Profile -->
             <div class="p-4 border-t border-white/30 dark:border-slate-700/50">
-                <div class="flex items-center">
+                <div class="flex items-center mb-4">
                     <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3" id="user-initial">U</div>
                     <div>
                         <p class="font-medium text-gray-800 dark:text-white" id="user-name">User Name</p>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Balance: ₦<span id="user-balance">0.00</span></p>
                     </div>
                 </div>
-                <button onclick="logoutUser()" class="w-full mt-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                <button onclick="logoutUser()" class="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
                     Logout
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- MAIN CONTENT (WITH LEFT SIDEBAR MARGIN) -->
+    <!-- Main Content -->
     <div class="main-content">
         <!-- Navigation -->
         <nav class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-white/30 dark:border-slate-700/50 sticky top-0 z-50">
@@ -264,9 +259,9 @@
 
                 <!-- Recent Activity -->
                 <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50 mb-8">
-                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Recent Activity</h2>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Recent Activity</h2>
                     <div class="space-y-4" id="activity-feed">
-                        <div class="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700 last:border-0 last:pb-0">
+                        <div class="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700/50 last:border-0 last:pb-0">
                             <div>
                                 <p class="font-medium text-gray-800 dark:text-white">Welcome Bonus</p>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">Account created</p>
@@ -282,7 +277,7 @@
                     <p class="text-gray-600 dark:text-gray-300 mb-4">
                         Earn ₦500 for every friend who signs up using your referral link!
                     </p>
-                    <div class="bg-gray-100 dark:bg-slate-700 rounded-lg p-4 mb-4">
+                    <div class="bg-gray-100 dark:bg-slate-700/50 rounded-lg p-4 mb-4">
                         <p class="text-gray-700 dark:text-gray-300 mb-2">Your Unique Referral Link:</p>
                         <div class="flex items-center">
                             <input 
@@ -375,15 +370,11 @@
         function updateDashboard() {
             if (!currentUser) return;
             
-            // Update user info in left sidebar
+            // Update user info
             document.getElementById('user-initial').textContent = currentUser.name.charAt(0).toUpperCase();
             document.getElementById('user-name').textContent = currentUser.name.split(' ')[0];
             document.getElementById('user-balance').textContent = currentUser.balance.toLocaleString();
-            
-            // Update welcome message
-            document.getElementById('welcome-user-name').textContent = currentUser.name;
-            
-            // Update stats cards
+            document.getElementById('welcome-user-name').textContent = currentUser.name.split(' ')[0];
             document.getElementById('balance-card').textContent = currentUser.balance.toLocaleString();
             document.getElementById('earnings-card').textContent = currentUser.balance.toLocaleString();
             document.getElementById('referral-card').textContent = currentUser.referrals || 0;
@@ -399,7 +390,7 @@
             if (currentUser.transactions && currentUser.transactions.length > 0) {
                 currentUser.transactions.slice().reverse().slice(0, 5).forEach(transaction => {
                     const div = document.createElement('div');
-                    div.className = 'flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700 last:border-0 last:pb-0';
+                    div.className = 'flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700/50 last:border-0 last:pb-0';
                     div.innerHTML = `
                         <div>
                             <p class="font-medium text-gray-800 dark:text-white">${transaction.description}</p>
@@ -413,7 +404,7 @@
                 });
             } else {
                 activityFeed.innerHTML = `
-                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700 last:border-0 last:pb-0">
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700/50 last:border-0 last:pb-0">
                         <div>
                             <p class="font-medium text-gray-800 dark:text-white">Welcome Bonus</p>
                             <p class="text-sm text-gray-500 dark:text-gray-400">Account created</p>
@@ -421,6 +412,13 @@
                         <div class="font-bold text-green-600">+₦500.00</div>
                     </div>
                 `;
+            }
+            
+            // Show admin panel only for your email
+            if (currentUser.email === 'wealthysilvar@gmail.com') {
+                document.getElementById('admin-menu-item').classList.remove('hidden');
+            } else {
+                document.getElementById('admin-menu-item').classList.add('hidden');
             }
         }
         
