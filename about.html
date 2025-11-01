@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #0056FF 0%, #C0C0C0 50%, #FFFFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .glass-card.dark {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(71, 85, 105, 0.5);
+        }
+        .facebook-header {
+            background-color: white;
+            border-bottom: 1px solid #dddfe2;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-white to-slate-100 dark:bg-slate-900 min-h-screen">
+    <!-- Navigation -->
+    <nav class="facebook-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-dollar-sign text-blue-600 dark:text-blue-400 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold gradient-text">TapWealth</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Home</a>
+                    <a href="about.html" class="text-blue-600 dark:text-blue-400 font-medium">About</a>
+                    <a href="features.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Features</a>
+                    <a href="contact.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Contact</a>
+                    <button onclick="goBack()" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium flex items-center">
+                        <i class="fas fa-arrow-left mr-2"></i> Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Content -->
+    <div class="min-h-screen py-12 px-4">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-4xl font-bold text-center text-gray-800 dark:text-white mb-12 gradient-text">
+                About TapWealth
+            </h1>
+            
+            <!-- Mission Statement -->
+            <div class="glass-card dark:glass-card dark rounded-xl p-8 border border-white/30 dark:border-slate-700/50 mb-8">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bullseye text-blue-600 dark:text-blue-400 text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Our Mission</h2>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 text-lg text-center mb-6">
+                    We built TapWealth to help individuals earn smarter, faster, and globally. Our platform connects you with real earning opportunities from trusted partners around the world, allowing you to generate income from the comfort of your home.
+                </p>
+                <p class="text-gray-600 dark:text-gray-300 text-lg text-center">
+                    TapWealth is more than just a platform – it's a community of earners who believe in financial freedom and empowerment through legitimate, accessible opportunities.
+                </p>
+            </div>
+            
+            <!-- Core Values -->
+            <div class="glass-card dark:glass-card dark rounded-xl p-8 border border-white/30 dark:border-slate-700/50 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">Core Values</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex items-start p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-eye text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Transparency</h3>
+                            <p class="text-gray-600 dark:text-gray-300">We believe in complete transparency with our users. Every earning opportunity is clearly explained with no hidden terms.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-cogs text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Automation</h3>
+                            <p class="text-gray-600 dark:text-gray-300">Our smart systems automate tracking, payments, and currency conversion so you can focus on earning.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-hand-holding-usd text-purple-600 dark:text-purple-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Freedom</h3>
+                            <p class="text-gray-600 dark:text-gray-300">Work when you want, from where you want. Your time and earnings belong to you.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-start p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg">
+                        <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/50 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-chart-line text-orange-600 dark:text-orange-400"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-2">Growth</h3>
+                            <p class="text-gray-600 dark:text-gray-300">We're committed to your financial growth through continuous learning and better opportunities.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Vision -->
+            <div class="glass-card dark:glass-card dark rounded-xl p-8 border border-white/30 dark:border-slate-700/50">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-eye text-purple-600 dark:text-purple-400 text-2xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Our Vision</h2>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 text-lg text-center">
+                    To become the world's most trusted digital earning and wealth empowerment platform, helping millions of people achieve financial independence through accessible, legitimate, and scalable earning opportunities.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-t border-white/30 dark:border-slate-700/50 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <i class="fas fa-dollar-sign text-blue-400 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold">TapWealth</span>
+                </div>
+                <p class="text-gray-400 mb-6">Empower your earnings and live large with TapWealth</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p class="text-gray-500 text-sm">© 2025 TapWealth. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('tapwealth_current_user');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+        });
+    </script>
+</body>
+</html>
