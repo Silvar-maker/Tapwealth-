@@ -36,20 +36,6 @@
             top: 0;
             z-index: 100;
         }
-        .facebook-nav-item {
-            padding: 8px 16px;
-            border-radius: 8px;
-            margin: 0 4px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .facebook-nav-item:hover {
-            background-color: #f0f2f5;
-        }
-        .facebook-nav-item.active {
-            background-color: #e4e6eb;
-            border-radius: 8px;
-        }
         .facebook-sidebar {
             position: fixed;
             top: 56px;
@@ -223,13 +209,13 @@
         </div>
     </header>
 
-    <!-- Mobile Menu -->
+    <!-- Mobile Menu (LEFT SIDE NOW) -->
     <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div class="absolute top-0 left-0 w-64 h-full bg-white">
             <div class="p-4 border-b">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
                         <div>
                             <p class="font-semibold text-gray-800" id="mobile-user-name">User Name</p>
                             <p class="text-sm text-gray-500">Balance: ₦<span id="mobile-user-balance">0.00</span></p>
@@ -327,7 +313,7 @@
             <!-- Welcome Banner -->
             <div class="facebook-post">
                 <div class="flex items-center mb-4">
-                    <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="post-user-avatar">U</div>
+                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3" id="post-user-avatar">U</div>
                     <div>
                         <h2 class="font-bold text-gray-800" id="welcome-user-name">Welcome, User!</h2>
                         <p class="text-sm text-gray-500">Ready to earn more money today?</p>
@@ -347,51 +333,51 @@
             </div>
 
             <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <div class="facebook-card p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="facebook-card p-6 border">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-500 text-sm">Available Balance</p>
-                            <p class="text-xl font-bold text-gray-800">₦<span id="balance-card">0.00</span></p>
+                            <p class="text-gray-600 text-sm">Available Balance</p>
+                            <p class="text-2xl font-bold text-gray-800">₦<span id="balance-card">0.00</span></p>
                         </div>
-                        <i class="fas fa-wallet text-blue-600 text-xl"></i>
+                        <i class="fas fa-wallet text-blue-600 text-2xl"></i>
                     </div>
                 </div>
                 
-                <div class="facebook-card p-4">
+                <div class="facebook-card p-6 border">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-500 text-sm">Total Earnings</p>
-                            <p class="text-xl font-bold text-gray-800">₦<span id="earnings-card">0.00</span></p>
+                            <p class="text-gray-600 text-sm">Total Earnings</p>
+                            <p class="text-2xl font-bold text-gray-800">₦<span id="earnings-card">0.00</span></p>
                         </div>
-                        <i class="fas fa-chart-line text-green-600 text-xl"></i>
+                        <i class="fas fa-chart-line text-green-600 text-2xl"></i>
                     </div>
                 </div>
                 
-                <div class="facebook-card p-4">
+                <div class="facebook-card p-6 border">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-500 text-sm">Referrals</p>
-                            <p class="text-xl font-bold text-gray-800"><span id="referral-card">0</span></p>
+                            <p class="text-gray-600 text-sm">Referrals</p>
+                            <p class="text-2xl font-bold text-gray-800"><span id="referral-card">0</span></p>
                         </div>
-                        <i class="fas fa-users text-orange-600 text-xl"></i>
+                        <i class="fas fa-users text-purple-600 text-2xl"></i>
                     </div>
                 </div>
                 
-                <div class="facebook-card p-4">
+                <div class="facebook-card p-6 border">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-500 text-sm">Tasks Completed</p>
-                            <p class="text-xl font-bold text-gray-800"><span id="tasks-card">0</span></p>
+                            <p class="text-gray-600 text-sm">Tasks Completed</p>
+                            <p class="text-2xl font-bold text-gray-800"><span id="tasks-card">0</span></p>
                         </div>
-                        <i class="fas fa-tasks text-purple-600 text-xl"></i>
+                        <i class="fas fa-tasks text-orange-600 text-2xl"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Recent Activity -->
             <div class="facebook-post">
-                <h3 class="font-bold text-gray-800 mb-4">Recent Activity</h3>
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Recent Activity</h3>
                 <div class="space-y-4" id="activity-feed">
                     <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
                         <div>
@@ -403,26 +389,51 @@
                 </div>
             </div>
 
+            <!-- Referral Program -->
+            <div class="facebook-post">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Referral Program</h3>
+                <p class="text-gray-600 mb-4">
+                    Earn ₦500 for every friend who signs up using your referral link!
+                </p>
+                <div class="bg-gray-100 rounded-lg p-4 mb-4">
+                    <p class="text-gray-700 mb-2">Your Unique Referral Link:</p>
+                    <div class="flex items-center">
+                        <input 
+                            type="text" 
+                            id="referral-link"
+                            readonly
+                            class="flex-1 bg-transparent border-none outline-none text-blue-600 font-medium"
+                        />
+                        <button onclick="copyReferralLink()" class="ml-2 bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm">
+                    <strong>Earn ₦500</strong> for each referral + <strong>10% lifetime commission</strong>
+                </p>
+            </div>
+
             <!-- Quick Actions -->
             <div class="facebook-post">
-                <h3 class="font-bold text-gray-800 mb-4">Quick Actions</h3>
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Quick Actions</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100" onclick="window.location.href='earn.html'">
+                    <a href="earn.html" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100">
                         <i class="fas fa-coins text-blue-600 text-2xl mb-2"></i>
                         <span class="text-sm font-medium text-gray-800">Earn Money</span>
-                    </button>
-                    <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100" onclick="window.location.href='shop.html'">
+                    </a>
+                    <a href="shop.html" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100">
                         <i class="fas fa-shopping-cart text-green-600 text-2xl mb-2"></i>
                         <span class="text-sm font-medium text-gray-800">Shopping</span>
-                    </button>
-                    <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100" onclick="window.location.href='referral.html'">
+                    </a>
+                    <a href="referral.html" class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100">
                         <i class="fas fa-users text-purple-600 text-2xl mb-2"></i>
                         <span class="text-sm font-medium text-gray-800">Referrals</span>
-                    </button>
-                    <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100" onclick="window.location.href='wallet.html'">
+                    </a>
+                    <a href="wallet.html" class="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100">
                         <i class="fas fa-wallet text-orange-600 text-2xl mb-2"></i>
                         <span class="text-sm font-medium text-gray-800">Wallet</span>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -434,10 +445,10 @@
             <!-- User Profile -->
             <div class="facebook-card p-4 mb-4">
                 <div class="flex items-center">
-                    <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="sidebar-user-avatar">U</div>
+                    <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3" id="sidebar-user-avatar">U</div>
                     <div>
                         <p class="font-bold text-gray-800" id="sidebar-user-name">User Name</p>
-                        <p class="text-sm text-gray-500">Balance: ₦<span id="sidebar-user-balance">0.00</span></p>
+                        <p class="text-sm text-gray-600">Balance: ₦<span id="sidebar-user-balance">0.00</span></p>
                     </div>
                 </div>
             </div>
@@ -471,11 +482,31 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-t border-white/30 dark:border-slate-700/50 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <i class="fas fa-dollar-sign text-blue-400 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold">TapWealth</span>
+                </div>
+                <p class="text-gray-400 mb-6">Empower your earnings and live large with TapWealth</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p class="text-gray-500 text-sm">© 2025 TapWealth. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
     <script>
         let currentUser = null;
         let sessionTimeout = null;
         
-        // Toggle mobile menu
+        // Toggle mobile menu (NOW ON LEFT SIDE)
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenu.classList.toggle('hidden');
@@ -485,7 +516,7 @@
         function logoutUser() {
             localStorage.removeItem('tapwealth_current_user');
             alert('You have been logged out!');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         }
         
         // Session timeout (5 minutes)
@@ -507,6 +538,16 @@
         
         function resetSessionTimeout() {
             startSessionTimeout();
+        }
+        
+        // Copy referral link
+        function copyReferralLink() {
+            if (!currentUser) return;
+            
+            const referralLink = `https://tapwealth.com/ref/${currentUser.id}`;
+            navigator.clipboard.writeText(referralLink).then(() => {
+                alert('Referral link copied to clipboard!');
+            });
         }
         
         // Update dashboard
@@ -533,6 +574,9 @@
             document.getElementById('earnings-card').textContent = currentUser.balance.toLocaleString();
             document.getElementById('referral-card').textContent = currentUser.referrals || 0;
             document.getElementById('tasks-card').textContent = currentUser.completedTasks || 0;
+            
+            // Update referral link
+            document.getElementById('referral-link').value = `https://tapwealth.com/ref/${currentUser.id}`;
             
             // Update activity feed
             const activityFeed = document.getElementById('activity-feed');
