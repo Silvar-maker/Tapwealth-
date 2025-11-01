@@ -29,272 +29,234 @@
             background: rgba(30, 41, 59, 0.8);
             border-color: rgba(71, 85, 105, 0.5);
         }
-        /* LEFT SIDEBAR STYLES */
-        .left-sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 280px;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(255, 255, 255, 0.3);
-            z-index: 100;
-            overflow-y: auto;
+        .section-tabs {
+            display: none;
         }
-        .left-sidebar.dark {
-            background: rgba(30, 41, 59, 0.8);
-            border-color: rgba(71, 85, 105, 0.5);
+        .section-tabs.active {
+            display: block;
         }
-        .main-content {
-            margin-left: 280px;
-            padding: 20px;
+        .mobile-menu {
+            display: none;
         }
         @media (max-width: 768px) {
-            .left-sidebar {
-                width: 80px;
+            .mobile-menu {
+                display: block;
             }
-            .left-sidebar-item span {
+            .desktop-menu {
                 display: none;
-            }
-            .left-sidebar-item i {
-                margin-right: 0;
-            }
-            .main-content {
-                margin-left: 80px;
-            }
-        }
-        @media (max-width: 640px) {
-            .left-sidebar {
-                display: none;
-            }
-            .main-content {
-                margin-left: 0;
-                padding: 12px;
             }
         }
     </style>
 </head>
 <body class="bg-gradient-to-br from-blue-50 via-white to-slate-100 dark:bg-slate-900 min-h-screen">
-    <!-- LEFT SIDEBAR (PERMANENTLY REPLACES RIGHT SIDEBAR) -->
-    <div class="left-sidebar dark:border-slate-700/50 z-40">
-        <div class="h-full flex flex-col">
-            <!-- Logo -->
-            <div class="p-6 border-b border-white/30 dark:border-slate-700/50">
-                <div class="flex items-center">
-                    <i class="fas fa-dollar-sign text-blue-600 dark:text-blue-400 text-2xl mr-2"></i>
-                    <span class="text-xl font-bold gradient-text">TapWealth</span>
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-button" class="mobile-menu fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded-lg">
+        <i class="fas fa-bars text-xl"></i>
+    </button>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-sidebar" class="mobile-menu fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="absolute top-0 left-0 w-64 h-full bg-white dark:bg-slate-800">
+            <div class="p-4 border-b border-white/30 dark:border-slate-700/50">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
+                        <div>
+                            <p class="font-medium text-gray-800 dark:text-white" id="mobile-user-name">User Name</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Balance: ₦<span id="mobile-user-balance">0.00</span></p>
+                        </div>
+                    </div>
+                    <button onclick="toggleMobileSidebar()" class="text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             </div>
-            
-            <!-- Navigation -->
-            <nav class="flex-1 p-4">
-                <ul class="space-y-2">
-                    <li>
-                        <a href="index.html" class="left-sidebar-item flex items-center p-3 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400">
-                            <i class="fas fa-home text-xl mr-3"></i>
-                            <span class="font-medium">Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="earn.html" class="left-sidebar-item flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700">
-                            <i class="fas fa-coins text-xl mr-3"></i>
-                            <span class="font-medium">Earn Money</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="shop.html" class="left-sidebar-item flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700">
-                            <i class="fas fa-shopping-cart text-xl mr-3"></i>
-                            <span class="font-medium">Shopping</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="referral.html" class="left-sidebar-item flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700">
-                            <i class="fas fa-users text-xl mr-3"></i>
-                            <span class="font-medium">Referrals</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="wallet.html" class="left-sidebar-item flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700">
-                            <i class="fas fa-wallet text-xl mr-3"></i>
-                            <span class="font-medium">Wallet</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="settings.html" class="left-sidebar-item flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700">
-                            <i class="fas fa-cog text-xl mr-3"></i>
-                            <span class="font-medium">Settings</span>
-                        </a>
-                    </li>
-                    <!-- ADMIN PANEL - ONLY VISIBLE TO wealthysilvar@gmail.com -->
-                    <li id="admin-menu-item" class="hidden">
-                        <a href="admin.html" class="left-sidebar-item flex items-center p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-700">
-                            <i class="fas fa-shield-alt text-xl mr-3"></i>
-                            <span class="font-medium">Admin Panel</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            
-            <!-- User Profile -->
-            <div class="p-4 border-t border-white/30 dark:border-slate-700/50">
-                <div class="flex items-center mb-4">
-                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3" id="user-initial">U</div>
-                    <div>
-                        <p class="font-medium text-gray-800 dark:text-white" id="user-name">User Name</p>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Balance: ₦<span id="user-balance">0.00</span></p>
+            <div class="p-4">
+                <div class="mb-6">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer" onclick="showSection('dashboard')">
+                        <i class="fas fa-home text-blue-600 dark:text-blue-400 mr-3"></i>
+                        <span class="font-medium">Dashboard</span>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer" onclick="showSection('earn')">
+                        <i class="fas fa-coins text-green-600 dark:text-green-400 mr-3"></i>
+                        <span class="font-medium">Earn Money</span>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer" onclick="showSection('shop')">
+                        <i class="fas fa-shopping-cart text-purple-600 dark:text-purple-400 mr-3"></i>
+                        <span class="font-medium">Shopping</span>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer" onclick="showSection('referral')">
+                        <i class="fas fa-users text-orange-600 dark:text-orange-400 mr-3"></i>
+                        <span class="font-medium">Referrals</span>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer" onclick="showSection('wallet')">
+                        <i class="fas fa-wallet text-red-600 dark:text-red-400 mr-3"></i>
+                        <span class="font-medium">Wallet</span>
                     </div>
                 </div>
-                <button onclick="logoutUser()" class="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                    Logout
-                </button>
+                <div class="border-t border-white/30 dark:border-slate-700/50 pt-4">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer" onclick="showSection('settings')">
+                        <i class="fas fa-cog text-gray-600 dark:text-gray-400 mr-3"></i>
+                        <span class="font-medium">Settings</span>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer" onclick="logoutUser()">
+                        <i class="fas fa-sign-out-alt text-red-600 dark:text-red-400 mr-3"></i>
+                        <span class="font-medium text-red-600">Logout</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Navigation -->
-        <nav class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-white/30 dark:border-slate-700/50 sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16 items-center">
-                    <!-- Back Button -->
-                    <div class="flex items-center">
-                        <button onclick="goBack()" id="back-button" class="flex items-center text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium mr-4">
-                            <i class="fas fa-arrow-left mr-2"></i>
-                            Back
-                        </button>
-                        <div class="flex-shrink-0 flex items-center">
-                            <i class="fas fa-dollar-sign text-blue-600 dark:text-blue-400 text-2xl mr-2"></i>
-                            <span class="text-xl font-bold gradient-text">TapWealth</span>
-                        </div>
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="toggleMobileSidebar()"></div>
+
+    <!-- Navigation -->
+    <nav class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-white/30 dark:border-slate-700/50 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileSidebar()" class="text-gray-500">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+                
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-dollar-sign text-blue-600 dark:text-blue-400 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold gradient-text">TapWealth</span>
                     </div>
-                    
-                    <!-- Desktop Navigation -->
-                    <div class="hidden md:flex items-center space-x-6">
-                        <a href="index.html" class="text-blue-600 dark:text-blue-400 font-medium">Home</a>
-                        <a href="about.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">About</a>
-                        <a href="features.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Features</a>
-                        <a href="contact.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Contact</a>
-                        <button onclick="logoutUser()" class="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors">Logout</button>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-blue-600 dark:text-blue-400 font-medium">Home</a>
+                    <a href="about.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">About</a>
+                    <a href="features.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Features</a>
+                    <a href="contact.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Contact</a>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-700 dark:text-gray-300 font-medium" id="user-name">User Name</span>
+                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold" id="user-initial">U</div>
                     </div>
                 </div>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <!-- Dashboard Content -->
-        <div class="min-h-screen py-8 px-4">
-            <div class="max-w-7xl mx-auto">
-                <!-- Welcome Message -->
-                <div class="text-center mb-8">
-                    <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Dashboard</h1>
-                    <p class="text-gray-600 dark:text-gray-400">Welcome back, <span id="welcome-user-name">User</span>!</p>
-                </div>
+    <!-- Dashboard Content -->
+    <div class="min-h-screen py-8 px-4">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Dashboard</h1>
+                <p class="text-gray-600 dark:text-gray-400">Welcome back, <span id="welcome-user-name">User</span>!</p>
+            </div>
 
-                <!-- Stats Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm">Available Balance</p>
-                                <p class="text-2xl font-bold text-gray-800 dark:text-white">₦<span id="balance-card">0.00</span></p>
-                            </div>
-                            <i class="fas fa-wallet text-blue-600 dark:text-blue-400 text-2xl"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm">Total Earnings</p>
-                                <p class="text-2xl font-bold text-gray-800 dark:text-white">₦<span id="earnings-card">0.00</span></p>
-                            </div>
-                            <i class="fas fa-chart-line text-green-600 dark:text-green-400 text-2xl"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm">Referrals</p>
-                                <p class="text-2xl font-bold text-gray-800 dark:text-white"><span id="referral-card">0</span></p>
-                            </div>
-                            <i class="fas fa-users text-purple-600 dark:text-purple-400 text-2xl"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <p class="text-gray-600 dark:text-gray-400 text-sm">Tasks Completed</p>
-                                <p class="text-2xl font-bold text-gray-800 dark:text-white"><span id="tasks-card">0</span></p>
-                            </div>
-                            <i class="fas fa-tasks text-orange-600 dark:text-orange-400 text-2xl"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Actions -->
-                <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50 mb-8">
-                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Quick Actions</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <a href="earn.html" class="flex flex-col items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
-                            <i class="fas fa-coins text-blue-600 dark:text-blue-400 text-2xl mb-2"></i>
-                            <span class="text-sm font-medium text-gray-800 dark:text-white">Earn Money</span>
-                        </a>
-                        <a href="shop.html" class="flex flex-col items-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
-                            <i class="fas fa-shopping-cart text-green-600 dark:text-green-400 text-2xl mb-2"></i>
-                            <span class="text-sm font-medium text-gray-800 dark:text-white">Shopping</span>
-                        </a>
-                        <a href="referral.html" class="flex flex-col items-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">
-                            <i class="fas fa-users text-purple-600 dark:text-purple-400 text-2xl mb-2"></i>
-                            <span class="text-sm font-medium text-gray-800 dark:text-white">Referrals</span>
-                        </a>
-                        <a href="wallet.html" class="flex flex-col items-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors">
-                            <i class="fas fa-wallet text-orange-600 dark:text-orange-400 text-2xl mb-2"></i>
-                            <span class="text-sm font-medium text-gray-800 dark:text-white">Wallet</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Recent Activity -->
-                <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50 mb-8">
-                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Recent Activity</h2>
-                    <div class="space-y-4" id="activity-feed">
-                        <div class="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700/50 last:border-0 last:pb-0">
-                            <div>
-                                <p class="font-medium text-gray-800 dark:text-white">Welcome Bonus</p>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Account created</p>
-                            </div>
-                            <div class="font-bold text-green-600">+₦500.00</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Referral Program -->
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50">
-                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Referral Program</h2>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">
-                        Earn ₦500 for every friend who signs up using your referral link!
-                    </p>
-                    <div class="bg-gray-100 dark:bg-slate-700/50 rounded-lg p-4 mb-4">
-                        <p class="text-gray-700 dark:text-gray-300 mb-2">Your Unique Referral Link:</p>
-                        <div class="flex items-center">
-                            <input 
-                                type="text" 
-                                id="referral-link"
-                                readonly
-                                class="flex-1 bg-transparent border-none outline-none text-blue-600 dark:text-blue-400 font-medium"
-                            />
-                            <button onclick="copyReferralLink()" class="ml-2 bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-colors">
-                                Copy
-                            </button>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Available Balance</p>
+                            <p class="text-2xl font-bold text-gray-800 dark:text-white">₦<span id="balance-display">0.00</span></p>
                         </div>
+                        <i class="fas fa-wallet text-blue-600 dark:text-blue-400 text-2xl"></i>
                     </div>
-                    <p class="text-gray-600 dark:text-gray-300 text-sm">
-                        <strong>Earn ₦500</strong> for each referral + <strong>10% lifetime commission</strong>
-                    </p>
                 </div>
+                
+                <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Total Earnings</p>
+                            <p class="text-2xl font-bold text-gray-800 dark:text-white">₦<span id="earnings-display">0.00</span></p>
+                        </div>
+                        <i class="fas fa-chart-line text-green-600 dark:text-green-400 text-2xl"></i>
+                    </div>
+                </div>
+                
+                <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Referrals</p>
+                            <p class="text-2xl font-bold text-gray-800 dark:text-white"><span id="referral-count">0</span></p>
+                        </div>
+                        <i class="fas fa-users text-purple-600 dark:text-purple-400 text-2xl"></i>
+                    </div>
+                </div>
+                
+                <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Tasks Completed</p>
+                            <p class="text-2xl font-bold text-gray-800 dark:text-white"><span id="task-count">0</span></p>
+                        </div>
+                        <i class="fas fa-tasks text-orange-600 dark:text-orange-400 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Quick Actions</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <a href="earn.html" class="flex flex-col items-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
+                        <i class="fas fa-coins text-blue-600 dark:text-blue-400 text-2xl mb-2"></i>
+                        <span class="text-sm font-medium text-gray-800 dark:text-white">Earn Money</span>
+                    </a>
+                    <a href="shop.html" class="flex flex-col items-center p-4 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors">
+                        <i class="fas fa-shopping-cart text-green-600 dark:text-green-400 text-2xl mb-2"></i>
+                        <span class="text-sm font-medium text-gray-800 dark:text-white">Shopping</span>
+                    </a>
+                    <a href="referral.html" class="flex flex-col items-center p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors">
+                        <i class="fas fa-users text-purple-600 dark:text-purple-400 text-2xl mb-2"></i>
+                        <span class="text-sm font-medium text-gray-800 dark:text-white">Referrals</span>
+                    </a>
+                    <a href="wallet.html" class="flex flex-col items-center p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/30 transition-colors">
+                        <i class="fas fa-wallet text-orange-600 dark:text-orange-400 text-2xl mb-2"></i>
+                        <span class="text-sm font-medium text-gray-800 dark:text-white">Wallet</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Recent Activity</h2>
+                <div class="space-y-4" id="activity-feed">
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700 last:border-0 last:pb-0">
+                        <div>
+                            <p class="font-medium text-gray-800 dark:text-white">Welcome Bonus</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Account created</p>
+                        </div>
+                        <div class="font-bold text-green-600">+₦500.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referral Program -->
+            <div class="glass-card dark:glass-card dark rounded-xl p-6 border border-white/30 dark:border-slate-700/50">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Referral Program</h2>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    Earn ₦500 for every friend who signs up using your referral link!
+                </p>
+                <div class="bg-gray-100 dark:bg-slate-700 rounded-lg p-4 mb-4">
+                    <p class="text-gray-700 dark:text-gray-300 mb-2">Your Unique Referral Link:</p>
+                    <div class="flex items-center">
+                        <input 
+                            type="text" 
+                            id="referral-link"
+                            readonly
+                            class="flex-1 bg-transparent border-none outline-none text-blue-600 dark:text-blue-400 font-medium"
+                        />
+                        <button onclick="copyReferralLink()" class="ml-2 bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-colors">
+                            Copy
+                        </button>
+                    </div>
+                </div>
+                <p class="text-gray-600 dark:text-gray-300 text-sm">
+                    <strong>Earn ₦500</strong> for each referral + <strong>10% lifetime commission</strong>
+                </p>
             </div>
         </div>
     </div>
@@ -323,9 +285,18 @@
         let currentUser = null;
         let sessionTimeout = null;
         
-        // Back button
-        function goBack() {
-            window.history.back();
+        // Toggle mobile sidebar
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('mobile-sidebar');
+            const overlay = document.getElementById('overlay');
+            
+            sidebar.classList.toggle('hidden');
+            overlay.classList.toggle('show');
+        }
+        
+        // Show section
+        function showSection(section) {
+            window.location.href = section + '.html';
         }
         
         // Logout user
@@ -373,12 +344,16 @@
             // Update user info
             document.getElementById('user-initial').textContent = currentUser.name.charAt(0).toUpperCase();
             document.getElementById('user-name').textContent = currentUser.name.split(' ')[0];
-            document.getElementById('user-balance').textContent = currentUser.balance.toLocaleString();
-            document.getElementById('welcome-user-name').textContent = currentUser.name.split(' ')[0];
-            document.getElementById('balance-card').textContent = currentUser.balance.toLocaleString();
-            document.getElementById('earnings-card').textContent = currentUser.balance.toLocaleString();
-            document.getElementById('referral-card').textContent = currentUser.referrals || 0;
-            document.getElementById('tasks-card').textContent = currentUser.completedTasks || 0;
+            document.getElementById('welcome-user-name').textContent = currentUser.name;
+            document.getElementById('balance-display').textContent = currentUser.balance.toLocaleString();
+            document.getElementById('earnings-display').textContent = currentUser.balance.toLocaleString();
+            document.getElementById('referral-count').textContent = currentUser.referrals || 0;
+            document.getElementById('task-count').textContent = currentUser.completedTasks || 0;
+            
+            // Update mobile menu
+            document.getElementById('mobile-user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('mobile-user-name').textContent = currentUser.name;
+            document.getElementById('mobile-user-balance').textContent = currentUser.balance.toLocaleString();
             
             // Update referral link
             document.getElementById('referral-link').value = `https://tapwealth.com/ref/${currentUser.id}`;
@@ -390,7 +365,7 @@
             if (currentUser.transactions && currentUser.transactions.length > 0) {
                 currentUser.transactions.slice().reverse().slice(0, 5).forEach(transaction => {
                     const div = document.createElement('div');
-                    div.className = 'flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700/50 last:border-0 last:pb-0';
+                    div.className = 'flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700 last:border-0 last:pb-0';
                     div.innerHTML = `
                         <div>
                             <p class="font-medium text-gray-800 dark:text-white">${transaction.description}</p>
@@ -404,7 +379,7 @@
                 });
             } else {
                 activityFeed.innerHTML = `
-                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700/50 last:border-0 last:pb-0">
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700 last:border-0 last:pb-0">
                         <div>
                             <p class="font-medium text-gray-800 dark:text-white">Welcome Bonus</p>
                             <p class="text-sm text-gray-500 dark:text-gray-400">Account created</p>
@@ -412,13 +387,6 @@
                         <div class="font-bold text-green-600">+₦500.00</div>
                     </div>
                 `;
-            }
-            
-            // Show admin panel only for your email
-            if (currentUser.email === 'wealthysilvar@gmail.com') {
-                document.getElementById('admin-menu-item').classList.remove('hidden');
-            } else {
-                document.getElementById('admin-menu-item').classList.add('hidden');
             }
         }
         
