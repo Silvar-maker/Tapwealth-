@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@700&family=SF+Pro+Text:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f0f2f5;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .facebook-blue {
+            background-color: #1877F2;
+        }
+        .facebook-dark {
+            background-color: #1C1E21;
+        }
+        .facebook-light {
+            background-color: #f0f2f5;
+        }
+        .facebook-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .facebook-header {
+            background-color: white;
+            border-bottom: 1px solid #dddfe2;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .facebook-sidebar {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            width: 280px;
+            height: calc(100vh - 56px);
+            background-color: white;
+            border-right: 1px solid #dddfe2;
+            overflow-y: auto;
+            z-index: 99;
+        }
+        .facebook-sidebar-item {
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin: 4px 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        .facebook-sidebar-item:hover {
+            background-color: #f0f2f5;
+        }
+        .facebook-sidebar-item i {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            background-color: #e4e6eb;
+        }
+        .facebook-main-content {
+            margin-left: 280px;
+            padding: 20px;
+        }
+        .facebook-button {
+            background-color: #1877F2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .facebook-button:hover {
+            background-color: #166fe5;
+        }
+        .facebook-button.secondary {
+            background-color: #e4e6eb;
+            color: #1c1e21;
+        }
+        .facebook-button.secondary:hover {
+            background-color: #d8dadf;
+        }
+        @media (max-width: 1024px) {
+            .facebook-sidebar {
+                width: 80px;
+            }
+            .facebook-sidebar-item span {
+                display: none;
+            }
+            .facebook-sidebar-item i {
+                margin-right: 0;
+            }
+            .facebook-main-content {
+                margin-left: 80px;
+            }
+        }
+        @media (max-width: 768px) {
+            .facebook-sidebar {
+                display: none;
+            }
+            .facebook-main-content {
+                margin-left: 0;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body class="facebook-light min-h-screen">
+    <!-- Facebook Header -->
+    <header class="facebook-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-14 items-center">
+                <!-- Left Section -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                        <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
+                    </div>
+                </div>
+                
+                <!-- Right Section -->
+                <div class="flex items-center">
+                    <button class="text-gray-600" onclick="history.back()">
+                        <i class="fas fa-arrow-left text-xl mr-4"></i>
+                    </button>
+                    <button class="text-gray-600" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="absolute top-0 left-0 w-64 h-full bg-white">
+            <div class="p-4 border-b">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
+                        <div>
+                            <p class="font-semibold text-gray-800" id="mobile-user-name">User Name</p>
+                            <p class="text-sm text-gray-500">Balance: ₦<span id="mobile-user-balance">0.00</span></p>
+                        </div>
+                    </div>
+                    <button onclick="toggleMobileMenu()" class="text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-4">
+                <div class="space-y-2">
+                    <a href="index.html" class="facebook-sidebar-item">
+                        <i class="fas fa-home text-blue-600"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="earn.html" class="facebook-sidebar-item">
+                        <i class="fas fa-coins text-green-600"></i>
+                        <span>Earn Money</span>
+                    </a>
+                    <a href="shop.html" class="facebook-sidebar-item active">
+                        <i class="fas fa-shopping-cart text-purple-600"></i>
+                        <span>Shopping</span>
+                    </a>
+                    <a href="referral.html" class="facebook-sidebar-item">
+                        <i class="fas fa-users text-orange-600"></i>
+                        <span>Referrals</span>
+                    </a>
+                    <a href="wallet.html" class="facebook-sidebar-item">
+                        <i class="fas fa-wallet text-red-600"></i>
+                        <span>Wallet</span>
+                    </a>
+                    <a href="settings.html" class="facebook-sidebar-item">
+                        <i class="fas fa-cog text-gray-600"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="admin.html" class="facebook-sidebar-item">
+                        <i class="fas fa-shield-alt text-gray-800"></i>
+                        <span>Admin</span>
+                    </a>
+                    <div class="border-t my-4"></div>
+                    <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
+                        <i class="fas fa-sign-out-alt text-red-600"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Facebook Sidebar -->
+    <div class="facebook-sidebar hidden md:block">
+        <div class="p-4">
+            <div class="space-y-1">
+                <a href="index.html" class="facebook-sidebar-item">
+                    <i class="fas fa-home text-blue-600"></i>
+                    <span>Home</span>
+                </a>
+                <a href="earn.html" class="facebook-sidebar-item">
+                    <i class="fas fa-coins text-green-600"></i>
+                    <span>Earn Money</span>
+                </a>
+                <a href="shop.html" class="facebook-sidebar-item active">
+                    <i class="fas fa-shopping-cart text-purple-600"></i>
+                    <span>Shopping</span>
+                </a>
+                <a href="referral.html" class="facebook-sidebar-item">
+                    <i class="fas fa-users text-orange-600"></i>
+                    <span>Referrals</span>
+                </a>
+                <a href="wallet.html" class="facebook-sidebar-item">
+                    <i class="fas fa-wallet text-red-600"></i>
+                    <span>Wallet</span>
+                </a>
+                <a href="settings.html" class="facebook-sidebar-item">
+                    <i class="fas fa-cog text-gray-600"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="admin.html" class="facebook-sidebar-item">
+                    <i class="fas fa-shield-alt text-gray-800"></i>
+                    <span>Admin</span>
+                </a>
+                <div class="border-t my-2"></div>
+                <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
+                    <i class="fas fa-sign-out-alt text-red-600"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="facebook-main-content">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Shopping Cashback</h1>
+                <p class="text-gray-600">Shop through TapWealth and earn cashback on every purchase!</p>
+            </div>
+
+            <!-- Shopping Stores -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Jumia -->
+                <div class="facebook-card p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/40x40/FF6B35/white?text=J" alt="Jumia" class="w-10 h-10 rounded-full mr-3">
+                        <h3 class="text-xl font-bold text-gray-800">Jumia</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Nigeria's largest online marketplace</p>
+                    <div class="text-lg font-bold text-green-600 mb-4">
+                        Up to 10% Cashback
+                    </div>
+                    <button onclick="shopJumia()" class="w-full facebook-button py-3">
+                        Shop Now
+                    </button>
+                </div>
+
+                <!-- Temu -->
+                <div class="facebook-card p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/40x40/FF4136/white?text=T" alt="Temu" class="w-10 h-10 rounded-full mr-3">
+                        <h3 class="text-xl font-bold text-gray-800">Temu</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Ultra-low prices on everything</p>
+                    <div class="text-lg font-bold text-green-600 mb-4">
+                        Up to 15% Cashback
+                    </div>
+                    <button onclick="shopTemu()" class="w-full facebook-button py-3">
+                        Shop Now
+                    </button>
+                </div>
+
+                <!-- AliExpress -->
+                <div class="facebook-card p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://placehold.co/40x40/00A651/white?text=A" alt="AliExpress" class="w-10 h-10 rounded-full mr-3">
+                        <h3 class="text-xl font-bold text-gray-800">AliExpress</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Global marketplace with millions of products</p>
+                    <div class="text-lg font-bold text-green-600 mb-4">
+                        Up to 12% Cashback
+                    </div>
+                    <button onclick="shopAliExpress()" class="w-full facebook-button py-3">
+                        Shop Now
+                    </button>
+                </div>
+            </div>
+
+            <!-- How Cashback Works -->
+            <div class="facebook-card p-6 mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">How Cashback Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-1 text-blue-600 text-xl font-bold"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Click Shop Now</h3>
+                        <p class="text-gray-600 text-sm">Start from TapWealth to track your purchase</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-2 text-green-600 text-xl font-bold"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Shop Normally</h3>
+                        <p class="text-gray-600 text-sm">Complete your purchase as usual</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-3 text-purple-600 text-xl font-bold"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Get Cashback</h3>
+                        <p class="text-gray-600 text-sm">Cashback appears in your wallet within 24-48 hours</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Products -->
+            <div class="facebook-card p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Popular Products</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100">
+                        <img src="https://placehold.co/60x60/FF6B35/white?text=S" alt="Smartphone" class="w-12 h-12 rounded mr-3">
+                        <div>
+                            <p class="font-medium text-gray-800">Smartphones</p>
+                            <p class="text-sm text-gray-600">Up to 15% cashback</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100">
+                        <img src="https://placehold.co/60x60/00A651/white?text=L" alt="Laptop" class="w-12 h-12 rounded mr-3">
+                        <div>
+                            <p class="font-medium text-gray-800">Laptops</p>
+                            <p class="text-sm text-gray-600">Up to 12% cashback</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100">
+                        <img src="https://placehold.co/60x60/FF4136/white?text=F" alt="Fashion" class="w-12 h-12 rounded mr-3">
+                        <div>
+                            <p class="font-medium text-gray-800">Fashion</p>
+                            <p class="text-sm text-gray-600">Up to 10% cashback</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100">
+                        <img src="https://placehold.co/60x60/1877F2/white?text=B" alt="Beauty" class="w-12 h-12 rounded mr-3">
+                        <div>
+                            <p class="font-medium text-gray-800">Beauty Products</p>
+                            <p class="text-sm text-gray-600">Up to 8% cashback</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100">
+                        <img src="https://placehold.co/60x60/F012BE/white?text=H" alt="Home" class="w-12 h-12 rounded mr-3">
+                        <div>
+                            <p class="font-medium text-gray-800">Home & Kitchen</p>
+                            <p class="text-sm text-gray-600">Up to 10% cashback</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100">
+                        <img src="https://placehold.co/60x60/FF851B/white?text=S" alt="Sports" class="w-12 h-12 rounded mr-3">
+                        <div>
+                            <p class="font-medium text-gray-800">Sports & Fitness</p>
+                            <p class="text-sm text-gray-600">Up to 7% cashback</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let sessionTimeout = null;
+        
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+        
+        // Logout user
+        function logoutUser() {
+            localStorage.removeItem('tapwealth_current_user');
+            alert('You have been logged out!');
+            window.location.href = 'login.html';
+        }
+        
+        // Session timeout (5 minutes)
+        function startSessionTimeout() {
+            if (sessionTimeout) {
+                clearTimeout(sessionTimeout);
+            }
+            
+            sessionTimeout = setTimeout(function() {
+                logoutUser();
+            }, 300000); // 5 minutes
+            
+            // Reset timeout on user activity
+            document.addEventListener('mousemove', resetSessionTimeout);
+            document.addEventListener('keypress', resetSessionTimeout);
+            document.addEventListener('click', resetSessionTimeout);
+            document.addEventListener('scroll', resetSessionTimeout);
+        }
+        
+        function resetSessionTimeout() {
+            startSessionTimeout();
+        }
+        
+        // Shopping functions
+        function shopJumia() {
+            if (!currentUser) return;
+            window.open('https://www.jumia.com.ng', '_blank');
+            alert('Opening Jumia! Remember to shop through TapWealth to earn cashback.');
+        }
+        
+        function shopTemu() {
+            if (!currentUser) return;
+            window.open('https://www.temu.com', '_blank');
+            alert('Opening Temu! Remember to shop through TapWealth to earn cashback.');
+        }
+        
+        function shopAliExpress() {
+            if (!currentUser) return;
+            window.open('https://www.aliexpress.com', '_blank');
+            alert('Opening AliExpress! Remember to shop through TapWealth to earn cashback.');
+        }
+        
+        // Update user info
+        function updateUserInfo() {
+            if (!currentUser) return;
+            
+            document.getElementById('mobile-user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('mobile-user-name').textContent = currentUser.name;
+            document.getElementById('mobile-user-balance').textContent = currentUser.balance.toLocaleString();
+        }
+        
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedUser = localStorage.getItem('tapwealth_current_user');
+            if (!savedUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            currentUser = JSON.parse(savedUser);
+            updateUserInfo();
+            startSessionTimeout();
+        });
+    </script>
+</body>
+</html>
