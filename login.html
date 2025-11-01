@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@700&family=SF+Pro+Text:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f0f2f5;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .facebook-blue {
+            background-color: #1877F2;
+        }
+        .facebook-dark {
+            background-color: #1C1E21;
+        }
+        .facebook-light {
+            background-color: #f0f2f5;
+        }
+        .facebook-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .facebook-header {
+            background-color: white;
+            border-bottom: 1px solid #dddfe2;
+        }
+        .facebook-button {
+            background-color: #1877F2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .facebook-button:hover {
+            background-color: #166fe5;
+        }
+        .facebook-button.secondary {
+            background-color: #e4e6eb;
+            color: #1c1e21;
+        }
+        .facebook-button.secondary:hover {
+            background-color: #d8dadf;
+        }
+        .facebook-input {
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            padding: 14px 16px;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        .facebook-input:focus {
+            outline: none;
+            border-color: #1877F2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
+    </style>
+</head>
+<body class="facebook-light min-h-screen flex items-center justify-center p-4">
+    <!-- Login Container -->
+    <div class="max-w-md w-full">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="flex justify-center mb-4">
+                <i class="fas fa-dollar-sign text-white text-4xl" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+            </div>
+            <h1 class="text-4xl font-bold mb-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</h1>
+            <p class="text-gray-600">Empower your earnings and live large with TapWealth</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="facebook-card p-6 mb-6">
+            <form id="login-form">
+                <input type="email" id="login-email" class="facebook-input" placeholder="Email address" required>
+                <input type="password" id="login-password" class="facebook-input" placeholder="Password" required>
+                <button type="submit" class="facebook-button w-full py-3 mb-4">Log In</button>
+                <div class="text-center mb-4">
+                    <a href="#" class="text-blue-600 hover:underline text-sm">Forgot password?</a>
+                </div>
+            </form>
+            <div class="border-t border-gray-200 pt-4 text-center">
+                <button class="facebook-button secondary py-3 px-4 font-medium" onclick="window.location.href='register.html'">
+                    Create New Account
+                </button>
+            </div>
+        </div>
+
+        <!-- Create Page -->
+        <div class="text-center">
+            <p class="text-gray-600">
+                <a href="#" class="font-bold text-gray-800 hover:underline">Create a Page</a> for a celebrity, brand or business.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Login form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('tapwealth_users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                // Successful login
+                localStorage.setItem('tapwealth_current_user', JSON.stringify(user));
+                
+                // Set remember me (store for 30 days)
+                if (document.getElementById('remember-me') && document.getElementById('remember-me').checked) {
+                    localStorage.setItem('tapwealth_remember_me', 'true');
+                    localStorage.setItem('tapwealth_login_email', email);
+                } else {
+                    localStorage.removeItem('tapwealth_remember_me');
+                    localStorage.removeItem('tapwealth_login_email');
+                }
+                
+                alert('Welcome back, ' + user.name + '!');
+                window.location.href = 'index.html';
+            } else {
+                // Failed login
+                alert('Invalid email or password!\n\nHint: Check your email and password carefully.\nIf you forgot your password, click "Forgot password?"');
+            }
+        });
+        
+        // Auto-fill email if remember me was checked
+        window.addEventListener('DOMContentLoaded', function() {
+            const rememberMe = localStorage.getItem('tapwealth_remember_me');
+            const savedEmail = localStorage.getItem('tapwealth_login_email');
+            
+            if (rememberMe === 'true' && savedEmail) {
+                document.getElementById('login-email').value = savedEmail;
+                if (document.getElementById('remember-me')) {
+                    document.getElementById('remember-me').checked = true;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
