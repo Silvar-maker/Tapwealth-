@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Money - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@700&family=SF+Pro+Text:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f0f2f5;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .facebook-blue {
+            background-color: #1877F2;
+        }
+        .facebook-dark {
+            background-color: #1C1E21;
+        }
+        .facebook-light {
+            background-color: #f0f2f5;
+        }
+        .facebook-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .facebook-header {
+            background-color: white;
+            border-bottom: 1px solid #dddfe2;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .facebook-sidebar {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            width: 280px;
+            height: calc(100vh - 56px);
+            background-color: white;
+            border-right: 1px solid #dddfe2;
+            overflow-y: auto;
+            z-index: 99;
+        }
+        .facebook-sidebar-item {
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin: 4px 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        .facebook-sidebar-item:hover {
+            background-color: #f0f2f5;
+        }
+        .facebook-sidebar-item i {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            background-color: #e4e6eb;
+        }
+        .facebook-main-content {
+            margin-left: 280px;
+            padding: 20px;
+        }
+        .facebook-button {
+            background-color: #1877F2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .facebook-button:hover {
+            background-color: #166fe5;
+        }
+        .facebook-button.secondary {
+            background-color: #e4e6eb;
+            color: #1c1e21;
+        }
+        .facebook-button.secondary:hover {
+            background-color: #d8dadf;
+        }
+        @media (max-width: 1024px) {
+            .facebook-sidebar {
+                width: 80px;
+            }
+            .facebook-sidebar-item span {
+                display: none;
+            }
+            .facebook-sidebar-item i {
+                margin-right: 0;
+            }
+            .facebook-main-content {
+                margin-left: 80px;
+            }
+        }
+        @media (max-width: 768px) {
+            .facebook-sidebar {
+                display: none;
+            }
+            .facebook-main-content {
+                margin-left: 0;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body class="facebook-light min-h-screen">
+    <!-- Facebook Header -->
+    <header class="facebook-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-14 items-center">
+                <!-- Left Section -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                        <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
+                    </div>
+                </div>
+                
+                <!-- Right Section -->
+                <div class="flex items-center">
+                    <button class="text-gray-600" onclick="history.back()">
+                        <i class="fas fa-arrow-left text-xl mr-4"></i>
+                    </button>
+                    <button class="text-gray-600" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="absolute top-0 left-0 w-64 h-full bg-white">
+            <div class="p-4 border-b">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
+                        <div>
+                            <p class="font-semibold text-gray-800" id="mobile-user-name">User Name</p>
+                            <p class="text-sm text-gray-500">Balance: ₦<span id="mobile-user-balance">0.00</span></p>
+                        </div>
+                    </div>
+                    <button onclick="toggleMobileMenu()" class="text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-4">
+                <div class="space-y-2">
+                    <a href="index.html" class="facebook-sidebar-item">
+                        <i class="fas fa-home text-blue-600"></i>
+                        <span>Home</span>
+                    </a>
+                    <a href="earn.html" class="facebook-sidebar-item active">
+                        <i class="fas fa-coins text-green-600"></i>
+                        <span>Earn Money</span>
+                    </a>
+                    <a href="shop.html" class="facebook-sidebar-item">
+                        <i class="fas fa-shopping-cart text-purple-600"></i>
+                        <span>Shopping</span>
+                    </a>
+                    <a href="referral.html" class="facebook-sidebar-item">
+                        <i class="fas fa-users text-orange-600"></i>
+                        <span>Referrals</span>
+                    </a>
+                    <a href="wallet.html" class="facebook-sidebar-item">
+                        <i class="fas fa-wallet text-red-600"></i>
+                        <span>Wallet</span>
+                    </a>
+                    <a href="settings.html" class="facebook-sidebar-item">
+                        <i class="fas fa-cog text-gray-600"></i>
+                        <span>Settings</span>
+                    </a>
+                    <a href="admin.html" class="facebook-sidebar-item">
+                        <i class="fas fa-shield-alt text-gray-800"></i>
+                        <span>Admin</span>
+                    </a>
+                    <div class="border-t my-4"></div>
+                    <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
+                        <i class="fas fa-sign-out-alt text-red-600"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Facebook Sidebar -->
+    <div class="facebook-sidebar hidden md:block">
+        <div class="p-4">
+            <div class="space-y-1">
+                <a href="index.html" class="facebook-sidebar-item">
+                    <i class="fas fa-home text-blue-600"></i>
+                    <span>Home</span>
+                </a>
+                <a href="earn.html" class="facebook-sidebar-item active">
+                    <i class="fas fa-coins text-green-600"></i>
+                    <span>Earn Money</span>
+                </a>
+                <a href="shop.html" class="facebook-sidebar-item">
+                    <i class="fas fa-shopping-cart text-purple-600"></i>
+                    <span>Shopping</span>
+                </a>
+                <a href="referral.html" class="facebook-sidebar-item">
+                    <i class="fas fa-users text-orange-600"></i>
+                    <span>Referrals</span>
+                </a>
+                <a href="wallet.html" class="facebook-sidebar-item">
+                    <i class="fas fa-wallet text-red-600"></i>
+                    <span>Wallet</span>
+                </a>
+                <a href="settings.html" class="facebook-sidebar-item">
+                    <i class="fas fa-cog text-gray-600"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="admin.html" class="facebook-sidebar-item">
+                    <i class="fas fa-shield-alt text-gray-800"></i>
+                    <span>Admin</span>
+                </a>
+                <div class="border-t my-2"></div>
+                <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
+                    <i class="fas fa-sign-out-alt text-red-600"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="facebook-main-content">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Earn Money</h1>
+                <p class="text-gray-600">Complete these tasks to earn real money</p>
+            </div>
+
+            <!-- Earning Methods Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- View Ads -->
+                <div class="facebook-card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-eye text-blue-600 text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">View Ads</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Earn money by viewing advertisements</p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-bold text-green-600">₦<span id="ads-rate">5</span>/ad</span>
+                        <span class="text-sm text-gray-500">Unlimited</span>
+                    </div>
+                    <button onclick="startViewAds()" class="w-full facebook-button py-3">
+                        Start Viewing
+                    </button>
+                </div>
+
+                <!-- PTC Clicks -->
+                <div class="facebook-card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-mouse-pointer text-blue-600 text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">PTC Clicks</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Paid-to-click advertisements</p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-bold text-green-600">₦<span id="ptc-rate">5</span>/click</span>
+                        <span class="text-sm text-gray-500">Unlimited</span>
+                    </div>
+                    <button onclick="startPTCClicks()" class="w-full facebook-button py-3">
+                        Start Clicking
+                    </button>
+                </div>
+
+                <!-- Referrals -->
+                <div class="facebook-card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-users text-blue-600 text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Referrals</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Earn per referral</p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-bold text-green-600">₦<span id="referral-rate">150</span>/referral</span>
+                        <span class="text-sm text-gray-500">Unlimited</span>
+                    </div>
+                    <button onclick="window.location.href='referral.html'" class="w-full facebook-button py-3">
+                        Share Link
+                    </button>
+                </div>
+
+                <!-- Social Boost Hub -->
+                <div class="facebook-card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-rocket text-blue-600 text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Social Boost Hub</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Buy followers/likes/views</p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-bold text-green-600">From ₦100</span>
+                        <span class="text-sm text-gray-500">Available</span>
+                    </div>
+                    <button onclick="boostSocial()" class="w-full facebook-button py-3">
+                        Boost Now
+                    </button>
+                </div>
+
+                <!-- Surveys -->
+                <div class="facebook-card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-chart-bar text-blue-600 text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Surveys</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Complete paid surveys</p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-bold text-green-600">₦<span id="survey-min">50</span>-₦<span id="survey-max">200</span></span>
+                        <span class="text-sm text-gray-500">Available</span>
+                    </div>
+                    <button onclick="takeSurvey()" class="w-full facebook-button py-3">
+                        Take Survey
+                    </button>
+                </div>
+
+                <!-- Video Ads -->
+                <div class="facebook-card p-6">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-play-circle text-blue-600 text-2xl mr-3"></i>
+                        <h3 class="text-xl font-bold text-gray-800">Video Ads</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Watch video advertisements</p>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-bold text-green-600">₦<span id="video-rate">10</span>/video</span>
+                        <span class="text-sm text-gray-500">Unlimited</span>
+                    </div>
+                    <button onclick="watchVideoAd()" class="w-full facebook-button py-3">
+                        Watch Video
+                    </button>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="facebook-card p-6 mt-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">How Earning Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-1 text-blue-600 text-xl font-bold"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Choose Method</h3>
+                        <p class="text-gray-600 text-sm">Select an earning method that suits you</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-2 text-green-600 text-xl font-bold"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Complete Task</h3>
+                        <p class="text-gray-600 text-sm">Follow the instructions to complete the task</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-3 text-purple-600 text-xl font-bold"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Get Paid</h3>
+                        <p class="text-gray-600 text-sm">Earnings are added to your wallet instantly</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = null;
+        let sessionTimeout = null;
+        
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+        
+        // Logout user
+        function logoutUser() {
+            localStorage.removeItem('tapwealth_current_user');
+            alert('You have been logged out!');
+            window.location.href = 'login.html';
+        }
+        
+        // Session timeout (5 minutes)
+        function startSessionTimeout() {
+            if (sessionTimeout) {
+                clearTimeout(sessionTimeout);
+            }
+            
+            sessionTimeout = setTimeout(function() {
+                logoutUser();
+            }, 300000); // 5 minutes
+            
+            // Reset timeout on user activity
+            document.addEventListener('mousemove', resetSessionTimeout);
+            document.addEventListener('keypress', resetSessionTimeout);
+            document.addEventListener('click', resetSessionTimeout);
+            document.addEventListener('scroll', resetSessionTimeout);
+        }
+        
+        function resetSessionTimeout() {
+            startSessionTimeout();
+        }
+        
+        // Earning functions
+        function startViewAds() {
+            if (!currentUser) return;
+            
+            const payoutRates = JSON.parse(localStorage.getItem('tapwealth_payout_rates') || '{"ads":5,"ptc":5,"referral":150,"video":10,"surveyMin":50,"surveyMax":200}');
+            const earnings = parseInt(payoutRates.ads);
+            
+            alert(`Ad viewing started! You will earn ₦${earnings} per completed ad.`);
+            
+            // Simulate ad completion
+            setTimeout(() => {
+                currentUser.balance += earnings;
+                currentUser.completedTasks = (currentUser.completedTasks || 0) + 1;
+                currentUser.transactions = currentUser.transactions || [];
+                currentUser.transactions.push({
+                    id: Date.now(),
+                    type: 'credit',
+                    description: 'Ad View Bonus',
+                    amount: earnings,
+                    date: new Date().toISOString()
+                });
+                
+                localStorage.setItem('tapwealth_current_user', JSON.stringify(currentUser));
+                updateUserData(currentUser);
+                alert(`₦${earnings} has been added to your wallet!`);
+                location.reload();
+            }, 3000);
+        }
+        
+        function startPTCClicks() {
+            if (!currentUser) return;
+            
+            const payoutRates = JSON.parse(localStorage.getItem('tapwealth_payout_rates') || '{"ads":5,"ptc":5,"referral":150,"video":10,"surveyMin":50,"surveyMax":200}');
+            const earnings = parseInt(payoutRates.ptc);
+            
+            alert(`PTC clicking started! You will earn ₦${earnings} per completed click.`);
+            
+            // Simulate click completion
+            setTimeout(() => {
+                currentUser.balance += earnings;
+                currentUser.completedTasks = (currentUser.completedTasks || 0) + 1;
+                currentUser.transactions = currentUser.transactions || [];
+                currentUser.transactions.push({
+                    id: Date.now(),
+                    type: 'credit',
+                    description: 'PTC Click Bonus',
+                    amount: earnings,
+                    date: new Date().toISOString()
+                });
+                
+                localStorage.setItem('tapwealth_current_user', JSON.stringify(currentUser));
+                updateUserData(currentUser);
+                alert(`₦${earnings} has been added to your wallet!`);
+                location.reload();
+            }, 2000);
+        }
+        
+        function boostSocial() {
+            alert('Social Boost Hub is coming soon! This feature will allow you to buy followers, likes, and views.');
+        }
+        
+        function takeSurvey() {
+            if (!currentUser) return;
+            
+            const payoutRates = JSON.parse(localStorage.getItem('tapwealth_payout_rates') || '{"ads":5,"ptc":5,"referral":150,"video":10,"surveyMin":50,"surveyMax":200}');
+            const earnings = Math.floor(Math.random() * (parseInt(payoutRates.surveyMax) - parseInt(payoutRates.surveyMin) + 1)) + parseInt(payoutRates.surveyMin);
+            
+            alert(`Survey started! You will earn ₦${earnings} upon completion.`);
+            
+            // Simulate survey completion
+            setTimeout(() => {
+                currentUser.balance += earnings;
+                currentUser.completedTasks = (currentUser.completedTasks || 0) + 1;
+                currentUser.transactions = currentUser.transactions || [];
+                currentUser.transactions.push({
+                    id: Date.now(),
+                    type: 'credit',
+                    description: 'Survey Completion Bonus',
+                    amount: earnings,
+                    date: new Date().toISOString()
+                });
+                
+                localStorage.setItem('tapwealth_current_user', JSON.stringify(currentUser));
+                updateUserData(currentUser);
+                alert(`₦${earnings} has been added to your wallet!`);
+                location.reload();
+            }, 4000);
+        }
+        
+        function watchVideoAd() {
+            if (!currentUser) return;
+            
+            const payoutRates = JSON.parse(localStorage.getItem('tapwealth_payout_rates') || '{"ads":5,"ptc":5,"referral":150,"video":10,"surveyMin":50,"surveyMax":200}');
+            const earnings = parseInt(payoutRates.video);
+            
+            alert(`Video ad started! You will earn ₦${earnings} upon completion.`);
+            
+            // Simulate video completion
+            setTimeout(() => {
+                currentUser.balance += earnings;
+                currentUser.completedTasks = (currentUser.completedTasks || 0) + 1;
+                currentUser.transactions = currentUser.transactions || [];
+                currentUser.transactions.push({
+                    id: Date.now(),
+                    type: 'credit',
+                    description: 'Video Ad Bonus',
+                    amount: earnings,
+                    date: new Date().toISOString()
+                });
+                
+                localStorage.setItem('tapwealth_current_user', JSON.stringify(currentUser));
+                updateUserData(currentUser);
+                alert(`₦${earnings} has been added to your wallet!`);
+                location.reload();
+            }, 5000);
+        }
+        
+        function updateUserData(user) {
+            // Update user data in localStorage
+            const users = JSON.parse(localStorage.getItem('tapwealth_users') || '[]');
+            const userIndex = users.findIndex(u => u.id === user.id);
+            if (userIndex !== -1) {
+                users[userIndex] = user;
+                localStorage.setItem('tapwealth_users', JSON.stringify(users));
+            }
+        }
+        
+        // Load payout rates
+        function loadPayoutRates() {
+            const rates = JSON.parse(localStorage.getItem('tapwealth_payout_rates') || '{"ads":5,"ptc":5,"referral":150,"video":10,"surveyMin":50,"surveyMax":200}');
+            document.getElementById('ads-rate').textContent = rates.ads;
+            document.getElementById('ptc-rate').textContent = rates.ptc;
+            document.getElementById('referral-rate').textContent = rates.referral;
+            document.getElementById('video-rate').textContent = rates.video;
+            document.getElementById('survey-min').textContent = rates.surveyMin;
+            document.getElementById('survey-max').textContent = rates.surveyMax;
+        }
+        
+        // Update user info
+        function updateUserInfo() {
+            if (!currentUser) return;
+            
+            document.getElementById('mobile-user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('mobile-user-name').textContent = currentUser.name;
+            document.getElementById('mobile-user-balance').textContent = currentUser.balance.toLocaleString();
+        }
+        
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedUser = localStorage.getItem('tapwealth_current_user');
+            if (!savedUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            currentUser = JSON.parse(savedUser);
+            updateUserInfo();
+            loadPayoutRates();
+            startSessionTimeout();
+        });
+    </script>
+</body>
+</html>
