@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@700&family=SF+Pro+Text:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f0f2f5;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        .facebook-blue {
+            background-color: #1877F2;
+        }
+        .facebook-dark {
+            background-color: #1C1E21;
+        }
+        .facebook-light {
+            background-color: #f0f2f5;
+        }
+        .facebook-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .facebook-header {
+            background-color: white;
+            border-bottom: 1px solid #dddfe2;
+        }
+        .facebook-button {
+            background-color: #1877F2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .facebook-button:hover {
+            background-color: #166fe5;
+        }
+        .facebook-button.secondary {
+            background-color: #e4e6eb;
+            color: #1c1e21;
+        }
+        .facebook-button.secondary:hover {
+            background-color: #d8dadf;
+        }
+        .facebook-input {
+            border: 1px solid #dddfe2;
+            border-radius: 6px;
+            padding: 14px 16px;
+            width: 100%;
+            margin-bottom: 12px;
+        }
+        .facebook-input:focus {
+            outline: none;
+            border-color: #1877F2;
+            box-shadow: 0 0 0 2px #e7f3ff;
+        }
+        .facebook-input-group {
+            display: flex;
+            gap: 12px;
+        }
+        .facebook-input-group .facebook-input {
+            margin-bottom: 0;
+        }
+        @media (max-width: 768px) {
+            .facebook-input-group {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body class="facebook-light min-h-screen flex items-center justify-center p-4">
+    <!-- Registration Container -->
+    <div class="max-w-md w-full">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="flex justify-center mb-4">
+                <i class="fas fa-dollar-sign text-white text-4xl" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+            </div>
+            <h1 class="text-4xl font-bold mb-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</h1>
+            <p class="text-gray-600">Empower your earnings and live large with TapWealth</p>
+        </div>
+
+        <!-- Registration Card -->
+        <div class="facebook-card p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Create a new account</h2>
+            <p class="text-gray-600 mb-6">It's quick and easy.</p>
+            
+            <form id="register-form">
+                <div class="facebook-input-group mb-4">
+                    <input type="text" id="first-name" class="facebook-input" placeholder="First name" required>
+                    <input type="text" id="last-name" class="facebook-input" placeholder="Last name" required>
+                </div>
+                <input type="email" id="register-email" class="facebook-input" placeholder="Email address" required>
+                <input type="password" id="register-password" class="facebook-input" placeholder="New password" required minlength="6">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Date of birth</label>
+                    <div class="facebook-input-group">
+                        <select id="day" class="facebook-input">
+                            <option value="">Day</option>
+                            <!-- Days 1-31 -->
+                            <script>
+                                for (let i = 1; i <= 31; i++) {
+                                    document.write(`<option value="${i}">${i}</option>`);
+                                }
+                            </script>
+                        </select>
+                        <select id="month" class="facebook-input">
+                            <option value="">Month</option>
+                            <option value="1">Jan</option>
+                            <option value="2">Feb</option>
+                            <option value="3">Mar</option>
+                            <option value="4">Apr</option>
+                            <option value="5">May</option>
+                            <option value="6">Jun</option>
+                            <option value="7">Jul</option>
+                            <option value="8">Aug</option>
+                            <option value="9">Sep</option>
+                            <option value="10">Oct</option>
+                            <option value="11">Nov</option>
+                            <option value="12">Dec</option>
+                        </select>
+                        <select id="year" class="facebook-input">
+                            <option value="">Year</option>
+                            <!-- Years 1905-2025 -->
+                            <script>
+                                for (let i = 2025; i >= 1905; i--) {
+                                    document.write(`<option value="${i}">${i}</option>`);
+                                }
+                            </script>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                    <div class="flex gap-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="gender" value="female" class="mr-2">
+                            <span class="text-gray-700">Female</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="gender" value="male" class="mr-2">
+                            <span class="text-gray-700">Male</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="gender" value="custom" class="mr-2">
+                            <span class="text-gray-700">Custom</span>
+                        </label>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-600 mb-4">
+                    By clicking Sign Up, you agree to our <a href="#" class="text-blue-600 hover:underline">Terms</a>, 
+                    <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a> and 
+                    <a href="#" class="text-blue-600 hover:underline">Cookies Policy</a>. 
+                    You may receive SMS notifications from us and can opt out at any time.
+                </p>
+                <button type="submit" class="facebook-button w-full py-3 mb-4">Sign Up</button>
+            </form>
+            <div class="border-t border-gray-200 pt-4 text-center">
+                <p class="text-gray-600">
+                    <a href="login.html" class="font-bold text-blue-600 hover:underline">Already have an account?</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Registration form submission
+        document.getElementById('register-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const day = document.getElementById('day').value;
+            const month = document.getElementById('month').value;
+            const year = document.getElementById('year').value;
+            const gender = document.querySelector('input[name="gender"]:checked')?.value;
+            
+            // Validation
+            if (!firstName || !lastName || !email || !password || !day || !month || !year || !gender) {
+                alert('Please fill in all required fields!');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long!');
+                return;
+            }
+            
+            // Check if email already exists
+            const users = JSON.parse(localStorage.getItem('tapwealth_users') || '[]');
+            if (users.some(u => u.email === email)) {
+                alert('Email already registered!');
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name: firstName + ' ' + lastName,
+                email: email,
+                password: password,
+                balance: 500, // Welcome bonus
+                referrals: 0,
+                referralLink: `https://tapwealth.com/ref/${Date.now()}`,
+                completedTasks: 0,
+                createdAt: new Date().toISOString(),
+                transactions: [
+                    {
+                        id: Date.now(),
+                        type: 'credit',
+                        description: 'Welcome Bonus',
+                        amount: 500,
+                        date: new Date().toISOString()
+                    }
+                ]
+            };
+            
+            // Save user
+            users.push(newUser);
+            localStorage.setItem('tapwealth_users', JSON.stringify(users));
+            localStorage.setItem('tapwealth_current_user', JSON.stringify(newUser));
+            
+            alert(`Account created successfully!\n\nWelcome bonus of ₦500 has been added to your wallet.\n\nYour referral link: ${newUser.referralLink}`);
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
