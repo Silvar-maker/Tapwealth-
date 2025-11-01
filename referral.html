@@ -206,19 +206,19 @@
                     </div>
                 </div>
                 <div class="flex flex-wrap gap-4">
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftapwealth.com" target="_blank" class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <a href="#" target="_blank" id="facebook-share" class="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                         <i class="fab fa-facebook mr-2"></i>
                         <span>Facebook</span>
                     </a>
-                    <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Ftapwealth.com&text=Join%20me%20on%20TapWealth%20and%20start%20earning%20money%20online!" target="_blank" class="flex items-center px-4 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-colors">
+                    <a href="#" target="_blank" id="twitter-share" class="flex items-center px-4 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-colors">
                         <i class="fab fa-twitter mr-2"></i>
                         <span>Twitter</span>
                     </a>
-                    <a href="https://wa.me/?text=Join%20me%20on%20TapWealth%20and%20start%20earning%20money%20online!%20https%3A%2F%2Ftapwealth.com" target="_blank" class="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                    <a href="#" target="_blank" id="whatsapp-share" class="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
                         <i class="fab fa-whatsapp mr-2"></i>
                         <span>WhatsApp</span>
                     </a>
-                    <a href="https://t.me/share/url?url=https%3A%2F%2Ftapwealth.com&text=Join%20me%20on%20TapWealth%20and%20start%20earning%20money%20online!" target="_blank" class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                    <a href="#" target="_blank" id="telegram-share" class="flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
                         <i class="fab fa-telegram mr-2"></i>
                         <span>Telegram</span>
                     </a>
@@ -392,7 +392,14 @@
             document.getElementById('your-earnings').textContent = (currentUser.earnings?.referrals || 0).toLocaleString();
             
             // Update referral link
-            document.getElementById('referral-link').value = `https://tapwealth.com/ref/${currentUser.id}`;
+            const referralLink = `https://tapwealth.com/ref/${currentUser.id}`;
+            document.getElementById('referral-link').value = referralLink;
+            
+            // Update social sharing links
+            document.getElementById('facebook-share').href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(referralLink)}&quote=Join%20me%20on%20TapWealth%20and%20start%20earning%20money%20online!`;
+            document.getElementById('twitter-share').href = `https://twitter.com/intent/tweet?url=${encodeURIComponent(referralLink)}&text=Join%20me%20on%20TapWealth%20and%20start%20earning%20money%20online!`;
+            document.getElementById('whatsapp-share').href = `https://wa.me/?text=Join%20me%20on%20TapWealth%20and%20start%20earning%20money%20online!%20${encodeURIComponent(referralLink)}`;
+            document.getElementById('telegram-share').href = `https://t.me/share/url?url=${encodeURIComponent(referralLink)}&text=Join%20me%20on%20TapWealth%20and%20start%20earning%20money%20online!`;
             
             // Update user position in leaderboard
             document.getElementById('your-position').textContent = currentUser.name.split(' ')[0];
