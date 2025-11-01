@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #0056FF 0%, #C0C0C0 50%, #FFFFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .glass-card.dark {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(71, 85, 105, 0.5);
+        }
+        .facebook-header {
+            background-color: white;
+            border-bottom: 1px solid #dddfe2;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-white to-slate-100 dark:bg-slate-900 min-h-screen">
+    <!-- Navigation -->
+    <nav class="facebook-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-dollar-sign text-blue-600 dark:text-blue-400 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold gradient-text">TapWealth</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Home</a>
+                    <a href="about.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">About</a>
+                    <a href="features.html" class="text-blue-600 dark:text-blue-400 font-medium">Features</a>
+                    <a href="contact.html" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Contact</a>
+                    <button onclick="goBack()" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium flex items-center">
+                        <i class="fas fa-arrow-left mr-2"></i> Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Features Content -->
+    <div class="min-h-screen py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-4xl font-bold text-center text-gray-800 dark:text-white mb-12 gradient-text">
+                Features & Services
+            </h1>
+            
+            <!-- Smart Auto-Invest -->
+            <div class="glass-card dark:glass-card dark rounded-xl p-8 border border-white/30 dark:border-slate-700/50 mb-8">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="flex-1">
+                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-brain text-blue-600 dark:text-blue-400 text-2xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Smart Auto-Invest System</h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Our intelligent system automatically syncs your earnings to your preferred currency (NGN or USD) and optimizes your portfolio for maximum returns. No manual work required – just earn while you sleep!
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium">Auto Currency Sync</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200 rounded-full text-sm font-medium">NGN/USD Support</span>
+                            <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200 rounded-full text-sm font-medium">Smart Allocation</span>
+                        </div>
+                        <button onclick="learnMoreAutoInvest()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
+                            Learn More
+                        </button>
+                    </div>
+                    <div class="flex-1">
+                        <img src="https://placehold.co/400x300/3b82f6/ffffff?text=Smart+Auto-Invest" alt="Smart Auto-Invest" class="rounded-lg shadow-lg w-full">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Referral System -->
+            <div class="glass-card dark:glass-card dark rounded-xl p-8 border border-white/30 dark:border-slate-700/50 mb-8">
+                <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+                    <div class="flex-1">
+                        <div class="w-16 h-16 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-users text-green-600 dark:text-green-400 text-2xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Powerful Referral System</h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Earn ₦500 for every friend who signs up using your referral link. Plus, get 10% of all their future earnings for life! Share your unique referral link and build passive income.
+                        </p>
+                        <div class="bg-gray-100 dark:bg-slate-700 rounded-lg p-4 mb-4">
+                            <p class="text-gray-700 dark:text-gray-300 mb-2">Your Referral Link:</p>
+                            <div class="flex items-center">
+                                <input type="text" id="referral-link" readonly class="flex-1 bg-transparent border-none outline-none text-blue-600 dark:text-blue-400 font-medium">
+                                <button onclick="copyReferralLink()" class="ml-2 bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-colors">Copy</button>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm"><strong>Potential Earnings:</strong> Refer 10 friends = ₦5,000 + ongoing commissions!</p>
+                    </div>
+                    <div class="flex-1">
+                        <img src="https://placehold.co/400x300/10b981/ffffff?text=Referral+System" alt="Referral System" class="rounded-lg shadow-lg w-full">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Task Earnings -->
+            <div class="glass-card dark:glass-card dark rounded-xl p-8 border border-white/30 dark:border-slate-700/50 mb-8">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="flex-1">
+                        <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-tasks text-purple-600 dark:text-purple-400 text-2xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Real Task Earnings</h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Complete real tasks from our trusted partners and earn actual money. These aren't fake surveys – these are legitimate opportunities from established companies looking for your engagement.
+                        </p>
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-600 dark:text-green-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">App Installations (₦500-₦2,000)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-600 dark:text-green-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">Website Sign-ups (₦300-₦1,500)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-600 dark:text-green-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">Survey Completion (₦50-₦200)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle text-green-600 dark:text-green-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">Product Reviews (₦400-₦2,500)</span>
+                            </div>
+                        </div>
+                        <button onclick="startTaskEarnings()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors">
+                            Start Earning
+                        </button>
+                    </div>
+                    <div class="flex-1">
+                        <img src="https://placehold.co/400x300/8b5cf6/ffffff?text=Task+Earnings" alt="Task Earnings" class="rounded-lg shadow-lg w-full">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Flexible Withdrawals -->
+            <div class="glass-card dark:glass-card dark rounded-xl p-8 border border-white/30 dark:border-slate-700/50">
+                <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+                    <div class="flex-1">
+                        <div class="w-16 h-16 bg-orange-100 dark:bg-orange-900/50 rounded-full flex items-center justify-center mb-4">
+                            <i class="fas fa-wallet text-orange-600 dark:text-orange-400 text-2xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Flexible Withdrawal Options</h2>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
+                            Withdraw your earnings instantly to your preferred payment method. No waiting, no delays – your money, your way.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <div class="flex items-center bg-gray-100 dark:bg-slate-700 px-3 py-1 rounded-full">
+                                <i class="fas fa-landmark text-blue-600 dark:text-blue-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">Bank Transfer</span>
+                            </div>
+                            <div class="flex items-center bg-gray-100 dark:bg-slate-700 px-3 py-1 rounded-full">
+                                <i class="fab fa-paypal text-blue-600 dark:text-blue-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">PayPal</span>
+                            </div>
+                            <div class="flex items-center bg-gray-100 dark:bg-slate-700 px-3 py-1 rounded-full">
+                                <i class="fas fa-mobile-alt text-green-600 dark:text-green-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">Mobile Money</span>
+                            </div>
+                            <div class="flex items-center bg-gray-100 dark:bg-slate-700 px-3 py-1 rounded-full">
+                                <i class="fas fa-coins text-purple-600 dark:text-purple-400 mr-2"></i>
+                                <span class="text-gray-700 dark:text-gray-300">USDT (Crypto)</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300 text-sm"><strong>Minimum Withdrawal:</strong> ₦1,000 | <strong>Processing Time:</strong> Instant - 24 hours</p>
+                    </div>
+                    <div class="flex-1">
+                        <img src="https://placehold.co/400x300/f97316/ffffff?text=Flexible+Withdrawals" alt="Flexible Withdrawals" class="rounded-lg shadow-lg w-full">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-t border-white/30 dark:border-slate-700/50 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <i class="fas fa-dollar-sign text-blue-400 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold">TapWealth</span>
+                </div>
+                <p class="text-gray-400 mb-6">Empower your earnings and live large with TapWealth</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p class="text-gray-500 text-sm">© 2025 TapWealth. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        
+        function learnMoreAutoInvest() {
+            alert('Smart Auto-Invest System:\n\n' +
+                  '1. Automatically syncs your earnings to your preferred currency\n' +
+                  '2. Optimizes your portfolio for maximum returns\n' +
+                  '3. No manual work required\n' +
+                  '4. Works 24/7 to maximize your earnings\n\n' +
+                  'This feature is coming soon!');
+        }
+        
+        function copyReferralLink() {
+            const currentUser = localStorage.getItem('tapwealth_current_user');
+            if (!currentUser) {
+                alert('Please log in to access your referral link!');
+                return;
+            }
+            
+            const user = JSON.parse(currentUser);
+            const referralLink = `https://tapwealth.com/ref/${user.id}`;
+            navigator.clipboard.writeText(referralLink).then(() => {
+                alert('Referral link copied to clipboard!');
+            });
+        }
+        
+        function startTaskEarnings() {
+            alert('Task Earnings:\n\n' +
+                  '1. App Installations (₦500-₦2,000)\n' +
+                  '2. Website Sign-ups (₦300-₦1,500)\n' +
+                  '3. Survey Completion (₦50-₦200)\n' +
+                  '4. Product Reviews (₦400-₦2,500)\n\n' +
+                  'These features are coming soon!');
+        }
+        
+        // Load user data and set referral link
+        window.addEventListener('DOMContentLoaded', function() {
+            const currentUser = localStorage.getItem('tapwealth_current_user');
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const user = JSON.parse(currentUser);
+            document.getElementById('referral-link').value = `https://tapwealth.com/ref/${user.id}`;
+        });
+    </script>
+</body>
+</html>
