@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f2f5;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .facebook-blue {
+            background-color: #1877F2;
+        }
+        .facebook-dark {
+            background-color: #1C1E21;
+        }
+        .facebook-light {
+            background-color: #f0f2f5;
+        }
+        .facebook-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .facebook-header {
+            background-color: white;
+            border-bottom: 1px solid #dddfe2;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #0056FF 0%, #C0C0C0 50%, #FFFFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section-tabs {
+            display: none;
+        }
+        .section-tabs.active {
+            display: block;
+        }
+        .mobile-menu {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+            .desktop-menu {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="facebook-light min-h-screen">
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-button" class="mobile-menu fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded-lg">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="mobile-menu fixed inset-0 bg-black bg-opacity-50 z-40 hidden">
+        <div class="absolute top-0 left-0 w-64 h-full bg-white shadow-lg">
+            <div class="p-4 border-b">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
+                        <div>
+                            <p class="font-semibold text-gray-800" id="mobile-user-name">User Name</p>
+                            <p class="text-sm text-gray-500">Balance: ₦<span id="mobile-user-balance">0.00</span></p>
+                        </div>
+                    </div>
+                    <button onclick="toggleMobileMenu()" class="text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-4">
+                <div class="mb-6">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('dashboard')">
+                        <i class="fas fa-home text-blue-600 mr-3"></i>
+                        <span class="font-medium">Dashboard</span>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('earn')">
+                        <i class="fas fa-coins text-green-600 mr-3"></i>
+                        <span class="font-medium">Earn Money</span>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('referral')">
+                        <i class="fas fa-users text-orange-600 mr-3"></i>
+                        <span class="font-medium">Referrals</span>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('shop')">
+                        <i class="fas fa-shopping-cart text-purple-600 mr-3"></i>
+                        <span class="font-medium">Shopping</span>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('wallet')">
+                        <i class="fas fa-wallet text-red-600 mr-3"></i>
+                        <span class="font-medium">Wallet</span>
+                    </div>
+                </div>
+                <div class="border-t pt-4">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('settings')">
+                        <i class="fas fa-cog text-gray-600 mr-3"></i>
+                        <span class="font-medium">Settings</span>
+                    </div>
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="logoutUser()">
+                        <i class="fas fa-sign-out-alt text-red-600 mr-3"></i>
+                        <span class="font-medium text-red-600">Logout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="facebook-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Back Button -->
+                <div class="flex items-center">
+                    <button onclick="goBack()" id="back-button" class="hidden md:flex items-center text-gray-600 hover:text-blue-600 font-medium mr-4">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back
+                    </button>
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-dollar-sign text-blue-600 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold gradient-text">TapWealth</span>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="dashboard.html" class="text-blue-600 font-medium">Dashboard</a>
+                    <a href="earn.html" class="text-gray-600 hover:text-blue-600 font-medium">Earn</a>
+                    <a href="referral.html" class="text-gray-600 hover:text-blue-600 font-medium">Referrals</a>
+                    <a href="shop.html" class="text-gray-600 hover:text-blue-600 font-medium">Shopping</a>
+                    <a href="wallet.html" class="text-gray-600 hover:text-blue-600 font-medium">Wallet</a>
+                    <a href="settings.html" class="text-gray-600 hover:text-blue-600 font-medium">Settings</a>
+                    <a href="admin.html" class="text-gray-600 hover:text-blue-600 font-medium">Admin</a>
+                </div>
+                
+                <!-- User Menu -->
+                <div class="flex items-center">
+                    <div class="relative">
+                        <button onclick="toggleUserMenu()" id="user-menu-button" class="flex items-center space-x-2">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                                <span id="user-initial">U</span>
+                            </div>
+                            <span class="hidden md:inline text-gray-700 font-medium" id="user-name">User</span>
+                            <i class="fas fa-caret-down text-gray-500 md:hidden"></i>
+                        </button>
+                        
+                        <!-- Dropdown Menu -->
+                        <div class="hidden absolute right-0 top-full bg-white rounded-lg shadow-lg border z-50 min-w-48" id="user-dropdown">
+                            <div class="p-4 border-b">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                                        <span id="dropdown-user-initial">U</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-800" id="dropdown-user-name">User Name</p>
+                                        <p class="text-sm text-gray-500">Balance: ₦<span id="dropdown-user-balance">0.00</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="py-2">
+                                <a href="settings.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-cog mr-3 text-gray-500"></i>
+                                    <span>Settings</span>
+                                </a>
+                                <a href="referral.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-users mr-3 text-gray-500"></i>
+                                    <span>Referrals</span>
+                                </a>
+                                <a href="wallet.html" class="flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-wallet mr-3 text-gray-500"></i>
+                                    <span>Wallet</span>
+                                </a>
+                                <div class="border-t my-2"></div>
+                                <button onclick="logoutUser()" class="flex items-center w-full px-4 py-3 text-red-600 hover:bg-red-50">
+                                    <i class="fas fa-sign-out-alt mr-3"></i>
+                                    <span>Logout</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <div class="min-h-screen py-8 px-4">
+        <div class="max-w-7xl mx-auto">
+            <!-- Welcome Message -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Welcome, <span id="welcome-user-name">User</span>!</h1>
+                <p class="text-gray-600">Ready to earn more money today?</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="facebook-card p-6 border">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Available Balance</p>
+                            <p class="text-2xl font-bold text-gray-800" id="balance-card">₦0.00</p>
+                        </div>
+                        <i class="fas fa-wallet text-blue-600 text-2xl"></i>
+                    </div>
+                </div>
+                
+                <div class="facebook-card p-6 border">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Total Earnings</p>
+                            <p class="text-2xl font-bold text-gray-800" id="earnings-card">₦0.00</p>
+                        </div>
+                        <i class="fas fa-chart-line text-green-600 text-2xl"></i>
+                    </div>
+                </div>
+                
+                <div class="facebook-card p-6 border">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Referrals</p>
+                            <p class="text-2xl font-bold text-gray-800" id="referral-card">0</p>
+                        </div>
+                        <i class="fas fa-users text-purple-600 text-2xl"></i>
+                    </div>
+                </div>
+                
+                <div class="facebook-card p-6 border">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Tasks Completed</p>
+                            <p class="text-2xl font-bold text-gray-800" id="tasks-card">0</p>
+                        </div>
+                        <i class="fas fa-tasks text-orange-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="facebook-card p-6 border mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Quick Actions</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button onclick="showSection('earn')" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                        <i class="fas fa-coins text-blue-600 text-2xl mb-2"></i>
+                        <span class="text-sm font-medium text-gray-800">Earn Money</span>
+                    </button>
+                    <button onclick="showSection('referral')" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                        <i class="fas fa-users text-green-600 text-2xl mb-2"></i>
+                        <span class="text-sm font-medium text-gray-800">Referrals</span>
+                    </button>
+                    <button onclick="showSection('shop')" class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
+                        <i class="fas fa-shopping-cart text-purple-600 text-2xl mb-2"></i>
+                        <span class="text-sm font-medium text-gray-800">Shopping</span>
+                    </button>
+                    <button onclick="showSection('wallet')" class="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors">
+                        <i class="fas fa-wallet text-orange-600 text-2xl mb-2"></i>
+                        <span class="text-sm font-medium text-gray-800">Wallet</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="facebook-card p-6 border mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Recent Activity</h2>
+                <div class="space-y-4" id="activity-feed">
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
+                        <div>
+                            <p class="font-medium text-gray-800">Welcome Bonus</p>
+                            <p class="text-sm text-gray-500">Account created</p>
+                        </div>
+                        <div class="font-bold text-green-600">+₦500.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referral Program -->
+            <div class="facebook-card p-6 border">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Referral Program</h2>
+                <p class="text-gray-600 mb-4">Earn ₦500 for every friend who completes their first offer!</p>
+                <div class="bg-gray-100 rounded-lg p-3 mb-4">
+                    <p class="text-gray-700 mb-2">Your Referral Link:</p>
+                    <div class="flex items-center">
+                        <input type="text" id="referral-link" readonly class="flex-1 bg-transparent border-none outline-none text-blue-600 font-medium">
+                        <button onclick="copyReferralLink()" class="ml-2 bg-blue-600 text-white px-2 py-1 rounded text-xs hover:bg-blue-700">Copy</button>
+                    </div>
+                </div>
+                <p class="text-gray-600"><strong>Earn ₦500</strong> for each referral + <strong>10% lifetime commission</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-t border-white/30 dark:border-slate-700/50 mt-12 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="flex items-center justify-center mb-4">
+                    <i class="fas fa-dollar-sign text-blue-400 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold">TapWealth</span>
+                </div>
+                <p class="text-gray-400 mb-6">Empower your earnings and live large with TapWealth</p>
+                <div class="flex justify-center space-x-6 mb-6">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-whatsapp"></i></a>
+                </div>
+                <p class="text-gray-500 text-sm">© 2025 TapWealth. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentUser = null;
+        let sessionTimeout = null;
+        
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+        
+        // Toggle user menu
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('user-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const userMenuButton = document.getElementById('user-menu-button');
+            const userDropdown = document.getElementById('user-dropdown');
+            
+            if (!userMenuButton.contains(e.target) && !userDropdown.contains(e.target)) {
+                userDropdown.classList.add('hidden');
+            }
+        });
+        
+        // Show section
+        function showSection(section) {
+            window.location.href = section + '.html';
+        }
+        
+        // Back button
+        function goBack() {
+            window.history.back();
+        }
+        
+        // Logout user
+        function logoutUser() {
+            localStorage.removeItem('tapwealth_current_user');
+            alert('You have been logged out!');
+            window.location.href = 'index.html';
+        }
+        
+        // Session timeout (5-10 minutes)
+        function startSessionTimeout() {
+            if (sessionTimeout) {
+                clearTimeout(sessionTimeout);
+            }
+            
+            // 5-10 minutes (random between 300000-600000 ms)
+            const timeoutDuration = Math.floor(Math.random() * 300001) + 300000;
+            
+            sessionTimeout = setTimeout(function() {
+                logoutUser();
+            }, timeoutDuration);
+            
+            // Reset timeout on user activity
+            document.addEventListener('mousemove', resetSessionTimeout);
+            document.addEventListener('keypress', resetSessionTimeout);
+            document.addEventListener('click', resetSessionTimeout);
+            document.addEventListener('scroll', resetSessionTimeout);
+        }
+        
+        function resetSessionTimeout() {
+            startSessionTimeout();
+        }
+        
+        // Update dashboard
+        function updateDashboard() {
+            if (!currentUser) return;
+            
+            // Update user info
+            document.getElementById('user-initial').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('user-name').textContent = currentUser.name.split(' ')[0];
+            document.getElementById('welcome-user-name').textContent = currentUser.name;
+            document.getElementById('balance-card').textContent = '₦' + currentUser.balance.toLocaleString();
+            document.getElementById('earnings-card').textContent = '₦' + currentUser.balance.toLocaleString();
+            document.getElementById('referral-card').textContent = currentUser.referrals || 0;
+            document.getElementById('tasks-card').textContent = currentUser.completedTasks || 0;
+            
+            // Update dropdown menu
+            document.getElementById('dropdown-user-initial').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('dropdown-user-name').textContent = currentUser.name;
+            document.getElementById('dropdown-user-balance').textContent = currentUser.balance.toLocaleString();
+            
+            // Update mobile menu
+            document.getElementById('mobile-user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('mobile-user-name').textContent = currentUser.name;
+            document.getElementById('mobile-user-balance').textContent = currentUser.balance.toLocaleString();
+            
+            // Update referral link
+            document.getElementById('referral-link').value = `https://tapwealth.com/ref/${currentUser.id}`;
+            
+            // Update activity feed
+            const activityFeed = document.getElementById('activity-feed');
+            activityFeed.innerHTML = '';
+            
+            if (currentUser.transactions && currentUser.transactions.length > 0) {
+                currentUser.transactions.slice().reverse().slice(0, 5).forEach(transaction => {
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0';
+                    div.innerHTML = `
+                        <div>
+                            <p class="font-medium text-gray-800">${transaction.description}</p>
+                            <p class="text-sm text-gray-500">${new Date(transaction.date).toLocaleDateString()}</p>
+                        </div>
+                        <div class="font-bold ${transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'}">
+                            ${transaction.type === 'credit' ? '+' : '-'}₦${transaction.amount.toLocaleString()}
+                        </div>
+                    `;
+                    activityFeed.appendChild(div);
+                });
+            } else {
+                activityFeed.innerHTML = `
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
+                        <div>
+                            <p class="font-medium text-gray-800">Welcome Bonus</p>
+                            <p class="text-sm text-gray-500">Account created</p>
+                        </div>
+                        <div class="font-bold text-green-600">+₦500.00</div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Referral functions
+        function copyReferralLink() {
+            const referralLink = document.getElementById('referral-link').value;
+            navigator.clipboard.writeText(referralLink).then(() => {
+                alert('Referral link copied to clipboard!');
+            });
+        }
+        
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedUser = localStorage.getItem('tapwealth_current_user');
+            if (!savedUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            currentUser = JSON.parse(savedUser);
+            updateDashboard();
+            startSessionTimeout();
+        });
+    </script>
+</body>
+</html>
