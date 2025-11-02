@@ -143,44 +143,11 @@
         }
         
         /* Mobile menu styles */
-        .mobile-menu {
+        .mobile-menu-content {
             display: none;
         }
-        .mobile-menu-content {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding-top: 60px;
-        }
-        .mobile-menu-panel {
-            background: white;
-            width: 280px;
-            height: 100%;
-            overflow-y: auto;
-            z-index: 1001;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .mobile-menu-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid #dddfe2;
-            background: white;
-            position: sticky;
-            top: 0;
-            z-index: 1002;
-        }
-        .mobile-menu-close {
-            position: absolute;
-            top: 16px;
-            right: 20px;
-            font-size: 24px;
-            cursor: pointer;
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -189,18 +156,11 @@
     <header class="facebook-header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-14 items-center">
-                <!-- Left Section -->
                 <div class="flex items-center">
-                    <!-- 3-bar menu icon moved to top left -->
                     <button onclick="toggleMobileMenu()" class="text-gray-600 mr-4">
                         <i class="fas fa-bars text-xl"></i>
                     </button>
-                    
-                    <!-- Search Bar (Removed as requested) -->
-                    <!-- The search bar is removed since it's not working -->
                 </div>
-                
-                <!-- Center Navigation -->
                 <div class="hidden md:flex items-center">
                     <div class="flex">
                         <div class="facebook-nav-item active">
@@ -220,14 +180,11 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Right Section -->
                 <div class="flex items-center">
                     <div class="hidden md:flex items-center space-x-2 mr-4">
                         <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold" id="user-avatar">U</div>
                         <span class="font-semibold text-gray-800" id="user-name">User</span>
                     </div>
-                    <!-- Dollar sign + "TapWealth" logo moved to top right -->
                     <div class="flex-shrink-0 flex items-center">
                         <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                         <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
@@ -238,18 +195,20 @@
     </header>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu-content hidden">
-        <div class="mobile-menu-panel">
-            <div class="mobile-menu-header">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
-                    <div>
-                        <p class="font-semibold text-gray-800" id="mobile-user-name">User Name</p>
-                        <p class="text-sm text-gray-500">Balance: ₦<span id="mobile-user-balance">0.00</span></p>
+    <div id="mobile-menu" class="mobile-menu-content hidden fixed inset-0 bg-black bg-opacity-50 z-50">
+        <div class="absolute top-0 left-0 w-64 h-full bg-white">
+            <div class="p-4 border-b">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
+                        <div>
+                            <p class="font-semibold text-gray-800" id="mobile-user-name">User Name</p>
+                            <p class="text-sm text-gray-500">Balance: ₦<span id="mobile-user-balance">0.00</span></p>
+                        </div>
                     </div>
-                </div>
-                <div class="mobile-menu-close" onclick="toggleMobileMenu()">
-                    <i class="fas fa-times"></i>
+                    <button onclick="toggleMobileMenu()" class="text-gray-500">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             </div>
             <div class="p-4">
@@ -369,7 +328,6 @@
                         <i class="fas fa-wallet text-blue-600 text-xl"></i>
                     </div>
                 </div>
-                
                 <div class="facebook-card p-4">
                     <div class="flex items-center justify-between">
                         <div>
@@ -379,7 +337,6 @@
                         <i class="fas fa-chart-line text-green-600 text-xl"></i>
                     </div>
                 </div>
-                
                 <div class="facebook-card p-4">
                     <div class="flex items-center justify-between">
                         <div>
@@ -389,7 +346,6 @@
                         <i class="fas fa-users text-orange-600 text-xl"></i>
                     </div>
                 </div>
-                
                 <div class="facebook-card p-4">
                     <div class="flex items-center justify-between">
                         <div>
@@ -441,92 +397,67 @@
     </div>
 
     <script>
-        let currentUser = null;
-        let sessionTimeout = null;
-        
-        // Toggle mobile menu
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-            
-            // Add body class to prevent scrolling when menu is open
-            if (!mobileMenu.classList.contains('hidden')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
+        // === LIVE USER DATA HANDLING (no caching) ===
+        function getCurrentUser() {
+            const saved = localStorage.getItem('tapwealth_current_user');
+            return saved ? JSON.parse(saved) : null;
         }
-        
+
+        function setCurrentUser(user) {
+            localStorage.setItem('tapwealth_current_user', JSON.stringify(user));
+        }
+
         // Logout user
         function logoutUser() {
             localStorage.removeItem('tapwealth_current_user');
             alert('You have been logged out!');
             window.location.href = 'login.html';
         }
-        
-        // Session timeout (5 minutes)
+
+        // Session timeout (1 HOUR)
+        let sessionTimeout = null;
         function startSessionTimeout() {
-            if (sessionTimeout) {
-                clearTimeout(sessionTimeout);
-            }
-            
-            sessionTimeout = setTimeout(function() {
-                logoutUser();
-            }, 300000); // 5 minutes
-            
-            // Reset timeout on user activity
-            document.addEventListener('mousemove', resetSessionTimeout);
-            document.addEventListener('keypress', resetSessionTimeout);
-            document.addEventListener('click', resetSessionTimeout);
-            document.addEventListener('scroll', resetSessionTimeout);
+            if (sessionTimeout) clearTimeout(sessionTimeout);
+            sessionTimeout = setTimeout(logoutUser, 3600000); // 1 hour
         }
-        
-        function resetSessionTimeout() {
-            startSessionTimeout();
-        }
-        
-        // Update dashboard
+
+        // Update dashboard from live localStorage
         function updateDashboard() {
-            if (!currentUser) return;
-            
-            // Update user info in all locations
-            document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
-            document.getElementById('user-name').textContent = currentUser.name.split(' ')[0];
-            
-            document.getElementById('mobile-user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
-            document.getElementById('mobile-user-name').textContent = currentUser.name;
-            document.getElementById('mobile-user-balance').textContent = currentUser.balance.toLocaleString();
-            
-            document.getElementById('post-user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
-            document.getElementById('welcome-user-name').textContent = 'Welcome, ' + currentUser.name + '!';
-            
-            // Update stats cards
-            document.getElementById('balance-card').textContent = currentUser.balance.toLocaleString();
-            document.getElementById('earnings-card').textContent = currentUser.balance.toLocaleString();
-            document.getElementById('referral-card').textContent = currentUser.referrals || 0;
-            document.getElementById('tasks-card').textContent = currentUser.completedTasks || 0;
-            
-            // Update activity feed
-            const activityFeed = document.getElementById('activity-feed');
-            activityFeed.innerHTML = '';
-            
-            if (currentUser.transactions && currentUser.transactions.length > 0) {
-                currentUser.transactions.slice().reverse().slice(0, 5).forEach(transaction => {
-                    const div = document.createElement('div');
-                    div.className = 'flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0';
-                    div.innerHTML = `
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('user-name').textContent = user.name.split(' ')[0];
+            document.getElementById('mobile-user-avatar').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('mobile-user-name').textContent = user.name;
+            document.getElementById('mobile-user-balance').textContent = user.balance.toLocaleString();
+            document.getElementById('post-user-avatar').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('welcome-user-name').textContent = 'Welcome, ' + user.name + '!';
+
+            // Update stats
+            document.getElementById('balance-card').textContent = (user.balance || 0).toLocaleString();
+            document.getElementById('earnings-card').textContent = (user.balance || 0).toLocaleString();
+            document.getElementById('referral-card').textContent = user.referrals || 0;
+            document.getElementById('tasks-card').textContent = user.completedTasks || 0;
+
+            // Activity feed
+            const feed = document.getElementById('activity-feed');
+            feed.innerHTML = user.transactions && user.transactions.length > 0
+                ? user.transactions.slice().reverse().slice(0, 5).map(tx => `
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
                         <div>
-                            <p class="font-medium text-gray-800">${transaction.description}</p>
-                            <p class="text-sm text-gray-500">${new Date(transaction.date).toLocaleDateString()}</p>
+                            <p class="font-medium text-gray-800">${tx.description}</p>
+                            <p class="text-sm text-gray-500">${new Date(tx.date).toLocaleDateString()}</p>
                         </div>
-                        <div class="font-bold ${transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'}">
-                            ${transaction.type === 'credit' ? '+' : '-'}₦${transaction.amount.toLocaleString()}
+                        <div class="font-bold ${tx.type === 'credit' ? 'text-green-600' : 'text-red-600'}">
+                            ${tx.type === 'credit' ? '+' : '-'}₦${tx.amount.toLocaleString()}
                         </div>
-                    `;
-                    activityFeed.appendChild(div);
-                });
-            } else {
-                activityFeed.innerHTML = `
+                    </div>
+                `).join('')
+                : `
                     <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
                         <div>
                             <p class="font-medium text-gray-800">Welcome Bonus</p>
@@ -535,20 +466,28 @@
                         <div class="font-bold text-green-600">+₦500.00</div>
                     </div>
                 `;
-            }
         }
-        
-        // Check authentication
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+            document.body.style.overflow = menu.classList.contains('hidden') ? 'auto' : 'hidden';
+        }
+
+        // Initialize
         window.addEventListener('DOMContentLoaded', function() {
-            const savedUser = localStorage.getItem('tapwealth_current_user');
-            if (!savedUser) {
+            if (!getCurrentUser()) {
                 window.location.href = 'login.html';
                 return;
             }
-            
-            currentUser = JSON.parse(savedUser);
             updateDashboard();
             startSessionTimeout();
+
+            // Register Monetag Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js')
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            }
         });
     </script>
 </body>
