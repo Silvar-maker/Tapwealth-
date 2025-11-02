@@ -257,7 +257,7 @@
           </div>
           <p class="text-gray-600 mb-4">Nigeria's largest online marketplace</p>
           <div class="text-lg font-bold text-green-600 mb-4">Up to 10% Cashback</div>
-          <button onclick="shopThrough('jumia')" class="w-full facebook-button py-3">Shop Now</button>
+          <button onclick="handleShopClick('jumia')" class="w-full facebook-button py-3">Shop Now</button>
         </div>
 
         <!-- Temu -->
@@ -268,7 +268,7 @@
           </div>
           <p class="text-gray-600 mb-4">Ultra-low prices on everything</p>
           <div class="text-lg font-bold text-green-600 mb-4">Up to 15% Cashback</div>
-          <button onclick="shopThrough('temu')" class="w-full facebook-button py-3">Shop Now</button>
+          <button onclick="handleShopClick('temu')" class="w-full facebook-button py-3">Shop Now</button>
         </div>
 
         <!-- AliExpress -->
@@ -279,7 +279,7 @@
           </div>
           <p class="text-gray-600 mb-4">Global marketplace with millions of products</p>
           <div class="text-lg font-bold text-green-600 mb-4">Up to 12% Cashback</div>
-          <button onclick="shopThrough('aliexpress')" class="w-full facebook-button py-3">Shop Now</button>
+          <button onclick="handleShopClick('aliexpress')" class="w-full facebook-button py-3">Shop Now</button>
         </div>
       </div>
 
@@ -365,14 +365,25 @@
   <!-- Scripts -->
   <script src="/assets/script.js"></script>
   <script>
+    // Safe wrapper for shopThrough()
+    function handleShopClick(store) {
+      if (typeof shopThrough === 'function') {
+        shopThrough(store);
+      } else {
+        alert('⚠️ System loading... Please refresh the page.');
+        console.error('shopThrough() is not defined. Check /assets/script.js');
+      }
+    }
+
+    // Page init
     window.addEventListener('DOMContentLoaded', function() {
-      const user = getCurrentUser();
+      const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
       if (!user) {
         window.location.href = 'login.html';
         return;
       }
-      updateMobileUserInfo();
-      startSessionTimeout();
+      if (typeof updateMobileUserInfo === 'function') updateMobileUserInfo();
+      if (typeof startSessionTimeout === 'function') startSessionTimeout();
     });
 
     function toggleMobileMenu() {
