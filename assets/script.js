@@ -6,7 +6,7 @@
 const TAPWEALTH_AFFILIATES = {
   temu: 'YOUR_TEMU_AFFILIATE_ID',        // e.g. 'tapwealth123'
   jumia: 'YOUR_JUMIA_AFFILIATE_ID',      // e.g. '1234567890'
-  aliexpress: 'YOUR_ALIEXPRESS_ID'       // e.g. '3256789'
+  aliexpress: 'https://s.click.aliexpress.com/e/_c3YcVxwF'       // e.g. '3256789'
 };
 
 // Optional: AliExpress short key (if provided by affiliate network)
