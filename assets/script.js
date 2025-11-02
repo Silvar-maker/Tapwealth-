@@ -2,11 +2,11 @@
 // Handles affiliate linking, cashback simulation, user data, and more
 
 // === Affiliate Configuration ===
-// 🔑 REPLACE THESE WITH YOUR REAL AFFILIATE IDs ONCE YOU JOIN
+// 🔑 REPLACE THESE WITH YOUR REAL AFFILIATE IDs
 const TAPWEALTH_AFFILIATES = {
   temu: 'YOUR_TEMU_AFFILIATE_ID',        // e.g. 'tapwealth123'
   jumia: 'YOUR_JUMIA_AFFILIATE_ID',      // e.g. '1234567890'
-  aliexpress: 'https://s.click.aliexpress.com/e/_c3YcVxwF'       // e.g. '3256789'
+  aliexpress: 'https://s.click.aliexpress.com/e/_c3YcVxwF'       // ← REPLACE THIS WITH YOUR REAL ID
 };
 
 // Optional: AliExpress short key (if provided by affiliate network)
@@ -49,7 +49,7 @@ function trackStoreClick(store) {
   const now = Date.now();
   const pending = JSON.parse(localStorage.getItem('tapwealth_pending_cashback') || '[]');
 
-  // Simulate expected cashback amounts (adjust as needed)
+  // Simulate expected cashback amounts
   const estimates = { jumia: '₦500', temu: '₦850', aliexpress: '₦720' };
   const amount = estimates[store] || '₦300';
 
