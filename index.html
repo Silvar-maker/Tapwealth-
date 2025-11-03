@@ -36,20 +36,6 @@
             top: 0;
             z-index: 100;
         }
-        .facebook-nav-item {
-            padding: 8px 16px;
-            border-radius: 8px;
-            margin: 0 4px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .facebook-nav-item:hover {
-            background-color: #f0f2f5;
-        }
-        .facebook-nav-item.active {
-            background-color: #e4e6eb;
-            border-radius: 8px;
-        }
         .facebook-sidebar {
             position: fixed;
             top: 56px;
@@ -100,24 +86,6 @@
         .facebook-button:hover {
             background-color: #166fe5;
         }
-        .facebook-button.secondary {
-            background-color: #e4e6eb;
-            color: #1c1e21;
-        }
-        .facebook-button.secondary:hover {
-            background-color: #d8dadf;
-        }
-        .facebook-input {
-            border: 1px solid #dddfe2;
-            border-radius: 20px;
-            padding: 8px 16px;
-            background-color: #f0f2f5;
-        }
-        .facebook-input:focus {
-            outline: none;
-            background-color: white;
-            border-color: #1877F2;
-        }
         @media (max-width: 1024px) {
             .facebook-sidebar {
                 width: 80px;
@@ -141,61 +109,32 @@
                 padding: 12px;
             }
         }
-        
-        /* Mobile menu styles */
-        .mobile-menu-content {
-            display: none;
-        }
         .hidden {
             display: none !important;
         }
     </style>
 </head>
 <body class="facebook-light min-h-screen">
-    <!-- Facebook Header -->
+    <!-- Header, Sidebar, Main Content -->
     <header class="facebook-header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-14 items-center">
-                <div class="flex items-center">
-                    <button onclick="toggleMobileMenu()" class="text-gray-600 mr-4">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
+                <button onclick="toggleMobileMenu()" class="text-gray-600 mr-4">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <div class="flex-shrink-0 flex items-center">
+                    <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                    <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
                 </div>
-                <div class="hidden md:flex items-center">
-                    <div class="flex">
-                        <div class="facebook-nav-item active">
-                            <i class="fas fa-home text-xl text-blue-600"></i>
-                        </div>
-                        <div class="facebook-nav-item">
-                            <i class="fas fa-users text-xl text-gray-500"></i>
-                        </div>
-                        <div class="facebook-nav-item">
-                            <i class="fas fa-store text-xl text-gray-500"></i>
-                        </div>
-                        <div class="facebook-nav-item">
-                            <i class="fas fa-tv text-xl text-gray-500"></i>
-                        </div>
-                        <div class="facebook-nav-item">
-                            <i class="fas fa-bell text-xl text-gray-500"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center">
-                    <div class="hidden md:flex items-center space-x-2 mr-4">
-                        <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold" id="user-avatar">U</div>
-                        <span class="font-semibold text-gray-800" id="user-name">User</span>
-                    </div>
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
-                        <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
-                    </div>
-                </div>
+                <button class="text-gray-600" onclick="history.back()">
+                    <i class="fas fa-arrow-left text-xl"></i>
+                </button>
             </div>
         </div>
     </header>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="mobile-menu-content hidden fixed inset-0 bg-black bg-opacity-50 z-50">
+    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div class="absolute top-0 left-0 w-64 h-full bg-white">
             <div class="p-4 border-b">
                 <div class="flex items-center justify-between">
@@ -237,11 +176,6 @@
                         <i class="fas fa-cog text-gray-600"></i>
                         <span>Settings</span>
                     </a>
-                    <a href="admin.html" class="facebook-sidebar-item">
-                        <i class="fas fa-shield-alt text-gray-800"></i>
-                        <span>Admin</span>
-                    </a>
-                    <div class="border-t my-4"></div>
                     <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
                         <i class="fas fa-sign-out-alt text-red-600"></i>
                         <span>Logout</span>
@@ -251,11 +185,11 @@
         </div>
     </div>
 
-    <!-- Facebook Sidebar -->
+    <!-- Sidebar -->
     <div class="facebook-sidebar hidden md:block">
         <div class="p-4">
             <div class="space-y-1">
-                <a href="index.html" class="facebook-sidebar-item active">
+                <a href="index.html" class="facebook-sidebar-item">
                     <i class="fas fa-home text-blue-600"></i>
                     <span>Home</span>
                 </a>
@@ -279,11 +213,6 @@
                     <i class="fas fa-cog text-gray-600"></i>
                     <span>Settings</span>
                 </a>
-                <a href="admin.html" class="facebook-sidebar-item">
-                    <i class="fas fa-shield-alt text-gray-800"></i>
-                    <span>Admin</span>
-                </a>
-                <div class="border-t my-2"></div>
                 <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
                     <i class="fas fa-sign-out-alt text-red-600"></i>
                     <span>Logout</span>
@@ -295,7 +224,6 @@
     <!-- Main Content -->
     <div class="facebook-main-content">
         <div class="max-w-4xl mx-auto">
-            <!-- Welcome Banner -->
             <div class="facebook-post">
                 <div class="flex items-center mb-4">
                     <div class="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="post-user-avatar">U</div>
@@ -320,161 +248,62 @@
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <div class="facebook-card p-4">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-500 text-sm">Available Balance</p>
-                            <p class="text-xl font-bold text-gray-800">₦<span id="balance-card">0.00</span></p>
-                        </div>
-                        <i class="fas fa-wallet text-blue-600 text-xl"></i>
-                    </div>
+                    <p class="text-gray-500 text-sm">Available Balance</p>
+                    <p class="text-xl font-bold text-gray-800">₦<span id="balance-card">0.00</span></p>
                 </div>
                 <div class="facebook-card p-4">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-500 text-sm">Total Earnings</p>
-                            <p class="text-xl font-bold text-gray-800">₦<span id="earnings-card">0.00</span></p>
-                        </div>
-                        <i class="fas fa-chart-line text-green-600 text-xl"></i>
-                    </div>
+                    <p class="text-gray-500 text-sm">Total Earnings</p>
+                    <p class="text-xl font-bold text-gray-800">₦<span id="earnings-card">0.00</span></p>
                 </div>
                 <div class="facebook-card p-4">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-500 text-sm">Referrals</p>
-                            <p class="text-xl font-bold text-gray-800"><span id="referral-card">0</span></p>
-                        </div>
-                        <i class="fas fa-users text-orange-600 text-xl"></i>
-                    </div>
+                    <p class="text-gray-500 text-sm">Referrals</p>
+                    <p class="text-xl font-bold text-gray-800"><span id="referral-card">0</span></p>
                 </div>
                 <div class="facebook-card p-4">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-500 text-sm">Tasks Completed</p>
-                            <p class="text-xl font-bold text-gray-800"><span id="tasks-card">0</span></p>
-                        </div>
-                        <i class="fas fa-tasks text-purple-600 text-xl"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Activity -->
-            <div class="facebook-post">
-                <h3 class="font-bold text-gray-800 mb-4">Recent Activity</h3>
-                <div class="space-y-4" id="activity-feed">
-                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
-                        <div>
-                            <p class="font-medium text-gray-800">Welcome Bonus</p>
-                            <p class="text-sm text-gray-500">Account created</p>
-                        </div>
-                        <div class="font-bold text-green-600">+₦500.00</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="facebook-post">
-                <h3 class="font-bold text-gray-800 mb-4">Quick Actions</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100" onclick="window.location.href='earn.html'">
-                        <i class="fas fa-coins text-blue-600 text-2xl mb-2"></i>
-                        <span class="text-sm font-medium text-gray-800">Earn Money</span>
-                    </button>
-                    <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100" onclick="window.location.href='shop.html'">
-                        <i class="fas fa-shopping-cart text-green-600 text-2xl mb-2"></i>
-                        <span class="text-sm font-medium text-gray-800">Shopping</span>
-                    </button>
-                    <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100" onclick="window.location.href='referral.html'">
-                        <i class="fas fa-users text-purple-600 text-2xl mb-2"></i>
-                        <span class="text-sm font-medium text-gray-800">Referrals</span>
-                    </button>
-                    <button class="flex flex-col items-center p-4 rounded-lg hover:bg-gray-100" onclick="window.location.href='wallet.html'">
-                        <i class="fas fa-wallet text-orange-600 text-2xl mb-2"></i>
-                        <span class="text-sm font-medium text-gray-800">Wallet</span>
-                    </button>
+                    <p class="text-gray-500 text-sm">Tasks Completed</p>
+                    <p class="text-xl font-bold text-gray-800"><span id="tasks-card">0</span></p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // === LIVE USER DATA HANDLING (no caching) ===
         function getCurrentUser() {
-            const saved = localStorage.getItem('tapwealth_current_user');
-            return saved ? JSON.parse(saved) : null;
+            return JSON.parse(localStorage.getItem('tapwealth_current_user')) || null;
         }
 
-        function setCurrentUser(user) {
-            localStorage.setItem('tapwealth_current_user', JSON.stringify(user));
-        }
-
-        // Logout user
         function logoutUser() {
             localStorage.removeItem('tapwealth_current_user');
             alert('You have been logged out!');
             window.location.href = 'login.html';
         }
 
-        // Session timeout (1 HOUR)
         let sessionTimeout = null;
         function startSessionTimeout() {
             if (sessionTimeout) clearTimeout(sessionTimeout);
             sessionTimeout = setTimeout(logoutUser, 3600000); // 1 hour
         }
 
-        // Update dashboard from live localStorage
         function updateDashboard() {
             const user = getCurrentUser();
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
-            }
-
-            document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
-            document.getElementById('user-name').textContent = user.name.split(' ')[0];
-            document.getElementById('mobile-user-avatar').textContent = user.name.charAt(0).toUpperCase();
-            document.getElementById('mobile-user-name').textContent = user.name;
-            document.getElementById('mobile-user-balance').textContent = user.balance.toLocaleString();
-            document.getElementById('post-user-avatar').textContent = user.name.charAt(0).toUpperCase();
-            document.getElementById('welcome-user-name').textContent = 'Welcome, ' + user.name + '!';
-
-            // Update stats
+            if (!user) { window.location.href = 'login.html'; return; }
             document.getElementById('balance-card').textContent = (user.balance || 0).toLocaleString();
             document.getElementById('earnings-card').textContent = (user.balance || 0).toLocaleString();
             document.getElementById('referral-card').textContent = user.referrals || 0;
             document.getElementById('tasks-card').textContent = user.completedTasks || 0;
-
-            // Activity feed
-            const feed = document.getElementById('activity-feed');
-            feed.innerHTML = user.transactions && user.transactions.length > 0
-                ? user.transactions.slice().reverse().slice(0, 5).map(tx => `
-                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
-                        <div>
-                            <p class="font-medium text-gray-800">${tx.description}</p>
-                            <p class="text-sm text-gray-500">${new Date(tx.date).toLocaleDateString()}</p>
-                        </div>
-                        <div class="font-bold ${tx.type === 'credit' ? 'text-green-600' : 'text-red-600'}">
-                            ${tx.type === 'credit' ? '+' : '-'}₦${tx.amount.toLocaleString()}
-                        </div>
-                    </div>
-                `).join('')
-                : `
-                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
-                        <div>
-                            <p class="font-medium text-gray-800">Welcome Bonus</p>
-                            <p class="text-sm text-gray-500">Account created</p>
-                        </div>
-                        <div class="font-bold text-green-600">+₦500.00</div>
-                    </div>
-                `;
+            document.getElementById('welcome-user-name').textContent = 'Welcome, ' + user.name + '!';
+            document.getElementById('post-user-avatar').textContent = user.name.charAt(0).toUpperCase();
+            if (document.getElementById('mobile-user-avatar')) {
+                document.getElementById('mobile-user-avatar').textContent = user.name.charAt(0).toUpperCase();
+                document.getElementById('mobile-user-name').textContent = user.name;
+                document.getElementById('mobile-user-balance').textContent = (user.balance || 0).toLocaleString();
+            }
         }
 
         function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-            document.body.style.overflow = menu.classList.contains('hidden') ? 'auto' : 'hidden';
+            document.getElementById('mobile-menu').classList.toggle('hidden');
         }
 
-        // Initialize
         window.addEventListener('DOMContentLoaded', function() {
             if (!getCurrentUser()) {
                 window.location.href = 'login.html';
@@ -485,8 +314,7 @@
 
             // Register Monetag Service Worker
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('/sw.js')
-                    .catch(err => console.log('Service Worker registration failed:', err));
+                navigator.serviceWorker.register('/sw.js');
             }
         });
     </script>
