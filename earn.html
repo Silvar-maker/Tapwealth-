@@ -15,15 +15,6 @@
         h1, h2, h3, h4, h5, h6 {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
         }
-        .facebook-blue {
-            background-color: #1877F2;
-        }
-        .facebook-dark {
-            background-color: #1C1E21;
-        }
-        .facebook-light {
-            background-color: #f0f2f5;
-        }
         .facebook-card {
             background-color: white;
             border-radius: 8px;
@@ -56,9 +47,6 @@
             align-items: center;
             transition: background-color 0.2s;
         }
-        .facebook-sidebar-item:hover {
-            background-color: #f0f2f5;
-        }
         .facebook-sidebar-item i {
             width: 28px;
             height: 28px;
@@ -87,46 +75,28 @@
             background-color: #166fe5;
         }
         @media (max-width: 1024px) {
-            .facebook-sidebar {
-                width: 80px;
-            }
-            .facebook-sidebar-item span {
-                display: none;
-            }
-            .facebook-sidebar-item i {
-                margin-right: 0;
-            }
-            .facebook-main-content {
-                margin-left: 80px;
-            }
+            .facebook-sidebar { width: 80px; }
+            .facebook-sidebar-item span { display: none; }
+            .facebook-sidebar-item i { margin-right: 0; }
+            .facebook-main-content { margin-left: 80px; }
         }
         @media (max-width: 768px) {
-            .facebook-sidebar {
-                display: none;
-            }
-            .facebook-main-content {
-                margin-left: 0;
-                padding: 12px;
-            }
+            .facebook-sidebar { display: none; }
+            .facebook-main-content { margin-left: 0; padding: 12px; }
         }
-        .hidden {
-            display: none !important;
-        }
+        .hidden { display: none !important; }
     </style>
 </head>
 <body class="facebook-light min-h-screen">
-    <!-- Facebook Header -->
     <header class="facebook-header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-14 items-center">
-                <div class="flex items-center">
-                    <button onclick="toggleMobileMenu()" class="text-gray-600 mr-4">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
-                        <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
-                    </div>
+                <button onclick="toggleMobileMenu()" class="text-gray-600 mr-4">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+                <div class="flex-shrink-0 flex items-center">
+                    <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                    <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
                 </div>
                 <button class="text-gray-600" onclick="history.back()">
                     <i class="fas fa-arrow-left text-xl"></i>
@@ -174,11 +144,6 @@
                         <i class="fas fa-wallet text-red-600"></i>
                         <span>Wallet</span>
                     </a>
-                    <a href="settings.html" class="facebook-sidebar-item">
-                        <i class="fas fa-cog text-gray-600"></i>
-                        <span>Settings</span>
-                    </a>
-                    <div class="border-t my-4"></div>
                     <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
                         <i class="fas fa-sign-out-alt text-red-600"></i>
                         <span>Logout</span>
@@ -188,7 +153,7 @@
         </div>
     </div>
 
-    <!-- Facebook Sidebar -->
+    <!-- Sidebar -->
     <div class="facebook-sidebar hidden md:block">
         <div class="p-4">
             <div class="space-y-1">
@@ -212,11 +177,6 @@
                     <i class="fas fa-wallet text-red-600"></i>
                     <span>Wallet</span>
                 </a>
-                <a href="settings.html" class="facebook-sidebar-item">
-                    <i class="fas fa-cog text-gray-600"></i>
-                    <span>Settings</span>
-                </a>
-                <div class="border-t my-2"></div>
                 <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
                     <i class="fas fa-sign-out-alt text-red-600"></i>
                     <span>Logout</span>
@@ -235,145 +195,58 @@
 
             <!-- Earning Methods -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <!-- View Ads -->
+                <div class="facebook-card p-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Perform Tasks</h3>
+                    <p class="text-gray-600 mb-4">Complete micro-tasks and earn ₦50–₦500</p>
+                    <a href="https://monetag.com/offerwall/3097082" target="_blank" class="w-full facebook-button py-3 block text-center">
+                        Start Tasks
+                    </a>
+                </div>
+
                 <div class="facebook-card p-6">
                     <h3 class="text-xl font-bold text-gray-800 mb-2">View Ads</h3>
                     <p class="text-gray-600 mb-4">Watch short ads and earn ₦5 each</p>
-                    <button class="w-full facebook-button py-3" onclick="alert('Ads feature coming soon!')">
+                    <button class="w-full facebook-button py-3" onclick="alert('Ads coming soon!')">
                         Start Viewing
                     </button>
                 </div>
 
-                <!-- PTC Clicks -->
-                <div class="facebook-card p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">PTC Clicks</h3>
-                    <p class="text-gray-600 mb-4">Click sponsored links and earn ₦5</p>
-                    <button class="w-full facebook-button py-3" onclick="alert('PTC feature coming soon!')">
-                        Start Clicking
-                    </button>
-                </div>
-
-                <!-- Video Ads -->
-                <div class="facebook-card p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Video Ads</h3>
-                    <p class="text-gray-600 mb-4">Watch 30-second videos and earn ₦10</p>
-                    <button class="w-full facebook-button py-3" onclick="alert('Video feature coming soon!')">
-                        Watch Videos
-                    </button>
-                </div>
-
-                <!-- Surveys -->
                 <div class="facebook-card p-6">
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Surveys</h3>
                     <p class="text-gray-600 mb-4">Complete short surveys and earn ₦50–₦200</p>
-                    <button class="w-full facebook-button py-3" onclick="alert('Survey feature coming soon!')">
+                    <button class="w-full facebook-button py-3" onclick="alert('Surveys coming soon!')">
                         Take Survey
                     </button>
-                </div>
-
-                <!-- Social Boost -->
-                <div class="facebook-card p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Social Boost</h3>
-                    <p class="text-gray-600 mb-4">Buy followers, likes, views from ₦50</p>
-                    <button class="w-full facebook-button py-3" onclick="alert('Social Boost feature coming soon!')">
-                        Boost Now
-                    </button>
-                </div>
-
-                <!-- ✅ Perform Tasks (Monetag) -->
-                <div class="facebook-card p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Perform Tasks</h3>
-                    <p class="text-gray-600 mb-4">Complete micro-tasks and earn ₦50–₦500</p>
-                    <!-- 🔗 Replace YOUR_MONETAG_ID with your real offerwall ID -->
-                    <a href="https://monetag.com/offerwall/YOUR_MONETAG_ID" target="_blank" class="w-full facebook-button py-3 block text-center">
-                        Start Tasks
-                    </a>
-                </div>
-            </div>
-
-            <!-- How It Works -->
-            <div class="facebook-card p-6">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">How It Works</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-1 text-blue-600 text-xl font-bold"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">Choose Task</h3>
-                        <p class="text-gray-600 text-sm">Pick from offers like surveys, app installs, sign-ups</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-2 text-green-600 text-xl font-bold"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">Complete Task</h3>
-                        <p class="text-gray-600 text-sm">Follow instructions and finish the offer</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-3 text-purple-600 text-xl font-bold"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-800 mb-2">Get Paid</h3>
-                        <p class="text-gray-600 text-sm">Earnings appear in your wallet within 24 hours</p>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // === USER DATA HANDLING ===
         function getCurrentUser() {
             return JSON.parse(localStorage.getItem('tapwealth_current_user')) || null;
         }
-        function setCurrentUser(user) {
-            localStorage.setItem('tapwealth_current_user', JSON.stringify(user));
-        }
-
-        // Logout
         function logoutUser() {
             localStorage.removeItem('tapwealth_current_user');
             alert('You have been logged out!');
             window.location.href = 'login.html';
         }
-
-        // Session timeout (1 hour)
         let sessionTimeout = null;
         function startSessionTimeout() {
             if (sessionTimeout) clearTimeout(sessionTimeout);
-            sessionTimeout = setTimeout(logoutUser, 3600000); // 1 hour
+            sessionTimeout = setTimeout(logoutUser, 3600000);
         }
-
-        // Mobile menu
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
-
-        // === Simulate reward on return from Monetag ===
         window.addEventListener('DOMContentLoaded', function() {
             const user = getCurrentUser();
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
+            if (!user) { window.location.href = 'login.html'; return; }
+            if (document.getElementById('mobile-user-avatar')) {
+                document.getElementById('mobile-user-avatar').textContent = user.name.charAt(0).toUpperCase();
+                document.getElementById('mobile-user-name').textContent = user.name;
+                document.getElementById('mobile-user-balance').textContent = (user.balance || 0).toLocaleString();
             }
-
-            // Optional: Simulate reward if user returns with ?task_completed=1
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('task_completed') === '1') {
-                const reward = 100; // ₦100
-                user.balance = (user.balance || 0) + reward;
-                user.completedTasks = (user.completedTasks || 0) + 1;
-                setCurrentUser(user);
-                alert(`✅ Task completed! ₦${reward} added to your wallet.`);
-                // Clean URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-
-            // Update mobile user info
-            document.getElementById('mobile-user-avatar').textContent = user.name.charAt(0).toUpperCase();
-            document.getElementById('mobile-user-name').textContent = user.name;
-            document.getElementById('mobile-user-balance').textContent = (user.balance || 0).toLocaleString();
-
             startSessionTimeout();
         });
     </script>
