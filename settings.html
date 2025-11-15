@@ -4,25 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings - TapWealth</title>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@700&family=SF+Pro+Text:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #f0f2f5;
         }
         h1, h2, h3, h4, h5, h6 {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: 'Montserrat', sans-serif;
         }
         .facebook-blue {
             background-color: #1877F2;
-        }
-        .facebook-dark {
-            background-color: #1C1E21;
-        }
-        .facebook-light {
-            background-color: #f0f2f5;
         }
         .facebook-card {
             background-color: white;
@@ -36,576 +30,450 @@
             top: 0;
             z-index: 100;
         }
-        .facebook-sidebar {
-            position: fixed;
-            top: 56px;
+        .gradient-text {
+            background: linear-gradient(135deg, #0056FF 0%, #C0C0C0 50%, #FFFFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+        }
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        .setting-label {
+            font-weight: 500;
+            color: #333;
+        }
+        .setting-value {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
             left: 0;
-            width: 280px;
-            height: calc(100vh - 56px);
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
             background-color: white;
-            border-right: 1px solid #dddfe2;
-            overflow-y: auto;
-            z-index: 99;
-        }
-        .facebook-sidebar-item {
-            padding: 8px 16px;
-            border-radius: 8px;
-            margin: 4px 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.2s;
-        }
-        .facebook-sidebar-item:hover {
-            background-color: #f0f2f5;
-        }
-        .facebook-sidebar-item i {
-            width: 28px;
-            height: 28px;
+            transition: .4s;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            background-color: #e4e6eb;
         }
-        .facebook-main-content {
-            margin-left: 280px;
-            padding: 20px;
-        }
-        .facebook-button {
+        input:checked + .slider {
             background-color: #1877F2;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
         }
-        .facebook-button:hover {
-            background-color: #166fe5;
+        input:checked + .slider:before {
+            transform: translateX(24px);
         }
-        .facebook-button.secondary {
-            background-color: #e4e6eb;
-            color: #1c1e21;
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
         }
-        .facebook-button.secondary:hover {
-            background-color: #d8dadf;
-        }
-        @media (max-width: 1024px) {
-            .facebook-sidebar {
-                width: 80px;
-            }
-            .facebook-sidebar-item span {
-                display: none;
-            }
-            .facebook-sidebar-item i {
-                margin-right: 0;
-            }
-            .facebook-main-content {
-                margin-left: 80px;
-            }
-        }
-        @media (max-width: 768px) {
-            .facebook-sidebar {
-                display: none;
-            }
-            .facebook-main-content {
-                margin-left: 0;
-                padding: 12px;
-            }
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 24px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
         }
     </style>
 </head>
 <body class="facebook-light min-h-screen">
-    <!-- Facebook Header -->
-    <header class="facebook-header">
+    <!-- Navigation -->
+    <nav class="facebook-header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-14 items-center">
-                <!-- Left Section -->
+            <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center">
+                    <button onclick="history.back()" class="flex items-center text-gray-600 hover:text-blue-600 font-medium mr-4">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back
+                    </button>
                     <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
-                        <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
+                        <i class="fas fa-cog text-blue-600 text-2xl mr-2"></i>
+                        <span class="text-xl font-bold gradient-text">Settings</span>
                     </div>
                 </div>
-                
-                <!-- Right Section -->
-                <div class="flex items-center">
-                    <button class="text-gray-600" onclick="history.back()">
-                        <i class="fas fa-arrow-left text-xl mr-4"></i>
-                    </button>
-                    <button class="text-gray-600" onclick="toggleMobileMenu()">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
+                <div class="flex items-center space-x-4">
+                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold" id="header-initial">U</div>
                 </div>
             </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-        <div class="absolute top-0 left-0 w-64 h-full bg-white">
-            <div class="p-4 border-b">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
+    <!-- Settings Content -->
+    <div class="min-h-screen py-6 px-4">
+        <div class="max-w-3xl mx-auto">
+            <!-- Profile Section -->
+            <div class="facebook-card mb-6">
+                <div class="p-4 border-b">
+                    <h2 class="text-lg font-semibold text-gray-800">Profile</h2>
+                </div>
+                <div id="profileSection">
+                    <div class="setting-item">
                         <div>
-                            <p class="font-semibold text-gray-800" id="mobile-user-name">User Name</p>
-                            <p class="text-sm text-gray-500">Balance: ₦<span id="mobile-user-balance">0.00</span></p>
+                            <div class="setting-label">Name</div>
+                            <div class="setting-value" id="profile-name">Loading...</div>
                         </div>
+                        <button onclick="editProfile()" class="text-blue-600 font-medium">Edit</button>
                     </div>
-                    <button onclick="toggleMobileMenu()" class="text-gray-500">
-                        <i class="fas fa-times"></i>
-                    </button>
+                    <div class="setting-item">
+                        <div>
+                            <div class="setting-label">Email</div>
+                            <div class="setting-value" id="profile-email">Loading...</div>
+                        </div>
+                        <button onclick="editEmail()" class="text-blue-600 font-medium">Edit</button>
+                    </div>
                 </div>
             </div>
-            <div class="p-4">
-                <div class="space-y-2">
-                    <a href="index.html" class="facebook-sidebar-item">
-                        <i class="fas fa-home text-blue-600"></i>
-                        <span>Home</span>
-                    </a>
-                    <a href="earn.html" class="facebook-sidebar-item">
-                        <i class="fas fa-coins text-green-600"></i>
-                        <span>Earn Money</span>
-                    </a>
-                    <a href="shop.html" class="facebook-sidebar-item">
-                        <i class="fas fa-shopping-cart text-purple-600"></i>
-                        <span>Shopping</span>
-                    </a>
-                    <a href="referral.html" class="facebook-sidebar-item">
-                        <i class="fas fa-users text-orange-600"></i>
-                        <span>Referrals</span>
-                    </a>
-                    <a href="wallet.html" class="facebook-sidebar-item">
-                        <i class="fas fa-wallet text-red-600"></i>
-                        <span>Wallet</span>
-                    </a>
-                    <a href="settings.html" class="facebook-sidebar-item active">
-                        <i class="fas fa-cog text-gray-600"></i>
-                        <span>Settings</span>
-                    </a>
-                    <a href="admin.html" class="facebook-sidebar-item">
-                        <i class="fas fa-shield-alt text-gray-800"></i>
-                        <span>Admin</span>
-                    </a>
-                    <div class="border-t my-4"></div>
-                    <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
-                        <i class="fas fa-sign-out-alt text-red-600"></i>
-                        <span>Logout</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Facebook Sidebar -->
-    <div class="facebook-sidebar hidden md:block">
-        <div class="p-4">
-            <div class="space-y-1">
-                <a href="index.html" class="facebook-sidebar-item">
-                    <i class="fas fa-home text-blue-600"></i>
-                    <span>Home</span>
-                </a>
-                <a href="earn.html" class="facebook-sidebar-item">
-                    <i class="fas fa-coins text-green-600"></i>
-                    <span>Earn Money</span>
-                </a>
-                <a href="shop.html" class="facebook-sidebar-item">
-                    <i class="fas fa-shopping-cart text-purple-600"></i>
-                    <span>Shopping</span>
-                </a>
-                <a href="referral.html" class="facebook-sidebar-item">
-                    <i class="fas fa-users text-orange-600"></i>
-                    <span>Referrals</span>
-                </a>
-                <a href="wallet.html" class="facebook-sidebar-item">
-                    <i class="fas fa-wallet text-red-600"></i>
-                    <span>Wallet</span>
-                </a>
-                <a href="settings.html" class="facebook-sidebar-item active">
-                    <i class="fas fa-cog text-gray-600"></i>
-                    <span>Settings</span>
-                </a>
-                <a href="admin.html" class="facebook-sidebar-item">
-                    <i class="fas fa-shield-alt text-gray-800"></i>
-                    <span>Admin</span>
-                </a>
-                <div class="border-t my-2"></div>
-                <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
-                    <i class="fas fa-sign-out-alt text-red-600"></i>
-                    <span>Logout</span>
-                </button>
+            <!-- Security Section -->
+            <div class="facebook-card mb-6">
+                <div class="p-4 border-b">
+                    <h2 class="text-lg font-semibold text-gray-800">Security</h2>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-label">Change Password</div>
+                    <button onclick="changePasswordModal()" class="text-blue-600 font-medium">Change</button>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-label">Two-Factor Authentication</div>
+                    <label class="toggle">
+                        <input type="checkbox" id="2fa-toggle" onchange="toggle2FA()">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Notifications Section -->
+            <div class="facebook-card mb-6">
+                <div class="p-4 border-b">
+                    <h2 class="text-lg font-semibold text-gray-800">Notifications</h2>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-label">Email Notifications</div>
+                    <label class="toggle">
+                        <input type="checkbox" id="email-notif" onchange="saveNotification('email')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-label">Push Notifications</div>
+                    <label class="toggle">
+                        <input type="checkbox" id="push-notif" onchange="saveNotification('push')">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Account Section -->
+            <div class="facebook-card">
+                <div class="p-4 border-b">
+                    <h2 class="text-lg font-semibold text-gray-800">Account</h2>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-label text-red-600">Delete Account</div>
+                    <button onclick="deleteAccountModal()" class="text-red-600 font-medium">Delete</button>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-label">Logout</div>
+                    <button onclick="logout()" class="text-red-600 font-medium">Logout</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="facebook-main-content">
-        <div class="max-w-4xl mx-auto">
-            <!-- Header -->
-            <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">Settings</h1>
-                <p class="text-gray-600">Manage your account preferences</p>
+    <!-- Modals -->
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-lg font-bold mb-4">Edit Profile</h3>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Name</label>
+                <input type="text" id="edit-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
             </div>
-
-            <!-- Settings Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <!-- Account Settings -->
-                <div class="facebook-card p-6 border">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6">Account Settings</h2>
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                            <input type="text" id="account-name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-800" placeholder="Enter your full name">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                            <input type="email" id="account-email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-800" placeholder="Enter your email">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                            <input type="tel" id="account-phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-800" placeholder="Enter your phone number">
-                        </div>
-                        <button onclick="updateAccount()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">
-                            Update Account
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Security Settings -->
-                <div class="facebook-card p-6 border">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6">Security Settings</h2>
-                    <div class="space-y-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
-                            <input type="password" id="current-password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-800" placeholder="Enter current password">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
-                            <input type="password" id="new-password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-800" placeholder="Enter new password">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
-                            <input type="password" id="confirm-new-password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-800" placeholder="Confirm new password">
-                        </div>
-                        <button onclick="updatePassword()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">
-                            Update Password
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Preferences -->
-                <div class="facebook-card p-6 border lg:col-span-2">
-                    <h2 class="text-xl font-bold text-gray-800 mb-6">Preferences</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Language</label>
-                            <select id="language-select" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-800">
-                                <option value="English">English</option>
-                                <option value="Pidgin">Pidgin</option>
-                            </select>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Currency</label>
-                            <div class="flex gap-2">
-                                <button onclick="setCurrency('NGN')" id="ngn-currency" class="flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white">
-                                    NGN
-                                </button>
-                                <button onclick="setCurrency('USD')" id="usd-currency" class="flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700">
-                                    USD
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Theme</label>
-                            <div class="flex gap-2">
-                                <button onclick="setTheme('light')" id="light-theme" class="flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white">
-                                    Light
-                                </button>
-                                <button onclick="setTheme('dark')" id="dark-theme" class="flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700">
-                                    Dark
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Notifications</label>
-                            <div class="flex gap-2">
-                                <button onclick="setNotifications('on')" id="notifications-on" class="flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white">
-                                    On
-                                </button>
-                                <button onclick="setNotifications('off')" id="notifications-off" class="flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700">
-                                    Off
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="flex justify-end space-x-3">
+                <button onclick="closeModal('editProfileModal')" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button onclick="saveProfile()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save</button>
             </div>
+        </div>
+    </div>
 
-            <!-- Danger Zone -->
-            <div class="facebook-card p-6 border mt-8">
-                <h2 class="text-xl font-bold text-red-600 mb-6">Danger Zone</h2>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <div>
-                            <p class="font-medium text-gray-800">Delete Account</p>
-                            <p class="text-sm text-gray-600">Permanently delete your account and all data</p>
-                        </div>
-                        <button onclick="deleteAccount()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                            Delete Account
-                        </button>
-                    </div>
-                </div>
+    <!-- Edit Email Modal -->
+    <div id="editEmailModal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-lg font-bold mb-4">Change Email</h3>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">New Email</label>
+                <input type="email" id="edit-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button onclick="closeModal('editEmailModal')" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button onclick="saveEmail()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-lg font-bold mb-4">Change Password</h3>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Current Password</label>
+                <input type="password" id="current-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">New Password</label>
+                <input type="password" id="new-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Confirm New Password</label>
+                <input type="password" id="confirm-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button onclick="closeModal('changePasswordModal')" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button onclick="savePassword()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div id="deleteAccountModal" class="modal">
+        <div class="modal-content">
+            <h3 class="text-lg font-bold text-red-600 mb-4">Delete Account?</h3>
+            <p class="text-gray-700 mb-4">This action cannot be undone. All your data will be permanently deleted.</p>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Type "DELETE" to confirm</label>
+                <input type="text" id="delete-confirm" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button onclick="closeModal('deleteAccountModal')" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
+                <button onclick="deleteAccount()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
             </div>
         </div>
     </div>
 
     <script>
+        const USERS_KEY = 'tapwealth_users';
+        const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
         let currentUser = null;
-        let sessionTimeout = null;
-        
-        // Toggle mobile menu
-        function toggleMobileMenu() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
+
+        // Get current user
+        function getCurrentUser() {
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+            if (!email) return null;
+            
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            return users[email] || null;
         }
-        
-        // Logout user
-        function logoutUser() {
-            localStorage.removeItem('tapwealth_current_user');
-            alert('You have been logged out!');
-            window.location.href = 'login.html';
+
+        // Save user
+        function saveUser(user) {
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            users[user.email] = user;
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
         }
-        
-        // Session timeout (5 minutes)
-        function startSessionTimeout() {
-            if (sessionTimeout) {
-                clearTimeout(sessionTimeout);
-            }
-            
-            sessionTimeout = setTimeout(function() {
-                logoutUser();
-            }, 300000); // 5 minutes
-            
-            // Reset timeout on user activity
-            document.addEventListener('mousemove', resetSessionTimeout);
-            document.addEventListener('keypress', resetSessionTimeout);
-            document.addEventListener('click', resetSessionTimeout);
-            document.addEventListener('scroll', resetSessionTimeout);
-        }
-        
-        function resetSessionTimeout() {
-            startSessionTimeout();
-        }
-        
-        // Account functions
-        function updateAccount() {
-            if (!currentUser) return;
-            
-            const name = document.getElementById('account-name').value;
-            const email = document.getElementById('account-email').value;
-            const phone = document.getElementById('account-phone').value;
-            
-            if (!name || !email) {
-                alert('Please fill in all required fields!');
-                return;
-            }
-            
-            // Check if email already exists (excluding current user)
-            const users = JSON.parse(localStorage.getItem('tapwealth_users') || '[]');
-            if (users.some(u => u.email === email && u.id !== currentUser.id)) {
-                alert('Email already registered to another account!');
-                return;
-            }
-            
-            // Update user data
-            currentUser.name = name;
-            currentUser.email = email;
-            currentUser.phone = phone;
-            
-            // Save user data
-            localStorage.setItem('tapwealth_current_user', JSON.stringify(currentUser));
-            updateUserData(currentUser);
-            
-            // Update UI
-            updateSettings();
-            alert('Account updated successfully!');
-        }
-        
-        function updatePassword() {
-            if (!currentUser) return;
-            
-            const currentPassword = document.getElementById('current-password').value;
-            const newPassword = document.getElementById('new-password').value;
-            const confirmPassword = document.getElementById('confirm-new-password').value;
-            
-            if (!currentPassword || !newPassword || !confirmPassword) {
-                alert('Please fill in all password fields!');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                alert('New passwords do not match!');
-                return;
-            }
-            
-            if (currentUser.password !== currentPassword) {
-                alert('Current password is incorrect!');
-                return;
-            }
-            
-            // Update password
-            currentUser.password = newPassword;
-            
-            // Save user data
-            localStorage.setItem('tapwealth_current_user', JSON.stringify(currentUser));
-            updateUserData(currentUser);
-            
-            // Clear password fields
-            document.getElementById('current-password').value = '';
-            document.getElementById('new-password').value = '';
-            document.getElementById('confirm-new-password').value = '';
-            
-            alert('Password updated successfully!');
-        }
-        
-        function deleteAccount() {
-            if (!currentUser) return;
-            
-            if (confirm('Are you sure you want to delete your account? This cannot be undone.')) {
-                let users = JSON.parse(localStorage.getItem('tapwealth_users') || '[]');
-                users = users.filter(u => u.id !== currentUser.id);
-                localStorage.setItem('tapwealth_users', JSON.stringify(users));
-                localStorage.removeItem('tapwealth_current_user');
-                alert('Account deleted successfully!');
-                window.location.href = 'index.html';
-            }
-        }
-        
-        // Preferences functions
-        function setCurrency(currency) {
-            if (!currentUser) return;
-            
-            currentUser.currency = currency;
-            localStorage.setItem('tapwealth_current_user', JSON.stringify(currentUser));
-            updateUserData(currentUser);
-            
-            if (currency === 'NGN') {
-                document.getElementById('ngn-currency').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('usd-currency').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-            } else {
-                document.getElementById('usd-currency').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('ngn-currency').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-            }
-            
-            alert(`Currency set to ${currency}!`);
-        }
-        
-        function setTheme(theme) {
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('darkMode', 'true');
-                document.getElementById('dark-theme').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('light-theme').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-            } else {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('darkMode', 'false');
-                document.getElementById('light-theme').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('dark-theme').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-            }
-            
-            alert(`Theme set to ${theme} mode!`);
-        }
-        
-        function setNotifications(notifications) {
-            if (!currentUser) return;
-            
-            currentUser.notifications = notifications;
-            localStorage.setItem('tapwealth_current_user', JSON.stringify(currentUser));
-            updateUserData(currentUser);
-            
-            if (notifications === 'on') {
-                document.getElementById('notifications-on').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('notifications-off').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-                alert('Notifications enabled!');
-            } else {
-                document.getElementById('notifications-off').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('notifications-on').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-                alert('Notifications disabled!');
-            }
-        }
-        
-        // Update user data
-        function updateUserData(user) {
-            // Update user data in localStorage
-            const users = JSON.parse(localStorage.getItem('tapwealth_users') || '[]');
-            const userIndex = users.findIndex(u => u.id === user.id);
-            if (userIndex !== -1) {
-                users[userIndex] = user;
-                localStorage.setItem('tapwealth_users', JSON.stringify(users));
-            }
-        }
-        
-        // Update settings display
-        function updateSettings() {
-            if (!currentUser) return;
-            
-            // Update account settings
-            document.getElementById('account-name').value = currentUser.name;
-            document.getElementById('account-email').value = currentUser.email;
-            document.getElementById('account-phone').value = currentUser.phone || '';
-            
-            // Update preferences
-            document.getElementById('language-select').value = currentUser.language || 'English';
-            
-            if (currentUser.currency === 'USD') {
-                document.getElementById('usd-currency').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('ngn-currency').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-            } else {
-                document.getElementById('ngn-currency').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('usd-currency').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-            }
-            
-            const isDark = document.documentElement.classList.contains('dark');
-            if (isDark) {
-                document.getElementById('dark-theme').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('light-theme').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-            } else {
-                document.getElementById('light-theme').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('dark-theme').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-            }
-            
-            if (currentUser.notifications === 'off') {
-                document.getElementById('notifications-off').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('notifications-on').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-            } else {
-                document.getElementById('notifications-on').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-blue-600 text-white';
-                document.getElementById('notifications-off').className = 'flex-1 px-4 py-3 rounded-lg font-medium bg-gray-200 text-gray-700';
-            }
-            
-            // Update user info in mobile menu
-            document.getElementById('mobile-user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
-            document.getElementById('mobile-user-name').textContent = currentUser.name;
-            document.getElementById('mobile-user-balance').textContent = currentUser.balance.toLocaleString();
-        }
-        
-        // Check authentication
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedUser = localStorage.getItem('tapwealth_current_user');
-            if (!savedUser) {
+
+        // Update UI
+        function updateUI() {
+            if (!currentUser) {
+                alert('Please log in first.');
                 window.location.href = 'login.html';
                 return;
             }
+
+            // Update header initial
+            document.getElementById('header-initial').textContent = currentUser.name.charAt(0).toUpperCase();
             
-            currentUser = JSON.parse(savedUser);
-            updateSettings();
-            startSessionTimeout();
+            // Profile
+            document.getElementById('profile-name').textContent = currentUser.name;
+            document.getElementById('profile-email').textContent = currentUser.email;
+
+            // Load settings
+            const settings = currentUser.settings || {};
+            document.getElementById('2fa-toggle').checked = settings.twoFactor || false;
+            document.getElementById('email-notif').checked = settings.emailNotifications !== false; // default true
+            document.getElementById('push-notif').checked = settings.pushNotifications !== false; // default true
+        }
+
+        // Edit profile
+        function editProfile() {
+            document.getElementById('edit-name').value = currentUser.name;
+            document.getElementById('editProfileModal').style.display = 'block';
+        }
+
+        function saveProfile() {
+            const newName = document.getElementById('edit-name').value.trim();
+            if (!newName) return alert('Name cannot be empty');
+            
+            currentUser.name = newName;
+            saveUser(currentUser);
+            updateUI();
+            closeModal('editProfileModal');
+            showToast('✅ Profile updated');
+        }
+
+        // Edit email
+        function editEmail() {
+            document.getElementById('edit-email').value = currentUser.email;
+            document.getElementById('editEmailModal').style.display = 'block';
+        }
+
+        function saveEmail() {
+            const newEmail = document.getElementById('edit-email').value.trim().toLowerCase();
+            if (!newEmail || !newEmail.includes('@')) return alert('Invalid email');
+            
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            if (users[newEmail] && newEmail !== currentUser.email) {
+                return alert('Email already in use');
+            }
+
+            // Move user data to new email
+            delete users[currentUser.email];
+            currentUser.email = newEmail;
+            users[newEmail] = currentUser;
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            localStorage.setItem(CURRENT_USER_EMAIL_KEY, newEmail);
+            
+            updateUI();
+            closeModal('editEmailModal');
+            showToast('✅ Email updated');
+        }
+
+        // Password change
+        function changePasswordModal() {
+            document.getElementById('changePasswordModal').style.display = 'block';
+        }
+
+        function savePassword() {
+            const current = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirm = document.getElementById('confirm-password').value;
+
+            if (current !== currentUser.password) return alert('Current password is incorrect');
+            if (newPassword.length < 6) return alert('Password must be at least 6 characters');
+            if (newPassword !== confirm) return alert('Passwords do not match');
+
+            currentUser.password = newPassword;
+            saveUser(currentUser);
+            closeModal('changePasswordModal');
+            showToast('✅ Password updated');
+        }
+
+        // Toggle 2FA
+        function toggle2FA() {
+            currentUser.settings = currentUser.settings || {};
+            currentUser.settings.twoFactor = document.getElementById('2fa-toggle').checked;
+            saveUser(currentUser);
+            showToast(currentUser.settings.twoFactor ? '✅ 2FA enabled' : '✅ 2FA disabled');
+        }
+
+        // Save notification
+        function saveNotification(type) {
+            currentUser.settings = currentUser.settings || {};
+            if (type === 'email') {
+                currentUser.settings.emailNotifications = document.getElementById('email-notif').checked;
+            } else {
+                currentUser.settings.pushNotifications = document.getElementById('push-notif').checked;
+            }
+            saveUser(currentUser);
+            showToast('✅ Preferences saved');
+        }
+
+        // Delete account
+        function deleteAccountModal() {
+            document.getElementById('delete-confirm').value = '';
+            document.getElementById('deleteAccountModal').style.display = 'block';
+        }
+
+        function deleteAccount() {
+            const confirm = document.getElementById('delete-confirm').value.trim().toUpperCase();
+            if (confirm !== 'DELETE') return alert('Type "DELETE" to confirm');
+            
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            delete users[currentUser.email];
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
+            
+            alert('✅ Account deleted. Redirecting to login...');
+            window.location.href = 'login.html';
+        }
+
+        // Logout
+        function logout() {
+            if (!confirm('Are you sure you want to log out?')) return;
+            localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
+            alert('✅ Logged out');
+            window.location.href = 'login.html';
+        }
+
+        // Modal helpers
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        };
+
+        // Toast
+        function showToast(message) {
+            let toast = document.getElementById('toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2500);
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', function() {
+            currentUser = getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            updateUI();
         });
     </script>
 </body>
