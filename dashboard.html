@@ -63,7 +63,7 @@
 </head>
 <body class="facebook-light min-h-screen">
     <!-- Mobile Menu Button -->
-    <button id="mobile-menu-button" class="mobile-menu fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded-lg">
+    <button id="mobile-menu-button" class="mobile-menu fixed top-4 left-4 z-50 bg-blue-600 text-white p-2 rounded-lg" onclick="toggleMobileMenu()">
         <i class="fas fa-bars"></i>
     </button>
 
@@ -86,29 +86,29 @@
             </div>
             <div class="p-4">
                 <div class="mb-6">
-                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('dashboard')">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="navigateTo('dashboard.html')">
                         <i class="fas fa-home text-blue-600 mr-3"></i>
                         <span class="font-medium">Dashboard</span>
                     </div>
-                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('earn')">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="navigateTo('earn.html')">
                         <i class="fas fa-coins text-green-600 mr-3"></i>
                         <span class="font-medium">Earn Money</span>
                     </div>
-                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('referral')">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="navigateTo('referral.html')">
                         <i class="fas fa-users text-orange-600 mr-3"></i>
                         <span class="font-medium">Referrals</span>
                     </div>
-                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('shop')">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="navigateTo('shop.html')">
                         <i class="fas fa-shopping-cart text-purple-600 mr-3"></i>
                         <span class="font-medium">Shopping</span>
                     </div>
-                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('wallet')">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="navigateTo('wallet.html')">
                         <i class="fas fa-wallet text-red-600 mr-3"></i>
                         <span class="font-medium">Wallet</span>
                     </div>
                 </div>
                 <div class="border-t pt-4">
-                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="showSection('settings')">
+                    <div class="flex items-center p-3 rounded-lg hover:bg-gray-100 cursor-pointer" onclick="navigateTo('settings.html')">
                         <i class="fas fa-cog text-gray-600 mr-3"></i>
                         <span class="font-medium">Settings</span>
                     </div>
@@ -254,19 +254,19 @@
             <div class="facebook-card p-6 border mb-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">Quick Actions</h2>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <button onclick="showSection('earn')" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                    <button onclick="navigateTo('earn.html')" class="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
                         <i class="fas fa-coins text-blue-600 text-2xl mb-2"></i>
                         <span class="text-sm font-medium text-gray-800">Earn Money</span>
                     </button>
-                    <button onclick="showSection('referral')" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
+                    <button onclick="navigateTo('referral.html')" class="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
                         <i class="fas fa-users text-green-600 text-2xl mb-2"></i>
                         <span class="text-sm font-medium text-gray-800">Referrals</span>
                     </button>
-                    <button onclick="showSection('shop')" class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
+                    <button onclick="navigateTo('shop.html')" class="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors">
                         <i class="fas fa-shopping-cart text-purple-600 text-2xl mb-2"></i>
                         <span class="text-sm font-medium text-gray-800">Shopping</span>
                     </button>
-                    <button onclick="showSection('wallet')" class="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors">
+                    <button onclick="navigateTo('wallet.html')" class="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors">
                         <i class="fas fa-wallet text-orange-600 text-2xl mb-2"></i>
                         <span class="text-sm font-medium text-gray-800">Wallet</span>
                     </button>
@@ -277,13 +277,7 @@
             <div class="facebook-card p-6 border mb-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">Recent Activity</h2>
                 <div class="space-y-4" id="activity-feed">
-                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
-                        <div>
-                            <p class="font-medium text-gray-800">Welcome Bonus</p>
-                            <p class="text-sm text-gray-500">Account created</p>
-                        </div>
-                        <div class="font-bold text-green-600">+₦500.00</div>
-                    </div>
+                    <!-- Filled dynamically -->
                 </div>
             </div>
 
@@ -324,119 +318,191 @@
     </footer>
 
     <script>
-        let currentUser = null;
-        let sessionTimeout = null;
-        
+        // Storage keys
+        const USERS_KEY = 'tapwealth_users';
+        const CURRENT_USER_EMAIL = 'tapwealth_current_user_email';
+
+        // Initialize CEO account if not exists
+        function initCEO() {
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            const ceoEmail = 'wealthysilvar@gmail.com';
+            
+            if (!users[ceoEmail]) {
+                const now = new Date().toISOString();
+                users[ceoEmail] = {
+                    email: ceoEmail,
+                    password: 'TapwealthCEO2025!',
+                    name: 'CEO',
+                    balance: 500,
+                    referrals: [],
+                    completedTasks: 0,
+                    id: 'ceo_001',
+                    transactions: [{
+                        id: 'tx_welcome',
+                        type: 'credit',
+                        amount: 500,
+                        description: 'Welcome Bonus',
+                        date: now
+                    }]
+                };
+                localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            }
+        }
+
+        // Get current user
+        function getCurrentUser() {
+            const email = localStorage.getItem(CURRENT_USER_EMAIL);
+            if (!email) return null;
+            
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            return users[email] || null;
+        }
+
+        // Save user
+        function saveUser(user) {
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            users[user.email] = user;
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+
+        // Navigate to page
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
         // Toggle mobile menu
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenu.classList.toggle('hidden');
         }
-        
+
         // Toggle user menu
         function toggleUserMenu() {
             const dropdown = document.getElementById('user-dropdown');
             dropdown.classList.toggle('hidden');
         }
-        
+
         // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
             const userMenuButton = document.getElementById('user-menu-button');
             const userDropdown = document.getElementById('user-dropdown');
             
-            if (!userMenuButton.contains(e.target) && !userDropdown.contains(e.target)) {
+            if (userMenuButton && userDropdown && 
+                !userMenuButton.contains(e.target) && 
+                !userDropdown.contains(e.target)) {
                 userDropdown.classList.add('hidden');
             }
         });
-        
-        // Show section
-        function showSection(section) {
-            window.location.href = section + '.html';
-        }
-        
-        // Back button
+
+        // Go back
         function goBack() {
-            window.history.back();
-        }
-        
-        // Logout user
-        function logoutUser() {
-            localStorage.removeItem('tapwealth_current_user');
-            alert('You have been logged out!');
-            window.location.href = 'index.html';
-        }
-        
-        // Session timeout (5-10 minutes)
-        function startSessionTimeout() {
-            if (sessionTimeout) {
-                clearTimeout(sessionTimeout);
-            }
-            
-            // 5-10 minutes (random between 300000-600000 ms)
-            const timeoutDuration = Math.floor(Math.random() * 300001) + 300000;
-            
-            sessionTimeout = setTimeout(function() {
-                logoutUser();
-            }, timeoutDuration);
-            
-            // Reset timeout on user activity
-            document.addEventListener('mousemove', resetSessionTimeout);
-            document.addEventListener('keypress', resetSessionTimeout);
-            document.addEventListener('click', resetSessionTimeout);
-            document.addEventListener('scroll', resetSessionTimeout);
-        }
-        
-        function resetSessionTimeout() {
-            startSessionTimeout();
-        }
-        
-        // Update dashboard
-        function updateDashboard() {
-            if (!currentUser) return;
-            
-            // Update user info
-            document.getElementById('user-initial').textContent = currentUser.name.charAt(0).toUpperCase();
-            document.getElementById('user-name').textContent = currentUser.name.split(' ')[0];
-            document.getElementById('welcome-user-name').textContent = currentUser.name;
-            document.getElementById('balance-card').textContent = '₦' + currentUser.balance.toLocaleString();
-            document.getElementById('earnings-card').textContent = '₦' + currentUser.balance.toLocaleString();
-            document.getElementById('referral-card').textContent = currentUser.referrals || 0;
-            document.getElementById('tasks-card').textContent = currentUser.completedTasks || 0;
-            
-            // Update dropdown menu
-            document.getElementById('dropdown-user-initial').textContent = currentUser.name.charAt(0).toUpperCase();
-            document.getElementById('dropdown-user-name').textContent = currentUser.name;
-            document.getElementById('dropdown-user-balance').textContent = currentUser.balance.toLocaleString();
-            
-            // Update mobile menu
-            document.getElementById('mobile-user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
-            document.getElementById('mobile-user-name').textContent = currentUser.name;
-            document.getElementById('mobile-user-balance').textContent = currentUser.balance.toLocaleString();
-            
-            // Update referral link
-            document.getElementById('referral-link').value = `https://tapwealth.com/ref/${currentUser.id}`;
-            
-            // Update activity feed
-            const activityFeed = document.getElementById('activity-feed');
-            activityFeed.innerHTML = '';
-            
-            if (currentUser.transactions && currentUser.transactions.length > 0) {
-                currentUser.transactions.slice().reverse().slice(0, 5).forEach(transaction => {
-                    const div = document.createElement('div');
-                    div.className = 'flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0';
-                    div.innerHTML = `
-                        <div>
-                            <p class="font-medium text-gray-800">${transaction.description}</p>
-                            <p class="text-sm text-gray-500">${new Date(transaction.date).toLocaleDateString()}</p>
-                        </div>
-                        <div class="font-bold ${transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'}">
-                            ${transaction.type === 'credit' ? '+' : '-'}₦${transaction.amount.toLocaleString()}
-                        </div>
-                    `;
-                    activityFeed.appendChild(div);
-                });
+            if (window.history.length > 1) {
+                window.history.back();
             } else {
-                activityFeed.innerHTML = `
+                navigateTo('dashboard.html');
+            }
+        }
+
+        // Logout
+        function logoutUser() {
+            localStorage.removeItem(CURRENT_USER_EMAIL);
+            alert('✅ You have been logged out!');
+            navigateTo('login.html');
+        }
+
+        // Session timeout
+        let sessionTimeout;
+        function startSessionTimeout() {
+            resetSessionTimeout();
+        }
+        function resetSessionTimeout() {
+            if (sessionTimeout) clearTimeout(sessionTimeout);
+            // 10 minutes = 600,000 ms
+            sessionTimeout = setTimeout(() => {
+                alert('🔒 Session expired for security. Please log in again.');
+                logoutUser();
+            }, 600000); // 10 minutes
+        }
+
+        // Copy referral link
+        function copyReferralLink() {
+            const input = document.getElementById('referral-link');
+            input.select();
+            input.setSelectionRange(0, 99999); // For mobile
+            try {
+                document.execCommand('copy');
+                showToast('✅ Referral link copied!');
+            } catch (err) {
+                showToast('⚠️ Please copy manually.');
+            }
+        }
+
+        // Toast helper
+        function showToast(message) {
+            let toast = document.getElementById('toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = message;
+            toast.style.opacity = '1';
+            setTimeout(() => toast.style.opacity = '0', 2500);
+        }
+
+        // Update dashboard with user data
+        function updateDashboard(user) {
+            if (!user) return;
+
+            // Update name initials & text
+            const initial = user.name.charAt(0).toUpperCase();
+            document.getElementById('user-initial').textContent = initial;
+            document.getElementById('user-name').textContent = user.name.split(' ')[0];
+            document.getElementById('welcome-user-name').textContent = user.name;
+            
+            // Update dropdown
+            document.getElementById('dropdown-user-initial').textContent = initial;
+            document.getElementById('dropdown-user-name').textContent = user.name;
+            
+            // Update balances
+            const balance = user.balance || 0;
+            document.getElementById('balance-card').textContent = `₦${balance.toLocaleString()}`;
+            document.getElementById('earnings-card').textContent = `₦${balance.toLocaleString()}`;
+            document.getElementById('dropdown-user-balance').textContent = balance.toLocaleString();
+            document.getElementById('mobile-user-balance').textContent = balance.toLocaleString();
+
+            // Referrals & tasks
+            const referrals = user.referrals ? user.referrals.length : 0;
+            const tasks = user.completedTasks || 0;
+            document.getElementById('referral-card').textContent = referrals;
+            document.getElementById('tasks-card').textContent = tasks;
+
+            // Update mobile menu name
+            document.getElementById('mobile-user-avatar').textContent = initial;
+            document.getElementById('mobile-user-name').textContent = user.name;
+
+            // Referral link
+            const referralLink = `https://tapwealth.com/ref/${user.id || 'default'}`;
+            document.getElementById('referral-link').value = referralLink;
+
+            // Activity feed
+            const feed = document.getElementById('activity-feed');
+            if (user.transactions && user.transactions.length > 0) {
+                const recent = user.transactions.slice(-5).reverse();
+                feed.innerHTML = recent.map(tx => `
+                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
+                        <div>
+                            <p class="font-medium text-gray-800">${tx.description}</p>
+                            <p class="text-sm text-gray-500">${new Date(tx.date).toLocaleDateString()}</p>
+                        </div>
+                        <div class="font-bold ${tx.type === 'credit' ? 'text-green-600' : 'text-red-600'}">
+                            ${tx.type === 'credit' ? '+' : '-'}₦${tx.amount.toLocaleString()}
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                feed.innerHTML = `
                     <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
                         <div>
                             <p class="font-medium text-gray-800">Welcome Bonus</p>
@@ -447,26 +513,25 @@
                 `;
             }
         }
-        
-        // Referral functions
-        function copyReferralLink() {
-            const referralLink = document.getElementById('referral-link').value;
-            navigator.clipboard.writeText(referralLink).then(() => {
-                alert('Referral link copied to clipboard!');
-            });
-        }
-        
-        // Check authentication
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedUser = localStorage.getItem('tapwealth_current_user');
-            if (!savedUser) {
+
+        // Main init
+        document.addEventListener('DOMContentLoaded', function() {
+            initCEO(); // Ensure CEO exists
+            
+            const user = getCurrentUser();
+            if (!user) {
+                alert('🔒 Please log in to access your dashboard.');
                 window.location.href = 'login.html';
                 return;
             }
-            
-            currentUser = JSON.parse(savedUser);
-            updateDashboard();
+
+            updateDashboard(user);
             startSessionTimeout();
+
+            // Reset session on activity
+            ['mousemove', 'keypress', 'click', 'scroll', 'touchstart'].forEach(event => {
+                document.addEventListener(event, resetSessionTimeout);
+            });
         });
     </script>
 </body>
