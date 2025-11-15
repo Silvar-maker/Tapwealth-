@@ -5,145 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tapwealth — Log In</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-    .container {
-      width: 100%;
-      max-width: 400px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      overflow: hidden;
-    }
-    .header {
-      background: #1877f2;
-      color: white;
-      text-align: center;
-      padding: 24px 20px;
-    }
-    .header h1 {
-      font-size: 28px;
-      font-weight: 700;
-    }
-    .header p {
-      opacity: 0.9;
-      margin-top: 6px;
-    }
-    .form {
-      padding: 24px;
-    }
-    .input-group {
-      margin-bottom: 16px;
-    }
-    .input-group label {
-      display: block;
-      font-size: 14px;
-      color: #333;
-      margin-bottom: 6px;
-      font-weight: 500;
-    }
-    .input-group input {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-      outline: none;
-    }
-    .input-group input:focus {
-      border-color: #1877f2;
-      box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.2);
-    }
-    .btn {
-      width: 100%;
-      padding: 14px;
-      background: #1877f2;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 17px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-    .btn:hover {
-      background: #166fe5;
-    }
-    .btn-outline {
-      background: transparent;
-      border: 1px solid #1877f2;
-      color: #1877f2;
-      margin-top: 12px;
-    }
-    .btn-outline:hover {
-      background: rgba(24, 119, 242, 0.05);
-    }
-    .divider {
-      text-align: center;
-      margin: 20px 0;
-      position: relative;
-    }
-    .divider::before {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: #eee;
-      z-index: 1;
-    }
-    .divider span {
-      background: white;
-      padding: 0 12px;
-      position: relative;
-      z-index: 2;
-      color: #777;
-      font-size: 14px;
-    }
-    .footer {
-      text-align: center;
-      padding: 0 24px 24px;
-      color: #666;
-      font-size: 14px;
-    }
-    .footer a {
-      color: #1877f2;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .footer a:hover {
-      text-decoration: underline;
-    }
-    .toast {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #28a745;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      z-index: 1000;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .toast.show {
-      opacity: 1;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+    body { background: linear-gradient(135deg, #1e3c72, #2a5298); min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; }
+    .container { width:100%; max-width:400px; background:white; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.2); overflow:hidden; }
+    .header { background:#1877f2; color:white; text-align:center; padding:24px 20px; }
+    .header h1 { font-size:28px; font-weight:700; }
+    .header p { opacity:0.9; margin-top:6px; }
+    .form { padding:24px; }
+    .input-group { margin-bottom:16px; }
+    .input-group label { display:block; font-size:14px; color:#333; margin-bottom:6px; font-weight:500; }
+    .input-group input { width:100%; padding:14px; border:1px solid #ddd; border-radius:8px; font-size:16px; outline:none; }
+    .input-group input:focus { border-color:#1877f2; box-shadow:0 0 0 2px rgba(24,119,242,0.2); }
+    .btn { width:100%; padding:14px; background:#1877f2; color:white; border:none; border-radius:8px; font-size:17px; font-weight:600; cursor:pointer; margin-top:8px; }
+    .btn:hover { background:#166fe5; }
+    .btn-outline { background:transparent; border:1px solid #1877f2; color:#1877f2; margin-top:12px; }
+    .btn-outline:hover { background:rgba(24,119,242,0.05); }
+    .divider { text-align:center; margin:20px 0; position:relative; }
+    .divider::before { content:""; position:absolute; top:50%; left:0; right:0; height:1px; background:#eee; z-index:1; }
+    .divider span { background:white; padding:0 12px; position:relative; z-index:2; color:#777; font-size:14px; }
+    .footer { text-align:center; padding:0 24px 24px; color:#666; font-size:14px; }
+    .footer a { color:#1877f2; text-decoration:none; font-weight:600; }
+    .footer a:hover { text-decoration:underline; }
+    .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#28a745; color:white; padding:12px 24px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15); z-index:1000; opacity:0; transition:opacity 0.3s; }
+    .toast.show { opacity:1; }
   </style>
 </head>
 <body>
@@ -174,7 +58,6 @@
       <button class="btn btn-outline" onclick="showSignupForm()">Create New Account</button>
     </div>
 
-    <!-- Reset Password Form -->
     <div class="form" id="resetForm" style="display:none;">
       <h2 style="text-align:center; margin-bottom:20px; color:#333">Reset Password</h2>
       <div class="input-group">
@@ -185,7 +68,6 @@
       <button class="btn btn-outline" onclick="showLoginForm()" style="margin-top:12px;">← Back to Login</button>
     </div>
 
-    <!-- Signup Form -->
     <div class="form" id="signupForm" style="display:none;">
       <h2 style="text-align:center; margin-bottom:20px; color:#333">Create Account</h2>
       <div class="input-group">
@@ -208,24 +90,41 @@
   <div class="toast" id="toast">Message</div>
 
   <script>
-    // Simulate database with localStorage
+    // Storage keys (MUST match dashboard.html)
     const USERS_KEY = 'tapwealth_users';
-    const CURRENT_USER_KEY = 'tapwealth_current_user';
+    const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email'; // ← Critical: simple string, not full object
 
-    // Initialize with your CEO account
-    function initDefaultUser() {
-      const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-      if (!users['wealthysilvar@gmail.com']) {
-        users['wealthysilvar@gmail.com'] = {
-          email: 'wealthysilvar@gmail.com',
-          password: 'TapwealthCEO2025!', // default password
+    // Initialize CEO account
+    function initCEO() {
+      let users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+      const ceoEmail = 'wealthysilvar@gmail.com';
+      if (!users[ceoEmail]) {
+        users[ceoEmail] = {
+          email: ceoEmail,
+          password: 'TapwealthCEO2025!',
           name: 'CEO',
-          balance: 0,
-          referrals: []
+          balance: 500,
+          referrals: [],
+          completedTasks: 0,
+          id: 'ceo_001',
+          transactions: [{
+            id: 'tx_welcome',
+            type: 'credit',
+            amount: 500,
+            description: 'Welcome Bonus',
+            date: new Date().toISOString()
+          }]
         };
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        showToast('✅ Default CEO account created: wealthysilvar@gmail.com / TapwealthCEO2025!');
       }
+    }
+
+    // Toast
+    function showToast(message) {
+      const t = document.getElementById('toast');
+      t.textContent = message;
+      t.className = 'toast show';
+      setTimeout(() => t.className = 'toast', 3000);
     }
 
     // Show forms
@@ -233,30 +132,40 @@
     function showResetForm() { document.getElementById('loginForm').style.display = 'none'; document.getElementById('resetForm').style.display = 'block'; document.getElementById('signupForm').style.display = 'none'; }
     function showSignupForm() { document.getElementById('loginForm').style.display = 'none'; document.getElementById('resetForm').style.display = 'none'; document.getElementById('signupForm').style.display = 'block'; }
 
-    // Toast helper
-    function showToast(message) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.className = 'toast show';
-      setTimeout(() => toast.className = 'toast', 3000);
-    }
-
-    // Login
+    // ✅ LOGIN — FIXED SESSION SAVE
     function login() {
       const email = document.getElementById('email').value.trim().toLowerCase();
       const password = document.getElementById('password').value;
 
-      if (!email || !password) {
-        return showToast('⚠️ Please enter email and password');
-      }
+      if (!email || !password) return showToast('⚠️ Enter email and password');
 
       const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
       const user = users[email];
 
       if (user && user.password === password) {
-        localStorage.setItem(CURRENT_USER_KEY, email);
+        // ✅ FIX: Save ONLY email (string) — avoids JSON storage corruption
+        localStorage.setItem(CURRENT_USER_EMAIL_KEY, email);
+        
         showToast('✅ Login successful! Redirecting...');
-        setTimeout(() => window.location.href = 'dashboard.html', 1500);
+        
+        // ✅ Delay redirect to ensure localStorage persists (critical on mobile)
+        setTimeout(() => {
+          // Double-check it saved
+          const saved = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+          if (saved === email) {
+            window.location.href = 'dashboard.html';
+          } else {
+            showToast('❌ Session failed. Retrying...');
+            localStorage.setItem(CURRENT_USER_EMAIL_KEY, email);
+            setTimeout(() => {
+              if (localStorage.getItem(CURRENT_USER_EMAIL_KEY) === email) {
+                window.location.href = 'dashboard.html';
+              } else {
+                alert('Critical: Browser blocking localStorage. Try Chrome/Firefox in Incognito.');
+              }
+            }, 300);
+          }
+        }, 1500);
       } else {
         showToast('❌ Email or password incorrect');
       }
@@ -267,51 +176,50 @@
       const email = document.getElementById('signupEmail').value.trim().toLowerCase();
       const password = document.getElementById('signupPassword').value;
 
-      if (!email || !password) {
-        return showToast('⚠️ Fill all fields');
-      }
-      if (password.length < 6) {
-        return showToast('⚠️ Password must be at least 6 characters');
-      }
+      if (!email || !password) return showToast('⚠️ Fill all fields');
+      if (password.length < 6) return showToast('⚠️ Password ≥6 chars');
 
-      const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-      if (users[email]) {
-        return showToast('📧 Account already exists. Try logging in.');
-      }
+      let users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+      if (users[email]) return showToast('📧 Account exists. Try logging in.');
 
       users[email] = {
         email: email,
         password: password,
         name: email.split('@')[0],
         balance: 0,
-        referrals: []
+        referrals: [],
+        completedTasks: 0,
+        id: 'user_' + Date.now(),
+        transactions: []
       };
 
       localStorage.setItem(USERS_KEY, JSON.stringify(users));
-      showToast('✅ Account created! Logging in...');
-      localStorage.setItem(CURRENT_USER_KEY, email);
+      localStorage.setItem(CURRENT_USER_EMAIL_KEY, email); // ✅ Save email
+      showToast('✅ Account created! Redirecting...');
       setTimeout(() => window.location.href = 'dashboard.html', 1500);
     }
 
-    // Reset Password (simulated)
+    // Reset password
     function resetPassword() {
       const email = document.getElementById('resetEmail').value.trim().toLowerCase();
-      const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-      
+      let users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
       if (users[email]) {
-        // In real app: send email. Here: show new password.
-        const newPassword = 'NewPass' + Math.floor(Math.random()*1000);
+        const newPassword = 'PW' + Math.floor(Math.random()*9000 + 1000);
         users[email].password = newPassword;
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        showToast(`✅ New password for ${email}: ${newPassword}`);
-        setTimeout(showLoginForm, 2500);
+        showToast(`✅ New password: ${newPassword}`);
+        setTimeout(() => {
+          document.getElementById('email').value = email;
+          document.getElementById('password').value = newPassword;
+          showLoginForm();
+        }, 2500);
       } else {
-        showToast('📧 No account found with that email');
+        showToast('📧 No account found');
       }
     }
 
-    // Initialize
-    initDefaultUser();
+    // Init
+    initCEO();
   </script>
 </body>
 </html>
