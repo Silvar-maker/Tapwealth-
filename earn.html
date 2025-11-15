@@ -4,250 +4,301 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Earn Money - TapWealth</title>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@700&family=SF+Pro+Text:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
-            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #f0f2f5;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+            margin: 0;
+            padding: 0;
+            color: #1e293b;
         }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        .facebook-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        .facebook-header {
-            background-color: white;
-            border-bottom: 1px solid #dddfe2;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .facebook-sidebar {
+        .pay-app-nav {
             position: fixed;
-            top: 56px;
+            bottom: 0;
             left: 0;
-            width: 280px;
-            height: calc(100vh - 56px);
-            background-color: white;
-            border-right: 1px solid #dddfe2;
-            overflow-y: auto;
-            z-index: 99;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            z-index: 1000;
         }
-        .facebook-sidebar-item {
-            padding: 8px 16px;
-            border-radius: 8px;
-            margin: 4px 8px;
-            cursor: pointer;
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #94a3b8;
+        }
+        .nav-item.active {
+            color: #1d4ed8;
+        }
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        .header {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             align-items: center;
-            transition: background-color 0.2s;
+            justify-content: space-between;
         }
-        .facebook-sidebar-item i {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            background-color: #e4e6eb;
+        .header h1 {
+            font-weight: 700;
+            font-size: 18px;
+            color: #0f172a;
         }
-        .facebook-main-content {
-            margin-left: 280px;
-            padding: 20px;
-        }
-        .facebook-button {
-            background-color: #1877F2;
+        .balance-card {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
             color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+        .task-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+        }
+        .task-card.completed {
+            opacity: 0.6;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
             font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
+            text-align: center;
+            margin-top: 12px;
+            transition: all 0.2s;
         }
-        .facebook-button:hover {
-            background-color: #166fe5;
+        .btn-primary {
+            background: #1d4ed8;
+            color: white;
         }
-        @media (max-width: 1024px) {
-            .facebook-sidebar { width: 80px; }
-            .facebook-sidebar-item span { display: none; }
-            .facebook-sidebar-item i { margin-right: 0; }
-            .facebook-main-content { margin-left: 80px; }
+        .btn-primary:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
         }
-        @media (max-width: 768px) {
-            .facebook-sidebar { display: none; }
-            .facebook-main-content { margin-left: 0; padding: 12px; }
+        .btn-success {
+            background: #10b981;
+            color: white;
         }
-        .hidden { display: none !important; }
+        .toast {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #059669;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(29, 78, 216, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
+        }
     </style>
 </head>
-<body class="facebook-light min-h-screen">
-    <header class="facebook-header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-14 items-center">
-                <button onclick="toggleMobileMenu()" class="text-gray-600 mr-4">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-                <div class="flex-shrink-0 flex items-center">
-                    <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
-                    <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
-                </div>
-                <button class="text-gray-600" onclick="history.back()">
-                    <i class="fas fa-arrow-left text-xl"></i>
-                </button>
-            </div>
-        </div>
-    </header>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button onclick="history.back()" class="text-gray-500">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <h1>Earn Money</h1>
+        <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold" id="user-initial">U</div>
+    </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-        <div class="absolute top-0 left-0 w-64 h-full bg-white">
-            <div class="p-4 border-b">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
-                        <div>
-                            <p class="font-semibold text-gray-800" id="mobile-user-name">User Name</p>
-                            <p class="text-sm text-gray-500">Balance: ₦<span id="mobile-user-balance">0.00</span></p>
-                        </div>
-                    </div>
-                    <button onclick="toggleMobileMenu()" class="text-gray-500">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
+    <!-- Balance Card -->
+    <div class="balance-card">
+        <div class="flex justify-between items-center">
+            <div>
+                <p class="opacity-80">Available Balance</p>
+                <p class="text-2xl font-bold mt-1" id="balance">₦0.00</p>
             </div>
-            <div class="p-4">
-                <div class="space-y-2">
-                    <a href="index.html" class="facebook-sidebar-item">
-                        <i class="fas fa-home text-blue-600"></i>
-                        <span>Home</span>
-                    </a>
-                    <a href="earn.html" class="facebook-sidebar-item active">
-                        <i class="fas fa-coins text-green-600"></i>
-                        <span>Earn Money</span>
-                    </a>
-                    <a href="shop.html" class="facebook-sidebar-item">
-                        <i class="fas fa-shopping-cart text-purple-600"></i>
-                        <span>Shopping</span>
-                    </a>
-                    <a href="referral.html" class="facebook-sidebar-item">
-                        <i class="fas fa-users text-orange-600"></i>
-                        <span>Referrals</span>
-                    </a>
-                    <a href="wallet.html" class="facebook-sidebar-item">
-                        <i class="fas fa-wallet text-red-600"></i>
-                        <span>Wallet</span>
-                    </a>
-                    <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
-                        <i class="fas fa-sign-out-alt text-red-600"></i>
-                        <span>Logout</span>
-                    </button>
-                </div>
-            </div>
+            <i class="fas fa-wallet text-3xl"></i>
         </div>
     </div>
 
-    <!-- Sidebar -->
-    <div class="facebook-sidebar hidden md:block">
-        <div class="p-4">
-            <div class="space-y-1">
-                <a href="index.html" class="facebook-sidebar-item">
-                    <i class="fas fa-home text-blue-600"></i>
-                    <span>Home</span>
-                </a>
-                <a href="earn.html" class="facebook-sidebar-item active">
-                    <i class="fas fa-coins text-green-600"></i>
-                    <span>Earn Money</span>
-                </a>
-                <a href="shop.html" class="facebook-sidebar-item">
-                    <i class="fas fa-shopping-cart text-purple-600"></i>
-                    <span>Shopping</span>
-                </a>
-                <a href="referral.html" class="facebook-sidebar-item">
-                    <i class="fas fa-users text-orange-600"></i>
-                    <span>Referrals</span>
-                </a>
-                <a href="wallet.html" class="facebook-sidebar-item">
-                    <i class="fas fa-wallet text-red-600"></i>
-                    <span>Wallet</span>
-                </a>
-                <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
-                    <i class="fas fa-sign-out-alt text-red-600"></i>
-                    <span>Logout</span>
-                </button>
+    <!-- Earn Sections -->
+    <div class="task-card">
+        <div class="flex items-start">
+            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                <i class="fas fa-tv text-red-600"></i>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold">Watch Ads</h3>
+                <p class="text-sm text-gray-600 mt-1">Earn ₦10–₦50 per ad (30–60 sec)</p>
+                <p class="text-sm text-green-600 font-medium mt-2">₦30 per task • 5 tasks available</p>
             </div>
         </div>
+        <button id="watchAdsBtn" class="btn btn-primary pulse">👉 Watch & Earn Now</button>
     </div>
 
-    <!-- Main Content -->
-    <div class="facebook-main-content">
-        <div class="max-w-4xl mx-auto">
-            <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">Earn Money</h1>
-                <p class="text-gray-600">Complete tasks and earn instantly!</p>
+    <div class="task-card">
+        <div class="flex items-start">
+            <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                <i class="fas fa-list-check text-yellow-600"></i>
             </div>
-
-            <!-- Earning Methods -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <div class="facebook-card p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Perform Tasks</h3>
-                    <p class="text-gray-600 mb-4">Complete micro-tasks and earn ₦50–₦500</p>
-                    <a href="https://monetag.com/offerwall/3097082" target="_blank" class="w-full facebook-button py-3 block text-center">
-                        Start Tasks
-                    </a>
-                </div>
-
-                <div class="facebook-card p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">View Ads</h3>
-                    https://www.effectivegatecpm.com/hczkwk02?key=17ecf1ffc119105d7b10130dbe82c538
-                        Start Viewing
-                    </button>
-                </div>
-
-                <div class="facebook-card p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Surveys</h3>
-                    <p class="text-gray-600 mb-4">Complete short surveys and earn ₦50–₦200</p>
-                    <button class="w-full facebook-button py-3" onclick="alert('Surveys coming soon!')">
-                        Take Survey
-                    </button>
-                </div>
+            <div class="flex-1">
+                <h3 class="font-bold">Complete Surveys</h3>
+                <p class="text-sm text-gray-600 mt-1">Answer short questions, get paid</p>
+                <p class="text-sm text-green-600 font-medium mt-2">₦100–₦500 per survey</p>
             </div>
         </div>
+        <button class="btn btn-success" onclick="showComingSoon()">Start Survey</button>
     </div>
+
+    <div class="task-card">
+        <div class="flex items-start">
+            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                <i class="fas fa-mobile-alt text-purple-600"></i>
+            </div>
+            <div class="flex-1">
+                <h3 class="font-bold">Test Apps</h3>
+                <p class="text-sm text-gray-600 mt-1">Download, open, and earn instantly</p>
+                <p class="text-sm text-green-600 font-medium mt-2">₦150 per app</p>
+            </div>
+        </div>
+        <button class="btn btn-success" onclick="showComingSoon()">Try Apps</button>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="pay-app-nav">
+        <a href="dashboard.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="earn.html" class="nav-item active">
+            <i class="fas fa-coins"></i>
+            <span>Earn</span>
+        </a>
+        <a href="referral.html" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Refer</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-shopping-bag"></i>
+            <span>Shop</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Me</span>
+        </a>
+    </div>
+
+    <div class="toast" id="toast">Message</div>
 
     <script>
+        const USERS_KEY = 'tapwealth_users';
+        const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+        let currentUser = null;
+
         function getCurrentUser() {
-            return JSON.parse(localStorage.getItem('tapwealth_current_user')) || null;
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+            if (!email) return null;
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            return users[email] || null;
         }
-        function logoutUser() {
-            localStorage.removeItem('tapwealth_current_user');
-            alert('You have been logged out!');
-            window.location.href = 'login.html';
+
+        function saveUser(user) {
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            users[user.email] = user;
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
         }
-        let sessionTimeout = null;
-        function startSessionTimeout() {
-            if (sessionTimeout) clearTimeout(sessionTimeout);
-            sessionTimeout = setTimeout(logoutUser, 3600000);
+
+        function showToast(message) {
+            const t = document.getElementById('toast');
+            t.textContent = message;
+            t.className = 'toast show';
+            setTimeout(() => t.className = 'toast', 3000);
         }
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+
+        function showComingSoon() {
+            showToast('🚀 Coming soon! Check back tomorrow.');
         }
-        window.addEventListener('DOMContentLoaded', function() {
-            const user = getCurrentUser();
-            if (!user) { window.location.href = 'login.html'; return; }
-            if (document.getElementById('mobile-user-avatar')) {
-                document.getElementById('mobile-user-avatar').textContent = user.name.charAt(0).toUpperCase();
-                document.getElementById('mobile-user-name').textContent = user.name;
-                document.getElementById('mobile-user-balance').textContent = (user.balance || 0).toLocaleString();
+
+        // ✅ Critical: Adsterra Smartlink Integration
+        function watchAds() {
+            if (!currentUser) {
+                showToast('❌ Please log in first');
+                setTimeout(() => window.location.href = 'login.html', 1500);
+                return;
             }
-            startSessionTimeout();
-        });
+
+            // Your working Smartlink (from earlier)
+            const smartlink = "https://www.effectivegatecpm.com/hczkwk02?key=17ecf1ffc119105d7b10130dbe82c538";
+
+            showToast('✅ Ad loading... Watch to earn ₦30!');
+
+            // Open in new tab (best for Smartlink)
+            const win = window.open(smartlink, '_blank');
+            
+            if (win) {
+                // Simulate earning after 10 seconds (in real app, use Adsterra callback or post-message)
+                setTimeout(() => {
+                    // Add earnings
+                    currentUser.balance = (currentUser.balance || 0) + 30;
+                    currentUser.completedTasks = (currentUser.completedTasks || 0) + 1;
+                    currentUser.transactions = currentUser.transactions || [];
+                    currentUser.transactions.push({
+                        id: 'tx_' + Date.now(),
+                        type: 'credit',
+                        amount: 30,
+                        description: 'Watched ad',
+                        date: new Date().toISOString()
+                    });
+                    saveUser(currentUser);
+
+                    // Update balance
+                    document.getElementById('balance').textContent = '₦' + currentUser.balance.toLocaleString();
+
+                    showToast('🎉 ₦30 added to your wallet!');
+                }, 10000); // 10 seconds delay (ad view time)
+            } else {
+                alert('Pop-up blocked! Please allow pop-ups and try again.');
+            }
+        }
+
+        function init() {
+            currentUser = getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Update UI
+            document.getElementById('user-initial').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('balance').textContent = '₦' + (currentUser.balance || 0).toLocaleString();
+
+            // Attach click
+            document.getElementById('watchAdsBtn').onclick = watchAds;
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
