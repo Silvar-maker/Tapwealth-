@@ -361,25 +361,38 @@
       </div>
     </div>
   </div>
-  <script>
-// ✅ AUTH CHECK — DO NOT REMOVE
-const USERS_KEY = 'tapwealth_users';
-const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+<script>
+  // ✅ AUTH CHECK — DO NOT REMOVE
+  const USERS_KEY = 'tapwealth_users';
+  const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
 
-function getCurrentUser() {
+  function getCurrentUser() {
     const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
     if (!email) return null;
     const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
     return users[email] || null;
-}
+  }
 
-if (!getCurrentUser()) {
+  if (!getCurrentUser()) {
     alert('🔒 Session expired. Please log in again.');
     window.location.href = './login.html';
-}
-  <script>
-  <script src="/assets/script.js"></script>
-  <script>
+  }
+</script>
+
+<!-- Load external script -->
+<script src="/assets/script.js"></script>
+
+<!-- Inline script for shop click handler -->
+<script>
+  function handleShopClick(store) {
+    if (typeof shopThrough === 'function') {
+      shopThrough(store);
+    } else {
+      alert('⚠️ System loading... Please wait.');
+      console.error('shopThrough() is not defined');
+    }
+  }
+  <script>  
     // Safe wrapper for shopThrough()
     function handleShopClick(store) {
       if (typeof shopThrough === 'function') {
