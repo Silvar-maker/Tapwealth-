@@ -498,22 +498,18 @@
         }
 
         function switchCurrency(currency) {
-    currentCurrency = currency;
-    
-    // Always use real balance from currentUser
-    const balance = currentUser?.balance || 0;
-    
-    if (currency === 'NGN') {
-        document.getElementById('ngn-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white';
-        document.getElementById('usd-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300';
-        document.getElementById('balance-display').textContent = '₦' + balance.toLocaleString();
-    } else {
-        document.getElementById('usd-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white';
-        document.getElementById('ngn-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300';
-        const usdBalance = (balance / 1500).toFixed(2);
-        document.getElementById('balance-display').textContent = '$' + usdBalance;
-    }
-}
+            currentCurrency = currency;
+            if (currency === 'NGN') {
+                document.getElementById('ngn-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white';
+                document.getElementById('usd-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300';
+                document.getElementById('balance-display').textContent = '₦' + (currentUser?.balance || 0).toLocaleString();
+            } else {
+                document.getElementById('usd-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white';
+                document.getElementById('ngn-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300';
+                const usdBalance = ((currentUser?.balance || 0) / 1500).toFixed(2);
+                document.getElementById('balance-display').textContent = '$' + usdBalance;
+            }
+        }
 
         function showWithdrawalModal() {
             document.getElementById('withdrawal-modal').classList.remove('hidden');
@@ -535,11 +531,10 @@
                 alert('Minimum withdrawal amount is ₦500');
                 return;
             }
-            const currentBalance = currentUser?.balance || 0;
-if (currentBalance < amount) {
-    alert('❌ Insufficient balance. Your balance: ₦' + currentBalance.toLocaleString());
-    return;
-}
+            if (currentUser.balance < amount) {
+                alert(`❌ Insufficient balance. Your balance: ₦${currentUser.balance.toLocaleString()}`);
+                return;
+            }
             if (!accountDetails.trim()) {
                 alert('Please enter your account details');
                 return;
@@ -566,35 +561,35 @@ if (currentBalance < amount) {
         }
 
         window.addEventListener('DOMContentLoaded', function() {
-    currentUser = getCurrentUser();
-    if (!currentUser) {
-        window.location.href = 'login.html';
-        return;
-    }
-    updateMobileUserInfo();
-    updateWallet(); // ← Already here
-    startSessionTimeout();
-    updateWallet(); // ← Add this line to force refresh
-});
+            currentUser = getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            updateMobileUserInfo();
+            updateWallet(); // ← First update
+            startSessionTimeout();
+            setTimeout(() => {
+                updateWallet(); // ← Second update (fixes ghost balance)
+            }, 500); // Wait 500ms for UI to stabilize
+        });
 
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
-    </script> <!-- ✅ FIXED: Properly closed main script tag -->
 
-    <!-- ✅ OPTIONAL: Fallback balance updater (only runs if balance is still ₦0.00) -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const balanceEl = document.getElementById('balance-display');
-        if (balanceEl && balanceEl.textContent === '₦0.00') {
-            const email = localStorage.getItem('tapwealth_current_user_email');
-            const users = JSON.parse(localStorage.getItem('tapwealth_users')) || {};
-            const user = users[email];
-            if (user?.balance) {
-                balanceEl.textContent = '₦' + user.balance.toLocaleString();
+        // ✅ OPTIONAL: Fallback if balance still shows 0.00
+        document.addEventListener('DOMContentLoaded', function() {
+            const balanceEl = document.getElementById('balance-display');
+            if (balanceEl && balanceEl.textContent === '₦0.00') {
+                const email = localStorage.getItem('tapwealth_current_user_email');
+                const users = JSON.parse(localStorage.getItem('tapwealth_users')) || {};
+                const user = users[email];
+                if (user?.balance) {
+                    balanceEl.textContent = '₦' + user.balance.toLocaleString();
+                }
             }
-        }
-    });
+        });
     </script>
 </body>
 </html>
