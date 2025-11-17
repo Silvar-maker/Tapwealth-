@@ -498,18 +498,22 @@
         }
 
         function switchCurrency(currency) {
-            currentCurrency = currency;
-            if (currency === 'NGN') {
-                document.getElementById('ngn-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white';
-                document.getElementById('usd-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300';
-                document.getElementById('balance-display').textContent = '₦' + (currentUser?.balance || 0).toLocaleString();
-            } else {
-                document.getElementById('usd-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white';
-                document.getElementById('ngn-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300';
-                const usdBalance = ((currentUser?.balance || 0) / 1500).toFixed(2);
-                document.getElementById('balance-display').textContent = '$' + usdBalance;
-            }
-        }
+    currentCurrency = currency;
+    
+    // Always use real balance from currentUser
+    const balance = currentUser?.balance || 0;
+    
+    if (currency === 'NGN') {
+        document.getElementById('ngn-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white';
+        document.getElementById('usd-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300';
+        document.getElementById('balance-display').textContent = '₦' + balance.toLocaleString();
+    } else {
+        document.getElementById('usd-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-blue-600 text-white';
+        document.getElementById('ngn-btn').className = 'px-3 py-1 rounded-full text-sm font-medium bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300';
+        const usdBalance = (balance / 1500).toFixed(2);
+        document.getElementById('balance-display').textContent = '$' + usdBalance;
+    }
+}
 
         function showWithdrawalModal() {
             document.getElementById('withdrawal-modal').classList.remove('hidden');
@@ -531,10 +535,11 @@
                 alert('Minimum withdrawal amount is ₦500');
                 return;
             }
-            if (currentUser.balance < amount) {
-                alert('Insufficient balance');
-                return;
-            }
+            const currentBalance = currentUser?.balance || 0;
+if (currentBalance < amount) {
+    alert('❌ Insufficient balance. Your balance: ₦' + currentBalance.toLocaleString());
+    return;
+}
             if (!accountDetails.trim()) {
                 alert('Please enter your account details');
                 return;
