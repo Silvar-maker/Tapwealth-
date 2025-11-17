@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
+           /* Fix: Push content above bottom nav */
+body {
+    padding-bottom: 70px; /* Height of nav bar + 10px buffer */
+} 
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: #f8fafc;
             margin: 0;
@@ -119,10 +123,7 @@
             0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); }
             70% { box-shadow: 0 0 0 12px rgba(29, 78, 216, 0); }
             100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
-    /* Fix: Push content above bottom nav */
-body {
-    padding-bottom: 70px; /* Height of nav bar + 10px buffer */
-}
+        }
     </style>
 </head>
 <body>
