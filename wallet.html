@@ -566,15 +566,16 @@ if (currentBalance < amount) {
         }
 
         window.addEventListener('DOMContentLoaded', function() {
-            currentUser = getCurrentUser();
-            if (!currentUser) {
-                window.location.href = 'login.html';
-                return;
-            }
-            updateMobileUserInfo();
-            updateWallet();
-            startSessionTimeout();
-        });
+    currentUser = getCurrentUser();
+    if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
+    }
+    updateMobileUserInfo();
+    updateWallet(); // ← Already here
+    startSessionTimeout();
+    updateWallet(); // ← Add this line to force refresh
+});
 
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
