@@ -636,6 +636,77 @@
             users[user.email] = user;
             localStorage.setItem('tapwealth_users', JSON.stringify(users));
 
+            // Update UIfunction processWithdrawal() {
+    const user = getCurrentUser();
+    if (!user) return;
+
+    const amount = parseFloat(document.getElementById('withdrawal-amount').value);
+    const opayNumber = document.getElementById('account-details').value.trim();
+
+    // Validate
+    if (!amount || amount < 500) {
+        alert('Minimum withdrawal is ₦500');
+        return;
+    }
+    if (user.balance < amount) {
+        alert(`❌ Insufficient balance. Your balance: ₦${user.balance.toLocaleString()}`);
+        return;
+    }
+    if (!/^(080|081|090|091)\d{8}$/.test(opayNumber)) {
+        alert('❌ Invalid Opay number. Must start with 080, 081, 090, or 091.');
+        return;
+    }
+
+    // ✅ Tapwealth earns 5% fee
+    const feeRate = 0.05;
+    const amountToUser = amount * (1 - feeRate);
+    const feeEarned = amount * feeRate;
+
+    // Confirm
+    if (!confirm(`Withdraw ₦${amount.toLocaleString()}?\nYou’ll receive ₦${amountToUser.toLocaleString()} in your Opay wallet.\nTapwealth earns ₦${feeEarned.toLocaleString()} fee.`)) {
+        return;
+    }
+
+    // Show loading
+    const btn = document.querySelector('#withdrawal-modal button[onclick="processWithdrawal()"]');
+    btn.disabled = true;
+    btn.textContent = 'Processing...';
+
+    // 🌐 Send to Tapwealth Opay Proxy (Sandbox)
+    fetch('https://tapwealth-proxy.onrender.com/api/opay/withdraw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            recipientPhone: opayNumber,
+            amount: amountToUser,
+            reference: 'TW_' + Date.now(),
+            senderName: user.name || 'Tapwealth User'
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.textContent = 'Request Withdrawal';
+
+        if (data.success) {
+            // Update user balance
+            user.balance -= amount;
+            user.transactions = user.transactions || [];
+            user.transactions.push({
+                id: Date.now(),
+                type: 'debit',
+                description: `Opay withdrawal to ${opayNumber}`,
+                amount: amount,
+                fee: feeEarned,
+                status: 'Completed',
+                date: new Date().toISOString()
+            });
+
+            // Save
+            const users = JSON.parse(localStorage.getItem('tapwealth_users')) || {};
+            users[user.email] = user;
+            localStorage.setItem('tapwealth_users', JSON.stringify(users));
+
             // Update UI
             document.getElementById('balance-display').textContent = '₦' + user.balance.toLocaleString();
             hideWithdrawalModal();
