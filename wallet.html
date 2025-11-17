@@ -367,16 +367,17 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Payment Method</label>
                     <select id="payment-method" class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-800 dark:text-white">
-                        <option value="bank">Bank Transfer</option>
-                        <option value="paypal">PayPal</option>
-                        <option value="mobile">Mobile Money</option>
-                        <option value="usdt">USDT (Crypto)</option>
-                    </select>
+    <option value="mobile">Opay (Mobile Money)</option>
+</select>
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Account Details</label>
-                    <textarea id="account-details" rows="3" class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-800 dark:text-white" placeholder="Enter your account details"></textarea>
-                </div>
+                    <div>
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Opay Phone Number</label>
+    <input type="tel" id="account-details" 
+           class="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-800 dark:text-white"
+           placeholder="080XXXXXXXX (Opay account)" 
+           required>
+</div>
                 <button onclick="processWithdrawal()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition-colors">
                     Request Withdrawal
                 </button>
@@ -558,53 +559,98 @@
     }
 
     function processWithdrawal() {
-        const user = getCurrentUser();
-        if (!user) return;
-        const amount = parseFloat(document.getElementById('withdrawal-amount').value);
-        const paymentMethod = document.getElementById('payment-method').value;
-        const accountDetails = document.getElementById('account-details').value;
-        
-        if (!amount || amount < 500) {
-            alert('Minimum withdrawal amount is ₦500');
-            return;
-        }
-        if (user.balance < amount) {
-            alert(`❌ Insufficient balance. Your balance: ₦${user.balance.toLocaleString()}`);
-            return;
-        }
-        if (!accountDetails.trim()) {
-            alert('Please enter your account details');
-            return;
-        }
-        
-        user.balance -= amount;
-        user.withdrawals = (user.withdrawals || 0) + amount;
-        user.paymentMethod = paymentMethod;
-        
-        const transaction = {
-            id: Date.now(),
-            type: 'debit',
-            description: `Withdrawal to ${paymentMethod}`,
-            amount: amount,
-            date: new Date().toISOString()
-        };
-        if (!user.transactions) user.transactions = [];
-        user.transactions.push(transaction);
-        
-        // Save to localStorage
-        const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-        users[user.email] = user;
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+    const user = getCurrentUser();
+    if (!user) return;
 
-        // Update UI
-        document.getElementById('balance-display').textContent = '₦' + user.balance.toLocaleString();
-        document.getElementById('total-earnings').textContent = '₦' + user.balance.toLocaleString();
-        document.getElementById('withdrawal-count').textContent = user.withdrawals;
-        
-        hideWithdrawalModal();
-        alert(`Withdrawal request of ₦${amount} submitted!\nPayment method: ${paymentMethod}\nProcessing within 24–48 hours.`);
+    const amount = parseFloat(document.getElementById('withdrawal-amount').value);
+    const opayNumber = document.getElementById('account-details').value.trim();
+    const paymentMethod = document.getElementById('payment-method').value;
+
+    // Only allow Opay for now
+    if (paymentMethod !== 'mobile') {
+        alert('❌ Only Opay withdrawals are available right now.');
+        return;
     }
 
+    // Validate
+    if (!amount || amount < 500) {
+        alert('Minimum withdrawal is ₦500');
+        return;
+    }
+    if (user.balance < amount) {
+        alert(`❌ Insufficient balance. Your balance: ₦${user.balance.toLocaleString()}`);
+        return;
+    }
+    if (!/^(080|081|090|091)\d{8}$/.test(opayNumber)) {
+        alert('❌ Invalid Opay number. Must start with 080, 081, 090, or 091.');
+        return;
+    }
+
+    // ✅ NEW: Send to Tapwealth Opay Proxy
+    const withdrawalFee = 0.05; // 5% fee (you earn this)
+    const amountToUser = amount * (1 - withdrawalFee);
+    const feeEarned = amount * withdrawalFee;
+
+    // Show confirmation
+    if (!confirm(`Withdraw ₦${amount.toLocaleString()}?\nYou’ll receive ₦${amountToUser.toLocaleString()} in your Opay wallet.\nTapwealth earns ₦${feeEarned.toLocaleString()} fee.`)) {
+        return;
+    }
+
+    // Show loading
+    const btn = document.querySelector('#withdrawal-modal button[onclick="processWithdrawal()"]');
+    btn.disabled = true;
+    btn.textContent = 'Processing...';
+
+    // 🌐 Send to Opay proxy
+    fetch('https://tapwealth-proxy.onrender.com/api/opay/withdraw', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            recipientPhone: opayNumber,
+            amount: amountToUser, // user gets 95%
+            reference: 'TW_' + Date.now(),
+            senderName: user.name || 'Tapwealth User'
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        btn.disabled = false;
+        btn.textContent = 'Request Withdrawal';
+
+        if (data.success) {
+            // Deduct from user balance
+            user.balance -= amount;
+            user.transactions = user.transactions || [];
+            user.transactions.push({
+                id: Date.now(),
+                type: 'debit',
+                description: `Opay withdrawal to ${opayNumber}`,
+                amount: amount,
+                fee: feeEarned,
+                status: 'Completed',
+                date: new Date().toISOString()
+            });
+
+            // Save
+            const users = JSON.parse(localStorage.getItem('tapwealth_users')) || {};
+            users[user.email] = user;
+            localStorage.setItem('tapwealth_users', JSON.stringify(users));
+
+            // Update UI
+            document.getElementById('balance-display').textContent = '₦' + user.balance.toLocaleString();
+            hideWithdrawalModal();
+            alert(`✅ Success! ₦${amountToUser.toLocaleString()} sent to Opay ${opayNumber}\nTapwealth earned ₦${feeEarned.toLocaleString()} fee.`);
+        } else {
+            alert(`❌ Failed: ${data.message || 'Unknown error'}`);
+        }
+    })
+    .catch(err => {
+        btn.disabled = false;
+        btn.textContent = 'Request Withdrawal';
+        alert('❌ Network error. Check your internet and try again.');
+        console.error('Withdrawal error:', err);
+    });
+}
     // ✅ Mobile Menu Toggle (same as before)
     function toggleMobileMenu() {
         document.getElementById('mobile-menu').classList.toggle('hidden');
