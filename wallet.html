@@ -393,6 +393,14 @@
         let currentUser = null;
         let currentCurrency = 'NGN';
 
+        // ✅ ADDED: getCurrentUser function (was missing)
+        function getCurrentUser() {
+            const email = localStorage.getItem('tapwealth_current_user_email');
+            if (!email) return null;
+            const users = JSON.parse(localStorage.getItem('tapwealth_users')) || {};
+            return users[email] || null;
+        }
+
         function updateWallet() {
             if (!currentUser) return;
             
@@ -566,39 +574,21 @@
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
-<script>
-// ✅ Load user balance from localStorage (same as dashboard)
-const USERS_KEY = 'tapwealth_users';
-const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+    </script> <!-- ✅ FIXED: Properly closed main script tag -->
 
-function getCurrentUser() {
-    const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
-    if (!email) return null;
-    const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-    return users[email] || null;
-    }
-<script> 
-
-// ✅ Update balance on page load
-document.addEventListener('DOMContentLoaded', function() {
-    const user = getCurrentUser();
-    if (!user) {
-        alert('🔒 Session expired. Please log in again.');
-        window.location.href = './login.html';
-        return;
-    }
-
-    // 🎯 KEY FIX: Update balance display
-    const balanceEl = document.querySelector('.balance-value');
-    if (balanceEl) {
-        balanceEl.textContent = '₦' + (user.balance || 0).toLocaleString();
-        balanceEl.style.color = '#10b981'; // green for positive
-    }
-
-    // Optional: update other stats if they exist
-    const earningsEl = document.querySelector('[data-earnings]');
-    if (earningsEl) earningsEl.textContent = '₦' + (user.balance || 0).toLocaleString();
-});
-</script>
+    <!-- ✅ OPTIONAL: Fallback balance updater (only runs if balance is still ₦0.00) -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const balanceEl = document.getElementById('balance-display');
+        if (balanceEl && balanceEl.textContent === '₦0.00') {
+            const email = localStorage.getItem('tapwealth_current_user_email');
+            const users = JSON.parse(localStorage.getItem('tapwealth_users')) || {};
+            const user = users[email];
+            if (user?.balance) {
+                balanceEl.textContent = '₦' + user.balance.toLocaleString();
+            }
+        }
+    });
+    </script>
 </body>
 </html>
