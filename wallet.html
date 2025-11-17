@@ -566,7 +566,7 @@
         function toggleMobileMenu() {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         }
-    <script>
+<script>
 // ✅ Load user balance from localStorage (same as dashboard)
 const USERS_KEY = 'tapwealth_users';
 const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
@@ -576,7 +576,8 @@ function getCurrentUser() {
     if (!email) return null;
     const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
     return users[email] || null;
-}
+    }
+<script> 
 
 // ✅ Update balance on page load
 document.addEventListener('DOMContentLoaded', function() {
