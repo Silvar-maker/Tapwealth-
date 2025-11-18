@@ -262,12 +262,12 @@
     </div>
 
     <!-- Recent Activity -->
-    <div class="quick-action" style="flex-direction: column; align-items: flex-start; padding: 16px;">
-        <p class="font-bold mb-3">Recent Activity</p>
-        <div id="activity-list" class="w-full">
-            <!-- Filled dynamically -->
-        </div>
+<div class="facebook-card p-6 mb-8">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Activity</h2>
+    <div class="space-y-4" id="activity-list">
+        <!-- Will be filled by JS -->
     </div>
+</div>
 
     <!-- Bottom Nav -->
     <div class="pay-app-nav">
@@ -359,23 +359,34 @@
             document.getElementById('sidebar-balance').textContent = '₦' + (currentUser.balance || 0).toLocaleString();
             document.getElementById('balance').textContent = '₦' + (currentUser.balance || 0).toLocaleString();
 
-            // Recent activity
-            const list = document.getElementById('activity-list');
-            const txs = (currentUser.transactions || []).slice(-3).reverse();
-            if (txs.length === 0) {
-                list.innerHTML = `<p class="text-sm text-gray-500">No recent activity</p>`;
-            } else {
-                list.innerHTML = txs.map(tx => `
-                    <div class="flex justify-between items-center w-full py-2 border-b border-gray-100 last:border-0">
-                        <span class="text-sm">${tx.description}</span>
-                        <span class="text-sm font-medium ${tx.type === 'credit' ? 'text-green-600' : 'text-red-600'}">
-                            ${tx.type === 'credit' ? '+' : '-'}₦${tx.amount}
-                        </span>
-                    </div>
-                `).join('');
-            }
-        }
+            // Recent Activity
+const activityList = document.getElementById('activity-list');
+activityList.innerHTML = '';
 
+if (currentUser.transactions && currentUser.transactions.length > 0) {
+    // Show all transactions, newest first
+    currentUser.transactions.slice().reverse().forEach(transaction => {
+        const div = document.createElement('div');
+        div.className = 'flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700 last:border-0 last:pb-0';
+        div.innerHTML = `
+            <div>
+                <p class="font-medium text-gray-800 dark:text-white">${transaction.description}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">${new Date(transaction.date).toLocaleDateString()}</p>
+            </div>
+            <div class="font-bold ${transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'}">
+                ${transaction.type === 'credit' ? '+' : '-'}₦${transaction.amount.toLocaleString()}
+            </div>
+        `;
+        activityList.appendChild(div);
+    });
+} else {
+    activityList.innerHTML = `
+        <div class="text-center py-8 text-gray-500">
+            <i class="fas fa-inbox text-3xl mb-3"></i>
+            <p>No recent activity</p>
+        </div>
+    `;
+}
         // Init
         document.addEventListener('DOMContentLoaded', function() {
             currentUser = getCurrentUser();
