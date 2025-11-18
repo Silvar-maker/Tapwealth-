@@ -117,47 +117,21 @@
             }
         }
     </style>
-</head>
-    <!-- Bottom Nav -->
-<div class="pay-app-nav">
-    <a href="dashboard.html" class="nav-item">
-        <i class="fas fa-home"></i>
-        <span>Home</span>
-    </a>
-    <a href="earn.html" class="nav-item">
-        <i class="fas fa-coins"></i>
-        <span>Earn</span>
-    </a>
-    <a href="referral.html" class="nav-item active">
-        <i class="fas fa-users"></i>
-        <span>Refer</span>
-    </a>
-    <a href="shop.html" class="nav-item">
-        <i class="fas fa-shopping-bag"></i>
-        <span>Shop</span>
-    </a>
-    <a href="settings.html" class="nav-item">
-        <i class="fas fa-user"></i>
-        <span>Me</span>
-    </a>
-</div>
 <body class="facebook-light min-h-screen">
     <!-- Facebook Header -->
     <header class="facebook-header">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-14 items-center">
             <div class="flex items-center">
+                <button class="text-gray-600" onclick="history.back()">
+                    <i class="fas fa-arrow-left text-xl mr-4"></i>
+                </button>
                 <div class="flex-shrink-0 flex items-center">
                     <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
                     <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
                 </div>
             </div>
-            <div class="flex items-center">
-                <button class="text-gray-600" onclick="history.back()"<
-                    <i class="fas fa-arrow-left text-xl mr-4"></i<
-                </button>
-                <!-- 🚫 Removed 3-bar menu -->
-            </div>
+            <!-- 🚫 Removed 3-bar menu -->
         </div>
     </div>
 </header>
@@ -217,7 +191,6 @@
             </div>
         </div>
     </div>
-
     <!-- Facebook Sidebar -->
     <div class="facebook-sidebar hidden md:block">
         <div class="p-4">
@@ -324,8 +297,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Bottom Nav -->
+       <!-- Bottom Nav -->
     <div class="pay-app-nav">
         <a href="dashboard.html" class="nav-item">
             <i class="fas fa-home"></i>
@@ -348,8 +320,7 @@
             <span>Me</span>
         </a>
     </div>
-
-    <!-- Scripts -->
+      <!-- Scripts -->
     <script src="/assets/script.js"></script>
     <script>
         const USERS_KEY = 'tapwealth_users';
