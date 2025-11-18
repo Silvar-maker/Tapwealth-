@@ -11,6 +11,10 @@
         body {
             font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            color: #1e293b;
+            padding-bottom: 70px; /* ✅ Push content above bottom nav */
         }
         h1, h2, h3, h4, h5, h6 {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -36,201 +40,63 @@
             top: 0;
             z-index: 100;
         }
-        .facebook-sidebar {
-            position: fixed;
-            top: 56px;
-            left: 0;
-            width: 280px;
-            height: calc(100vh - 56px);
-            background-color: white;
-            border-right: 1px solid #dddfe2;
-            overflow-y: auto;
-            z-index: 99;
-        }
-        .facebook-sidebar-item {
-            padding: 8px 16px;
-            border-radius: 8px;
-            margin: 4px 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.2s;
-        }
-        .facebook-sidebar-item:hover {
-            background-color: #f0f2f5;
-        }
-        .facebook-sidebar-item i {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            background-color: #e4e6eb;
-        }
         .facebook-main-content {
-            margin-left: 280px;
+            margin-left: 0; /* ✅ Removed sidebar margin */
             padding: 20px;
         }
-        .facebook-button {
-            background-color: #1877F2;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .facebook-button:hover {
-            background-color: #166fe5;
-        }
-        .facebook-button.secondary {
-            background-color: #e4e6eb;
-            color: #1c1e21;
-        }
-        .facebook-button.secondary:hover {
-            background-color: #d8dadf;
-        }
-        @media (max-width: 1024px) {
-            .facebook-sidebar {
-                width: 80px;
-            }
-            .facebook-sidebar-item span {
-                display: none;
-            }
-            .facebook-sidebar-item i {
-                margin-right: 0;
-            }
-            .facebook-main-content {
-                margin-left: 80px;
-            }
-        }
         @media (max-width: 768px) {
-            .facebook-sidebar {
-                display: none;
-            }
             .facebook-main-content {
-                margin-left: 0;
                 padding: 12px;
             }
         }
+
+        /* ✅ Bottom Nav Styles (copied from earn.html) */
+        .pay-app-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            z-index: 1000;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #94a3b8;
+        }
+        .nav-item.active {
+            color: #1d4ed8;
+        }
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
     </style>
+</head>
 <body class="facebook-light min-h-screen">
     <!-- Facebook Header -->
     <header class="facebook-header">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-14 items-center">
-            <div class="flex items-center">
-                <button class="text-gray-600" onclick="history.back()">
-                    <i class="fas fa-arrow-left text-xl mr-4"></i>
-                </button>
-                <div class="flex-shrink-0 flex items-center">
-                    <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
-                    <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
-                </div>
-            </div>
-            <!-- 🚫 Removed 3-bar menu -->
-        </div>
-    </div>
-</header>
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-        <div class="absolute top-0 left-0 w-64 h-full bg-white">
-            <div class="p-4 border-b">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold mr-3" id="mobile-user-avatar">U</div>
-                        <div>
-                            <p class="font-semibold text-gray-800" id="mobile-user-name">User Name</p>
-                            <p class="text-sm text-gray-500">Balance: ₦<span id="mobile-user-balance">0.00</span></p>
-                        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-14 items-center">
+                <div class="flex items-center">
+                    <button class="text-gray-600" onclick="history.back()">
+                        <i class="fas fa-arrow-left text-xl mr-4"></i>
+                    </button>
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                        <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
                     </div>
-                    <button onclick="toggleMobileMenu()" class="text-gray-500">
-                        <i class="fas fa-times"></i>
-                    </button>
                 </div>
-            </div>
-            <div class="p-4">
-                <div class="space-y-2">
-                    <a href="index.html" class="facebook-sidebar-item">
-                        <i class="fas fa-home text-blue-600"></i>
-                        <span>Home</span>
-                    </a>
-                    <a href="earn.html" class="facebook-sidebar-item">
-                        <i class="fas fa-coins text-green-600"></i>
-                        <span>Earn Money</span>
-                    </a>
-                    <a href="shop.html" class="facebook-sidebar-item">
-                        <i class="fas fa-shopping-cart text-purple-600"></i>
-                        <span>Shopping</span>
-                    </a>
-                    <a href="referral.html" class="facebook-sidebar-item active">
-                        <i class="fas fa-users text-orange-600"></i>
-                        <span>Referrals</span>
-                    </a>
-                    <a href="wallet.html" class="facebook-sidebar-item">
-                        <i class="fas fa-wallet text-red-600"></i>
-                        <span>Wallet</span>
-                    </a>
-                    <a href="settings.html" class="facebook-sidebar-item">
-                        <i class="fas fa-cog text-gray-600"></i>
-                        <span>Settings</span>
-                    </a>
-                    <a href="admin.html" class="facebook-sidebar-item">
-                        <i class="fas fa-shield-alt text-gray-800"></i>
-                        <span>Admin</span>
-                    </a>
-                    <div class="border-t my-4"></div>
-                    <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
-                        <i class="fas fa-sign-out-alt text-red-600"></i>
-                        <span>Logout</span>
-                    </button>
-                </div>
+                <!-- 🚫 No 3-bar menu -->
             </div>
         </div>
-    </div>
-    <!-- Facebook Sidebar -->
-    <div class="facebook-sidebar hidden md:block">
-        <div class="p-4">
-            <div class="space-y-1">
-                <a href="index.html" class="facebook-sidebar-item">
-                    <i class="fas fa-home text-blue-600"></i>
-                    <span>Home</span>
-                </a>
-                <a href="earn.html" class="facebook-sidebar-item">
-                    <i class="fas fa-coins text-green-600"></i>
-                    <span>Earn Money</span>
-                </a>
-                <a href="shop.html" class="facebook-sidebar-item">
-                    <i class="fas fa-shopping-cart text-purple-600"></i>
-                    <span>Shopping</span>
-                </a>
-                <a href="referral.html" class="facebook-sidebar-item active">
-                    <i class="fas fa-users text-orange-600"></i>
-                    <span>Referrals</span>
-                </a>
-                <a href="wallet.html" class="facebook-sidebar-item">
-                    <i class="fas fa-wallet text-red-600"></i>
-                    <span>Wallet</span>
-                </a>
-                <a href="settings.html" class="facebook-sidebar-item">
-                    <i class="fas fa-cog text-gray-600"></i>
-                    <span>Settings</span>
-                </a>
-                <a href="admin.html" class="facebook-sidebar-item">
-                    <i class="fas fa-shield-alt text-gray-800"></i>
-                    <span>Admin</span>
-                </a>
-                <div class="border-t my-2"></div>
-                <button onclick="logoutUser()" class="facebook-sidebar-item text-red-600">
-                    <i class="fas fa-sign-out-alt text-red-600"></i>
-                    <span>Logout</span>
-                </button>
-            </div>
-        </div>
-    </div>
+    </header>
 
     <!-- Main Content -->
     <div class="facebook-main-content">
@@ -297,7 +163,8 @@
             </div>
         </div>
     </div>
-       <!-- Bottom Nav -->
+
+    <!-- Bottom Nav -->
     <div class="pay-app-nav">
         <a href="dashboard.html" class="nav-item">
             <i class="fas fa-home"></i>
@@ -320,7 +187,8 @@
             <span>Me</span>
         </a>
     </div>
-      <!-- Scripts -->
+
+    <!-- Scripts -->
     <script src="/assets/script.js"></script>
     <script>
         const USERS_KEY = 'tapwealth_users';
@@ -366,31 +234,25 @@
             window.open(url, '_blank');
         }
 
-        // Track referral signup
         function trackReferral() {
             const urlParams = new URLSearchParams(window.location.search);
             const ref = urlParams.get('ref');
             if (ref) {
                 const user = getCurrentUser();
                 if (user && user.email !== ref) {
-                    // Give referrer ₦100 bonus
                     const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
                     if (users[ref]) {
                         users[ref].balance = (users[ref].balance || 0) + 100;
                         users[ref].referrals = (users[ref].referrals || 0) + 1;
                         localStorage.setItem(USERS_KEY, JSON.stringify(users));
-                        
-                        // Update current user's referrer
                         user.referrer = ref;
                         saveUser(user);
-                        
                         showToast(`✅ You’ve been referred by ${ref}!`);
                     }
                 }
             }
         }
 
-        // Update UI
         function updateUI() {
             const user = getCurrentUser();
             if (!user) {
@@ -399,24 +261,16 @@
                 return;
             }
 
-            // Set stats
             document.getElementById('total-referrals').textContent = user.referrals || 0;
             document.getElementById('referral-bonus').textContent = '₦' + ((user.referrals || 0) * 100).toLocaleString();
             document.getElementById('lifetime-earnings').textContent = '₦' + (user.balance || 0).toLocaleString();
 
-            // Set referral link
             const refLink = `https://yourusername.github.io/tapwealth?ref=${user.id || 'ceo001'}`;
             document.getElementById('referral-link').value = refLink;
-
-            // Update mobile menu
-            document.getElementById('mobile-user-avatar').textContent = user.name.charAt(0).toUpperCase();
-            document.getElementById('mobile-user-name').textContent = user.name;
-            document.getElementById('mobile-user-balance').textContent = user.balance.toLocaleString();
         }
 
-        // Init
         document.addEventListener('DOMContentLoaded', function() {
-            trackReferral(); // Run first
+            trackReferral();
             updateUI();
         });
     </script>
