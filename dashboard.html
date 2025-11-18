@@ -217,9 +217,9 @@
 
     <!-- Header -->
     <div class="header">
-        <button class="menu-btn" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-        </button>
+        <button class="text-gray-600" onclick="showAdminMenu()">
+    <i class="fas fa-bars text-xl"></i>
+</button>
         <div class="app-title">TapWealth</div>
     </div>
 
@@ -230,9 +230,9 @@
                 <p class="opacity-80">Wallet Balance</p>
                 <p class="text-2xl font-bold mt-1" id="balance">₦0.00</p>
             </div>
-            <button class="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full text-white font-medium" onclick="navigateTo('wallet.html')">
-                Wallet <i class="fas fa-arrow-right ml-1"></i>
-            </button>
+            <button class="bg-blue-50 backdrop-blur-sm px-4 py-2 rounded-full text-white font-medium" onclick="window.location.href='wallet.html'">
+    Wallet <i class="fas fa-arrow-right ml-1"></i>
+</button>
         </div>
     </div>
 
@@ -395,6 +395,38 @@ if (currentUser.transactions && currentUser.transactions.length > 0) {
             // Close sidebar on back
             window.addEventListener('popstate', closeSidebar);
         });
-    </script>
+            function showAdminMenu() {
+    const user = getCurrentUser();
+    if (!user) {
+        alert('🔒 Please log in first.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // ✅ Only show Admin link if CEO email
+    if (user.email === 'wealthysilvar@gmail.com') {
+        const adminLink = document.createElement('a');
+        adminLink.href = 'admin.html';
+        adminLink.textContent = '🚀 Admin Dashboard';
+        adminLink.className = 'block px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md';
+
+        const menu = document.createElement('div');
+        menu.className = 'absolute top-12 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50';
+        menu.appendChild(adminLink);
+
+        document.body.appendChild(menu);
+
+        // Close on click outside
+        document.addEventListener('click', function close(e) {
+            if (!menu.contains(e.target)) {
+                menu.remove();
+                document.removeEventListener('click', close);
+            }
+        });
+    } else {
+        alert('🚫 Access denied. Admin only.');
+    }
+}
+    </script> 
 </body>
 </html>
