@@ -18,12 +18,6 @@
         .facebook-blue {
             background-color: #1877F2;
         }
-        .facebook-dark {
-            background-color: #1C1E21;
-        }
-        .facebook-light {
-            background-color: #f0f2f5;
-        }
         .facebook-card {
             background-color: white;
             border-radius: 8px;
@@ -37,10 +31,34 @@
             z-index: 100;
         }
         .gradient-text {
-            background: linear-gradient(135deg, #0056FF 0%, #C0C0C0 50%, #FFFFFF 100%);
+            background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+        .section-tabs {
+            display: none;
+        }
+        .section-tabs.active {
+            display: block;
+        }
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status-completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .status-rejected {
+            background: #fee2e2;
+            color: #991b1b;
         }
     </style>
 </head>
@@ -55,41 +73,15 @@
                         <span class="text-xl font-bold gradient-text">TapWealth</span>
                     </div>
                 </div>
-                <div class="hidden md:flex items-center space-x-6">
-                    <a href="index.html" class="text-gray-600 hover:text-blue-600 font-medium">Dashboard</a>
-                    <a href="about.html" class="text-gray-600 hover:text-blue-600 font-medium">About</a>
-                    <a href="features.html" class="text-gray-600 hover:text-blue-600 font-medium">Features</a>
-                    <a href="contact.html" class="text-gray-600 hover:text-blue-600 font-medium">Contact</a>
-                    <button onclick="logoutAdmin()" class="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors">Logout</button>
-                </div>
+                <button onclick="logoutAdmin()" class="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors">
+                    Logout
+                </button>
             </div>
         </div>
     </header>
 
-    <!-- Admin Login Form -->
-    <div id="admin-login" class="max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div class="facebook-card p-8 border text-center">
-            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
-            </div>
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Admin Login</h2>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Admin Password</label>
-                    <input type="password" id="admin-password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-800" placeholder="Enter admin password">
-                </div>
-                <button onclick="checkAdminPassword()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">
-                    Login
-                </button>
-                <p class="text-gray-600 text-sm mt-4">
-                    <strong>Note:</strong> This admin panel allows you to manage users, adjust payout rates, and monitor platform performance.
-                </p>
-            </div>
-        </div>
-    </div>
-
     <!-- Admin Dashboard -->
-    <div id="admin-dashboard" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 hidden">
+    <div id="admin-dashboard" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 class="text-4xl font-bold text-center text-gray-800 mb-12 gradient-text">
             Admin Dashboard
         </h1>
@@ -101,9 +93,6 @@
             </button>
             <button onclick="showAdminSection('users')" id="tab-users" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors">
                 Users
-            </button>
-            <button onclick="showAdminSection('payouts')" id="tab-payouts" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors">
-                Payout Rates
             </button>
             <button onclick="showAdminSection('withdrawals')" id="tab-withdrawals" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors">
                 Withdrawals
@@ -132,16 +121,6 @@
                 <div class="facebook-card p-6 border">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-gray-600 text-sm">Active Today</p>
-                            <p class="text-2xl font-bold text-gray-800" id="active-today">0</p>
-                        </div>
-                        <i class="fas fa-chart-line text-green-600 text-2xl"></i>
-                    </div>
-                </div>
-                
-                <div class="facebook-card p-6 border">
-                    <div class="flex items-center justify-between">
-                        <div>
                             <p class="text-gray-600 text-sm">Total Earnings</p>
                             <p class="text-2xl font-bold text-gray-800 text-green-600" id="total-earnings">₦0</p>
                         </div>
@@ -158,18 +137,25 @@
                         <i class="fas fa-hourglass-half text-orange-600 text-2xl"></i>
                     </div>
                 </div>
+                
+                <div class="facebook-card p-6 border">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Total Referrals</p>
+                            <p class="text-2xl font-bold text-gray-800" id="total-referrals">0</p>
+                        </div>
+                        <i class="fas fa-share-alt text-green-600 text-2xl"></i>
+                    </div>
+                </div>
             </div>
             
             <!-- Recent Activity -->
             <div class="facebook-card p-6 border mb-8">
                 <h3 class="text-xl font-bold text-gray-800 mb-4">Recent Activity</h3>
                 <div class="space-y-4" id="recent-activity">
-                    <div class="flex justify-between items-center pb-4 border-b border-gray-200 last:border-0 last:pb-0">
-                        <div>
-                            <p class="font-medium text-gray-800">Platform initialized</p>
-                            <p class="text-sm text-gray-500">System startup</p>
-                        </div>
-                        <div class="text-sm text-gray-500">Just now</div>
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-inbox text-3xl mb-3"></i>
+                        <p>Loading activity...</p>
                     </div>
                 </div>
             </div>
@@ -183,7 +169,7 @@
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-bold text-gray-800">All Users</h3>
                     <div class="relative">
-                        <input type="text" id="search-users" placeholder="Search users..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-800">
+                        <input type="text" id="search-users" placeholder="Search users..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-800" oninput="filterUsers()">
                         <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
                 </div>
@@ -201,86 +187,9 @@
                             </tr>
                         </thead>
                         <tbody id="users-table-body" class="bg-white divide-y divide-gray-200">
-                            <!-- Users will be loaded here -->
+                            <!-- Users loaded by JS -->
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- Payout Rates Section -->
-        <div id="section-payouts" class="section-tabs">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Payout Rate Management</h2>
-            
-            <div class="facebook-card p-6 border mb-6">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Adjust Earning Rates</h3>
-                <p class="text-gray-600 mb-6">
-                    These rates determine how much users earn for each activity. Changes take effect immediately.
-                </p>
-                
-                <div class="space-y-6">
-                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                        <div>
-                            <h4 class="font-bold text-gray-800">View Ads Rate</h4>
-                            <p class="text-sm text-gray-600">Amount earned per ad view</p>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-gray-700">₦</span>
-                            <input type="number" id="ads-rate" min="1" max="1000" value="5" class="w-24 px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 text-right">
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                        <div>
-                            <h4 class="font-bold text-gray-800">PTC Clicks Rate</h4>
-                            <p class="text-sm text-gray-600">Amount earned per click</p>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-gray-700">₦</span>
-                            <input type="number" id="ptc-rate" min="1" max="1000" value="5" class="w-24 px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 text-right">
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                        <div>
-                            <h4 class="font-bold text-gray-800">Referral Bonus</h4>
-                            <p class="text-sm text-gray-600">Amount earned per successful referral</p>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-gray-700">₦</span>
-                            <input type="number" id="referral-rate" min="50" max="10000" value="150" class="w-24 px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 text-right">
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                        <div>
-                            <h4 class="font-bold text-gray-800">Video Ads Rate</h4>
-                            <p class="text-sm text-gray-600">Amount earned per video watched</p>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-gray-700">₦</span>
-                            <input type="number" id="video-rate" min="1" max="1000" value="10" class="w-24 px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-800 text-right">
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                        <div>
-                            <h4 class="font-bold text-gray-800">Survey Earnings</h4>
-                            <p class="text-sm text-gray-600">Range of earnings per survey</p>
-                        </div>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-gray-700">₦</span>
-                            <input type="number" id="survey-min" min="10" max="1000" value="50" class="w-20 px-2 py-1 border border-gray-300 rounded bg-white text-gray-800 text-right">
-                            <span class="text-gray-700">-</span>
-                            <input type="number" id="survey-max" min="10" max="1000" value="200" class="w-20 px-2 py-1 border border-gray-300 rounded bg-white text-gray-800 text-right">
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="mt-6">
-                    <button onclick="savePayoutRates()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">
-                        Save Payout Rates
-                    </button>
                 </div>
             </div>
         </div>
@@ -290,15 +199,11 @@
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Withdrawal Requests</h2>
             
             <div class="facebook-card p-6 border">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Pending Withdrawals</h3>
-                <p class="text-gray-600 mb-6">
-                    Review and process withdrawal requests from users.
-                </p>
-                
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Pending Requests</h3>
                 <div class="space-y-4" id="withdrawal-requests">
                     <div class="text-center py-8 text-gray-500">
                         <i class="fas fa-inbox text-3xl mb-3"></i>
-                        <p>No pending withdrawal requests</p>
+                        <p>Loading withdrawals...</p>
                     </div>
                 </div>
             </div>
@@ -308,223 +213,253 @@
         <div id="section-settings" class="section-tabs">
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Platform Settings</h2>
             
-            <div class="space-y-6">
-                <div class="facebook-card p-6 border">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Security Settings</h3>
-                    <div class="space-y-4">
+            <div class="facebook-card p-6 border">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Payout Rates</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Admin Password</label>
-                            <input type="password" id="new-admin-password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-800" placeholder="Enter new admin password">
+                            <h4 class="font-bold text-gray-800">Ad View Rate</h4>
+                            <p class="text-sm text-gray-600">Per ad</p>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
-                            <input type="password" id="confirm-admin-password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-800" placeholder="Confirm new admin password">
-                        </div>
-                        <button onclick="changeAdminPassword()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">
-                            Change Admin Password
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="facebook-card p-6 border">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Platform Configuration</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="font-medium text-gray-800">Maintenance Mode</p>
-                                <p class="text-sm text-gray-600">Temporarily disable user access</p>
-                            </div>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="maintenance-mode" class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-blue-600"></div>
-                            </label>
-                        </div>
-                        
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="font-medium text-gray-800">Email Notifications</p>
-                                <p class="text-sm text-gray-600">Send platform updates to users</p>
-                            </div>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="email-notifications" class="sr-only peer" checked>
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-blue-600"></div>
-                            </label>
-                        </div>
-                        
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="font-medium text-gray-800">Auto Withdrawals</p>
-                                <p class="text-sm text-gray-600">Process withdrawals automatically</p>
-                            </div>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" id="auto-withdrawals" class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-blue-600"></div>
-                            </label>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-gray-700">₦</span>
+                            <input type="number" id="ads-rate" min="1" value="30" class="w-20 px-2 py-1 border border-gray-300 rounded bg-white text-gray-800 text-right">
                         </div>
                     </div>
+                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                        <div>
+                            <h4 class="font-bold text-gray-800">Referral Bonus</h4>
+                            <p class="text-sm text-gray-600">Per referral</p>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-gray-700">₦</span>
+                            <input type="number" id="referral-rate" min="50" value="100" class="w-20 px-2 py-1 border border-gray-300 rounded bg-white text-gray-800 text-right">
+                        </div>
+                    </div>
+                    <button onclick="saveRates()" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">
+                        Save Payout Rates
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Admin password (CHANGE THIS TO YOUR OWN SECURE PASSWORD)
-        const ADMIN_PASSWORD = "admin123";
-        
+        const USERS_KEY = 'tapwealth_users';
+        const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+        const WITHDRAWALS_KEY = 'tapwealth_withdrawals';
+
+        // ✅ REAL DATA — no demo
+        let users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+        let withdrawals = JSON.parse(localStorage.getItem(WITHDRAWALS_KEY)) || [];
+
+        // Check CEO access
+        function checkAccess() {
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+            if (!email || email !== 'wealthysilvar@gmail.com') {
+                alert('🚫 Access denied. Log in as CEO first.');
+                window.location.href = 'login.html';
+                return false;
+            }
+            return true;
+        }
+
         // Tab navigation
         function showAdminSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.section-tabs').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // Show selected section
+            document.querySelectorAll('.section-tabs').forEach(el => el.classList.remove('active'));
             document.getElementById('section-' + sectionId).classList.add('active');
             
-            // Update tab styling
             document.querySelectorAll('[id^="tab-"]').forEach(tab => {
                 tab.classList.remove('bg-blue-600', 'text-white');
                 tab.classList.add('bg-gray-200', 'text-gray-700');
             });
-            
-            document.getElementById('tab-' + sectionId).classList.remove('bg-gray-200', 'text-gray-700');
             document.getElementById('tab-' + sectionId).classList.add('bg-blue-600', 'text-white');
         }
-        
-        // Admin authentication
-        function checkAdminPassword() {
-            const password = document.getElementById('admin-password').value;
-            if (password === ADMIN_PASSWORD) {
-                localStorage.setItem('tapwealth_is_admin', 'true');
-                loadAdminDashboard();
-            } else {
-                alert('Invalid admin password!');
-            }
-        }
-        
-        function logoutAdmin() {
-            localStorage.removeItem('tapwealth_is_admin');
-            document.getElementById('admin-dashboard').classList.add('hidden');
-            document.getElementById('admin-login').classList.remove('hidden');
-            document.getElementById('admin-password').value = '';
-        }
-        
-        // Load admin dashboard
-        function loadAdminDashboard() {
-            document.getElementById('admin-login').classList.add('hidden');
-            document.getElementById('admin-dashboard').classList.remove('hidden');
-            loadPlatformStats();
-            loadUsersTable();
-            loadPayoutRates();
-        }
-        
-        // Platform statistics
-        function loadPlatformStats() {
-            const users = JSON.parse(localStorage.getItem('tapwealth_users') || '[]');
-            const totalUsers = users.length;
-            const totalEarnings = users.reduce((sum, user) => sum + user.balance, 0);
-            const totalReferrals = users.reduce((sum, user) => sum + (user.referrals || 0), 0);
-            const pendingWithdrawals = 0; // For now
-            
+
+        // Load data
+        function loadDashboard() {
+            if (!checkAccess()) return;
+
+            // Stats
+            const userArray = Object.values(users);
+            const totalUsers = userArray.length;
+            const totalEarnings = userArray.reduce((sum, u) => sum + (u.balance || 0), 0);
+            const totalReferrals = userArray.reduce((sum, u) => sum + (u.referrals?.length || 0), 0);
+            const pendingWithdrawals = withdrawals.filter(w => w.status === 'pending').length;
+
             document.getElementById('total-users').textContent = totalUsers;
-            document.getElementById('active-today').textContent = Math.floor(totalUsers * 0.3); // 30% active
             document.getElementById('total-earnings').textContent = '₦' + totalEarnings.toLocaleString();
             document.getElementById('pending-withdrawals').textContent = pendingWithdrawals;
+            document.getElementById('total-referrals').textContent = totalReferrals;
+
+            // Users table
+            renderUsers();
+            renderWithdrawals();
         }
-        
-        // User management
-        function loadUsersTable() {
-            const users = JSON.parse(localStorage.getItem('tapwealth_users') || '[]');
-            const tableBody = document.getElementById('users-table-body');
-            tableBody.innerHTML = '';
-            
-            users.forEach(user => {
+
+        // Render users
+        function renderUsers() {
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '';
+
+            Object.values(users).forEach(user => {
                 const row = document.createElement('tr');
                 row.className = 'hover:bg-gray-50';
                 row.innerHTML = `
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${user.name}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">₦${user.balance.toLocaleString()}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${user.referrals || 0}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${new Date(user.createdAt).toLocaleDateString()}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <button onclick="editUser(${user.id})" class="text-blue-600 hover:text-blue-900 mr-3">Edit</button>
-                        <button onclick="deleteUser(${user.id})" class="text-red-600 hover:text-red-900">Delete</button>
+                    <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${user.name}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">
+                        ₦${(user.balance || 0).toLocaleString()}
+                        <button onclick="editBalance('${user.email}')" class="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">✏️</button>
+                    </td>
+                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">${user.referrals?.length || 0}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">${new Date(user.createdAt || Date.now()).toLocaleDateString()}</td>
+                    <td class="px-6 py-3 whitespace-nowrap text-sm font-medium">
+                        <button onclick="banUser('${user.email}')" class="text-red-600 hover:text-red-900">Ban</button>
                     </td>
                 `;
-                tableBody.appendChild(row);
+                tbody.appendChild(row);
             });
         }
-        
-        function editUser(userId) {
-            alert('Edit user functionality would be implemented here.');
-        }
-        
-        function deleteUser(userId) {
-            if (confirm('Are you sure you want to delete this user? This cannot be undone.')) {
-                let users = JSON.parse(localStorage.getItem('tapwealth_users') || '[]');
-                users = users.filter(user => user.id !== userId);
-                localStorage.setItem('tapwealth_users', JSON.stringify(users));
-                loadUsersTable();
-                loadPlatformStats();
-                alert('User deleted successfully!');
+
+        // Edit balance
+        function editBalance(email) {
+            const user = users[email];
+            const newBalance = prompt(`Enter new balance for ${user.name} (current: ₦${user.balance || 0})`);
+            if (newBalance !== null && !isNaN(newBalance)) {
+                user.balance = parseFloat(newBalance);
+                users[email] = user;
+                localStorage.setItem(USERS_KEY, JSON.stringify(users));
+                renderUsers();
+                loadDashboard();
+                alert('✅ Balance updated');
             }
         }
-        
-        // Payout rates management
-        function loadPayoutRates() {
-            const rates = JSON.parse(localStorage.getItem('tapwealth_payout_rates') || '{"ads":5,"ptc":5,"referral":150,"video":10,"surveyMin":50,"surveyMax":200}');
-            document.getElementById('ads-rate').value = rates.ads;
-            document.getElementById('ptc-rate').value = rates.ptc;
-            document.getElementById('referral-rate').value = rates.referral;
-            document.getElementById('video-rate').value = rates.video;
-            document.getElementById('survey-min').value = rates.surveyMin;
-            document.getElementById('survey-max').value = rates.surveyMax;
+
+        // Ban user
+        function banUser(email) {
+            if (confirm(`Ban ${email}? They will be logged out.`)) {
+                delete users[email];
+                localStorage.setItem(USERS_KEY, JSON.stringify(users));
+                if (email === localStorage.getItem(CURRENT_USER_EMAIL_KEY)) {
+                    localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
+                }
+                renderUsers();
+                loadDashboard();
+                alert('✅ User banned');
+            }
         }
-        
-        function savePayoutRates() {
+
+        // Render withdrawals
+        function renderWithdrawals() {
+            const container = document.getElementById('withdrawal-requests');
+            
+            if (withdrawals.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-check-circle text-3xl mb-3 text-green-500"></i>
+                        <p>No pending withdrawals</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const pending = withdrawals.filter(w => w.status === 'pending');
+            if (pending.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-check-circle text-3xl mb-3 text-green-500"></i>
+                        <p>All withdrawals processed</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = pending.map(w => {
+                const user = users[w.userEmail] || { name: 'Unknown' };
+                return `
+                    <div class="facebook-card p-4">
+                        <div class="flex justify-between">
+                            <div>
+                                <p class="font-bold">${user.name} (${w.userEmail})</p>
+                                <p class="text-sm text-gray-600">${w.method} • ${w.reference}</p>
+                            </div>
+                            <span class="status-badge status-pending">Pending</span>
+                        </div>
+                        <div class="mt-3 flex justify-between items-center">
+                            <p class="text-lg font-bold">₦${w.amount.toLocaleString()}</p>
+                            <div class="space-x-2">
+                                <button onclick="approveWithdrawal('${w.id}')" class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm">Approve</button>
+                                <button onclick="rejectWithdrawal('${w.id}')" class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm">Reject</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Approve withdrawal
+        function approveWithdrawal(id) {
+            const w = withdrawals.find(x => x.id === id);
+            if (w) {
+                w.status = 'completed';
+                w.processedAt = new Date().toISOString();
+                
+                // Deduct from user balance
+                const user = users[w.userEmail];
+                if (user) {
+                    user.balance = (user.balance || 0) - w.amount;
+                    users[w.userEmail] = user;
+                }
+                
+                localStorage.setItem(USERS_KEY, JSON.stringify(users));
+                localStorage.setItem(WITHDRAWALS_KEY, JSON.stringify(withdrawals));
+                renderWithdrawals();
+                loadDashboard();
+                alert('✅ Withdrawal approved');
+            }
+        }
+
+        // Reject withdrawal
+        function rejectWithdrawal(id) {
+            const w = withdrawals.find(x => x.id === id);
+            if (w) {
+                w.status = 'rejected';
+                w.processedAt = new Date().toISOString();
+                localStorage.setItem(WITHDRAWALS_KEY, JSON.stringify(withdrawals));
+                renderWithdrawals();
+                alert('❌ Withdrawal rejected');
+            }
+        }
+
+        // Save payout rates
+        function saveRates() {
             const rates = {
-                ads: parseInt(document.getElementById('ads-rate').value),
-                ptc: parseInt(document.getElementById('ptc-rate').value),
-                referral: parseInt(document.getElementById('referral-rate').value),
-                video: parseInt(document.getElementById('video-rate').value),
-                surveyMin: parseInt(document.getElementById('survey-min').value),
-                surveyMax: parseInt(document.getElementById('survey-max').value)
+                adView: parseFloat(document.getElementById('ads-rate').value),
+                referral: parseFloat(document.getElementById('referral-rate').value)
             };
             localStorage.setItem('tapwealth_payout_rates', JSON.stringify(rates));
-            alert('Payout rates updated successfully!');
+            alert('✅ Payout rates saved');
         }
-        
-        // Security settings
-        function changeAdminPassword() {
-            const newPassword = document.getElementById('new-admin-password').value;
-            const confirmPassword = document.getElementById('confirm-admin-password').value;
-            
-            if (!newPassword || !confirmPassword) {
-                alert('Please fill in both password fields');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-            
-            // In a real app, this would be encrypted and stored securely
-            // For this demo, we'll just alert that it would be changed
-            alert('Admin password would be changed to: ' + newPassword);
-            document.getElementById('new-admin-password').value = '';
-            document.getElementById('confirm-admin-password').value = '';
+
+        // Logout
+        function logoutAdmin() {
+            localStorage.removeItem('tapwealth_is_admin');
+            window.location.href = 'dashboard.html';
         }
-        
-        // Check authentication
-        window.addEventListener('DOMContentLoaded', function() {
-            // Check if already logged in as admin
-            const isAdmin = localStorage.getItem('tapwealth_is_admin');
-            if (isAdmin === 'true') {
-                loadAdminDashboard();
-            }
-        });
+
+        // Search users
+        function filterUsers() {
+            const query = document.getElementById('search-users').value.toLowerCase();
+            const rows = document.querySelectorAll('#users-table-body tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', loadDashboard);
     </script>
 </body>
 </html>
