@@ -15,6 +15,44 @@
             padding: 0;
             color: #1e293b;
         }
+        .header {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .menu-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+        }
+        .app-title {
+            font-weight: 700;
+            font-size: 18px;
+            color: #0f172a;
+        }
+        .wallet-card {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
         .pay-app-nav {
             position: fixed;
             bottom: 0;
@@ -41,192 +79,41 @@
             font-size: 20px;
             margin-bottom: 4px;
         }
-        .header {
-            background: white;
-            padding: 16px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-        }
-        .menu-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 12px;
-            background: #f1f5f9;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            color: #64748b;
-        }
-        .app-title {
-            font-weight: 700;
-            font-size: 18px;
-            color: #0f172a;
-        }
-        .wallet-card {
-            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-            color: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin: 16px;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-        }
-        .quick-action {
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            margin: 12px 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-        }
-        .quick-action i {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            margin-right: 12px;
-        }
-        .green-bg { background: #dcfce7; color: #16a34a; }
-        .blue-bg { background: #dbeafe; color: #2563eb; }
-        .purple-bg { background: #ede9fe; color: #7c3aed; }
-        .orange-bg { background: #ffedd5; color: #ea580c; }
-        .toast {
+        #admin-menu {
             position: fixed;
             top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #059669;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .toast.show {
-            opacity: 1;
-        }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 280px;
-            height: 100%;
+            right: 16px;
             background: white;
-            box-shadow: 4px 0 12px rgba(0,0,0,0.1);
-            z-index: 1001;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            padding: 8px 0;
+            z-index: 9999;
+            min-width: 200px;
         }
-        .sidebar.open {
-            transform: translateX(0);
-        }
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.4);
-            z-index: 1000;
-            display: none;
-        }
-        .overlay.open {
+        #admin-menu a {
             display: block;
-        }
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .sidebar-item {
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            color: #475569;
+            padding: 12px 16px;
+            color: #3b82f6;
+            font-weight: 600;
             text-decoration: none;
         }
-        .sidebar-item:hover {
+        #admin-menu a:hover {
             background: #f8fafc;
-        }
-        .sidebar-item i {
-            width: 32px;
-            text-align: center;
-            font-size: 16px;
-            margin-right: 12px;
-        }
-        .sidebar-footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            padding: 16px 20px;
-            border-top: 1px solid #f1f5f9;
-            background: white;
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar Overlay -->
-    <div class="overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
-
-    <!-- Sidebar Menu -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="flex items-center">
-                <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold mr-3" id="sidebar-avatar">U</div>
-                <div>
-                    <p class="font-bold" id="sidebar-name">User</p>
-                    <p class="text-sm text-gray-500" id="sidebar-balance">₦0.00</p>
-                </div>
-            </div>
-        </div>
-
-        <a href="dashboard.html" class="sidebar-item active">
-            <i class="fas fa-home"></i>
-            <span>Dashboard</span>
-        </a>
-        <a href="earn.html" class="sidebar-item">
-            <i class="fas fa-coins"></i>
-            <span>Earn Money</span>
-        </a>
-        <a href="referral.html" class="sidebar-item">
-            <i class="fas fa-users"></i>
-            <span>Referrals</span>
-        </a>
-        <a href="shop.html" class="sidebar-item">
-            <i class="fas fa-shopping-bag"></i>
-            <span>Shopping</span>
-        </a>
-        <a href="settings.html" class="sidebar-item">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-        </a>
-
-        <div class="sidebar-footer">
-            <a href="javascript:logoutUser()" class="sidebar-item text-red-600">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </a>
-        </div>
-    </div>
-
     <!-- Header -->
     <div class="header">
-<button class="text-gray-600 p-3 rounded-lg hover:bg-gray-100 active:bg-gray-200" 
-        style="min-width: 44px; min-height: 44px;" 
-        onclick="alert('Button works!'); showAdminMenu(event)">
-    <i class="fas fa-bars text-xl"></i>
-</button>
-    <div class="flex-1 text-center app-title">TapWealth</div>
-    <!-- Empty div to push 3-bar to left -->
-    <div class="w-8"></div>
-</div>
-    <!-- Wallet Card (Top) -->
+        <button class="menu-btn" id="menu-btn">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+        <div class="app-title">TapWealth</div>
+        <div class="w-12"></div> <!-- spacer -->
+    </div>
+
+    <!-- Wallet Card -->
     <div class="wallet-card">
         <div class="flex justify-between items-center">
             <div>
@@ -234,17 +121,22 @@
                 <p class="text-2xl font-bold mt-1" id="balance">₦0.00</p>
             </div>
             <button class="bg-white px-4 py-2 rounded-full text-blue-600 font-medium shadow-sm" onclick="window.location.href='wallet.html'">
-    Wallet <i class="fas fa-arrow-right ml-1"></i>
-</button>
+                Wallet <i class="fas fa-arrow-right ml-1"></i>
+            </button>
         </div>
     </div>
+
     <!-- Recent Activity -->
-<div class="facebook-card p-6 mb-8">
-    <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Activity</h2>
-    <div class="space-y-4" id="activity-list">
-        <!-- Will be filled by JS -->
+    <div class="card">
+        <h2 class="text-xl font-bold mb-4">Recent Activity</h2>
+        <div id="activity-list">
+            <div class="text-center py-8 text-gray-500">
+                <i class="fas fa-inbox text-3xl mb-3"></i>
+                <p>No recent activity</p>
+            </div>
+        </div>
     </div>
-</div>
+
     <!-- Bottom Nav -->
     <div class="pay-app-nav">
         <a href="dashboard.html" class="nav-item active">
@@ -268,168 +160,80 @@
             <span>Me</span>
         </a>
     </div>
-    <div class="toast" id="toast">Message</div>
+
     <script>
         const USERS_KEY = 'tapwealth_users';
         const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
-        let currentUser = null;
 
-        // Sidebar
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('sidebar-overlay').classList.toggle('open');
-       }
-        
-        function showAdminMenu(event) {
-    evenfunction showAdminMenu(event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const user = getCurrentUser();
-    if (!user) {
-        alert('🔒 Login required');
-        return;
-    }
-
-    if (user.email !== 'wealthysilvar@gmail.com') {
-        alert('🚫 Admin access only');
-        return;
-    }
-
-    // Create menu
-    const menu = document.createElement('div');
-    menu.id = 'admin-menu';
-    menu.innerHTML = `
-        <div style="
-            position: fixed;
-            top: 60px;
-            right: 16px;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            padding: 8px 0;
-            z-index: 9999;
-            min-width: 200px;
-        ">
-            <a href="admin.html" style="
-                display: block;
-                padding: 12px 16px;
-                color: #3b82f6;
-                font-weight: 600;
-                text-decoration: none;
-            ">
-                🚀 Admin Dashboard
-            </a>
-        </div>
-    `;
-
-    // Remove any existing menu
-    const oldMenu = document.getElementById('admin-menu');
-    if (oldMenu) oldMenu.remove();
-
-    // Add new menu
-    document.body.appendChild(menu);
-
-    // Auto-close on outside tap
-    setTimeout(() => {
-        const closeHandler = (e) => {
-            if (!menu.contains(e.target)) {
-                menu.remove();
-                document.removeEventListener('click', closeHandler);
-            }
-        };
-        document.addEventListener('click', closeHandler);
-    }, 100);
-}
-        function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('sidebar-overlay').classList.remove('open');
-        }
-        // Navigation
-        function navigateTo(page) {
-            closeSidebar();
-            window.location.href = page;
-        }
-
-        // Get user
         function getCurrentUser() {
             const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
             if (!email) return null;
             const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
             return users[email] || null;
         }
-        // Save user
-        function saveUser(user) {
-            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-            users[user.email] = user;
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        }
 
-        // Logout
-        function logoutUser() {
-            localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
-            alert('✅ Logged out!');
-            window.location.href = 'login.html';
-        }
-
-        // Toast
-        function showToast(message) {
-            const t = document.getElementById('toast');
-            t.textContent = message;
-            t.className = 'toast show';
-            setTimeout(() => t.className = 'toast', 3000);
-        }
-
-        // Update dashboard
-        function updateDashboard() {
-            if (!currentUser) {
+        function updateUI() {
+            const user = getCurrentUser();
+            if (!user) {
+                alert('🔒 Please log in.');
                 window.location.href = 'login.html';
                 return;
             }
 
-            const initial = currentUser.name.charAt(0).toUpperCase();
-            document.getElementById('sidebar-avatar').textContent = initial;
-            document.getElementById('sidebar-name').textContent = currentUser.name;
-            document.getElementById('sidebar-balance').textContent = '₦' + (currentUser.balance || 0).toLocaleString();
-            document.getElementById('balance').textContent = '₦' + (currentUser.balance || 0).toLocaleString();
+            // Update balance
+            document.getElementById('balance').textContent = '₦' + (user.balance || 0).toLocaleString();
 
-            // Recent Activity
-const activityList = document.getElementById('activity-list');
-activityList.innerHTML = '';
+            // Update activity
+            const list = document.getElementById('activity-list');
+            if (user.transactions && user.transactions.length > 0) {
+                list.innerHTML = user.transactions.slice().reverse().map(tx => `
+                    <div class="flex justify-between items-center py-3 border-b border-gray-200 last:border-0">
+                        <span>${tx.description}</span>
+                        <span class="${tx.type === 'credit' ? 'text-green-600' : 'text-red-600'} font-medium">
+                            ${tx.type === 'credit' ? '+' : '-'}₦${tx.amount}
+                        </span>
+                    </div>
+                `).join('');
+            }
+        }
 
-if (currentUser.transactions && currentUser.transactions.length > 0) {
-    // Show all transactions, newest first
-    currentUser.transactions.slice().reverse().forEach(transaction => {
-        const div = document.createElement('div');
-        div.className = 'flex justify-between items-center pb-4 border-b border-gray-200 dark:border-slate-700 last:border-0 last:pb-0';
-        div.innerHTML = `
-            <div>
-                <p class="font-medium text-gray-800 dark:text-white">${transaction.description}</p>
-                <p class="text-sm text-gray-500 dark:text-gray-400">${new Date(transaction.date).toLocaleDateString()}</p>
-            </div>
-            <div class="font-bold ${transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'}">
-                ${transaction.type === 'credit' ? '+' : '-'}₦${transaction.amount.toLocaleString()}
-            </div>
-        `;
-        activityList.appendChild(div);
-    });
-} else {
-    activityList.innerHTML = `
-        <div class="text-center py-8 text-gray-500">
-            <i class="fas fa-inbox text-3xl mb-3"></i>
-            <p>No recent activity</p>
-        </div>
-    `;
-}
-        // Init
-        document.addEventListener('DOMContentLoaded', function() {
-            currentUser = getCurrentUser();
-            updateDashboard();
+        // Admin Menu
+        document.getElementById('menu-btn').addEventListener('click', function(e) {
+            e.stopPropagation();
 
-            // Close sidebar on back
-            window.addEventListener('popstate', closeSidebar);
+            const user = getCurrentUser();
+            if (!user || user.email !== 'wealthysilvar@gmail.com') {
+                alert('🚫 Admin access only');
+                return;
+            }
+
+            // Toggle menu
+            const menu = document.getElementById('admin-menu');
+            if (menu) {
+                menu.remove();
+                return;
+            }
+
+            const el = document.createElement('div');
+            el.id = 'admin-menu';
+            el.innerHTML = `
+                <a href="admin.html">🚀 Admin Dashboard</a>
+            `;
+            document.body.appendChild(el);
+
+            // Close on outside click
+            setTimeout(() => {
+                document.addEventListener('click', function close(e) {
+                    if (!el.contains(e.target) && e.target.id !== 'menu-btn') {
+                        el.remove();
+                        document.removeEventListener('click', close);
+                    }
+                });
+            }, 100);
         });
-    </script> 
+
+        // Init
+        document.addEventListener('DOMContentLoaded', updateUI);
+    </script>
 </body>
 </html>
