@@ -276,15 +276,15 @@
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('sidebar-overlay').classList.toggle('open');
-        }
-        function showAdminMenu() {
+        }function showAdminMenu(event) {
+    event.preventDefault(); // ✅ Stop page reload
     const user = getCurrentUser();
     if (!user) {
         alert('🔒 Please log in first.');
         window.location.href = 'login.html';
         return;
     }
-    // ✅ Only show Admin link if CEO email
+
     if (user.email === 'wealthysilvar@gmail.com') {
         const adminLink = document.createElement('a');
         adminLink.href = 'admin.html';
@@ -296,6 +296,7 @@
         menu.appendChild(adminLink);
 
         document.body.appendChild(menu);
+
         // Close on click outside
         document.addEventListener('click', function close(e) {
             if (!menu.contains(e.target)) {
