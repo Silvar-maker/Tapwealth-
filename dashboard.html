@@ -279,7 +279,9 @@
        }
         
         function showAdminMenu(event) {
-    event.preventDefault(); // ✅ Stop page reload
+    event.preventDefault();
+    event.stopPropagation(); // ✅ Prevent header click bubbling
+
     const user = getCurrentUser();
     if (!user) {
         alert('🔒 Please log in first.');
@@ -287,25 +289,37 @@
         return;
     }
 
+    // Remove any existing menu first
+    let existingMenu = document.getElementById('admin-menu');
+    if (existingMenu) {
+        existingMenu.remove();
+        return; // Toggle off
+    }
+
     if (user.email === 'wealthysilvar@gmail.com') {
-        const adminLink = document.createElement('a');
-        adminLink.href = 'admin.html';
-        adminLink.textContent = '🚀 Admin Dashboard';
-        adminLink.className = 'block px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md';
-
         const menu = document.createElement('div');
-        menu.className = 'absolute top-12 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50';
-        menu.appendChild(adminLink);
+        menu.id = 'admin-menu';
+        menu.className = 'absolute top-16 left-0 bg-white border border-gray-200 rounded-lg shadow-xl z-50 w-48 py-1';
+        menu.style.marginTop = '4px';
+        menu.innerHTML = `
+            <a href="admin.html" class="block px-4 py-2 text-blue-600 hover:bg-blue-50 font-medium">
+                🚀 Admin Dashboard
+            </a>
+        `;
 
-        document.body.appendChild(menu);
+        // Insert menu right after the header
+        const header = document.querySelector('.header');
+        header.parentNode.insertBefore(menu, header.nextSibling);
 
-        // Close on click outside
-        document.addEventListener('click', function close(e) {
-            if (!menu.contains(e.target)) {
-                menu.remove();
-                document.removeEventListener('click', close);
-            }
-        });
+        // Close on outside click
+        setTimeout(() => {
+            document.addEventListener('click', function closeOut(e) {
+                if (!menu.contains(e.target) && !e.target.closest('.fa-bars')) {
+                    menu.remove();
+                    document.removeEventListener('click', closeOut);
+                }
+            });
+        }, 0);
     } else {
         alert('🚫 Access denied. Admin only.');
     }
