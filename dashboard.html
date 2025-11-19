@@ -281,50 +281,66 @@
        }
         
         function showAdminMenu(event) {
+    evenfunction showAdminMenu(event) {
     event.preventDefault();
-    event.stopPropagation(); // ✅ Prevent header click bubbling
+    event.stopPropagation();
 
     const user = getCurrentUser();
     if (!user) {
-        alert('🔒 Please log in first.');
-        window.location.href = 'login.html';
+        alert('🔒 Login required');
         return;
     }
 
-    // Remove any existing menu first
-    let existingMenu = document.getElementById('admin-menu');
-    if (existingMenu) {
-        existingMenu.remove();
-        return; // Toggle off
+    if (user.email !== 'wealthysilvar@gmail.com') {
+        alert('🚫 Admin access only');
+        return;
     }
 
-    if (user.email === 'wealthysilvar@gmail.com') {
-        const menu = document.createElement('div');
-        menu.id = 'admin-menu';
-        menu.className = 'absolute top-16 left-0 bg-white border border-gray-200 rounded-lg shadow-xl z-50 w-48 py-1';
-        menu.style.marginTop = '4px';
-        menu.innerHTML = `
-            <a href="admin.html" class="block px-4 py-2 text-blue-600 hover:bg-blue-50 font-medium">
+    // Create menu
+    const menu = document.createElement('div');
+    menu.id = 'admin-menu';
+    menu.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 60px;
+            right: 16px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            padding: 8px 0;
+            z-index: 9999;
+            min-width: 200px;
+        ">
+            <a href="admin.html" style="
+                display: block;
+                padding: 12px 16px;
+                color: #3b82f6;
+                font-weight: 600;
+                text-decoration: none;
+            ">
                 🚀 Admin Dashboard
             </a>
-        `;
+        </div>
+    `;
 
-        // Insert menu right after the header
-        const header = document.querySelector('.header');
-        header.parentNode.insertBefore(menu, header.nextSibling);
+    // Remove any existing menu
+    const oldMenu = document.getElementById('admin-menu');
+    if (oldMenu) oldMenu.remove();
 
-        // Close on outside click
-        setTimeout(() => {
-            document.addEventListener('click', function closeOut(e) {
-                if (!menu.contains(e.target) && !e.target.closest('.fa-bars')) {
-                    menu.remove();
-                    document.removeEventListener('click', closeOut);
-                }
-            });
-        }, 0);
-    } else {
-        alert('🚫 Access denied. Admin only.');
-    }
+    // Add new menu
+    document.body.appendChild(menu);
+
+    // Auto-close on outside tap
+    setTimeout(() => {
+        const closeHandler = (e) => {
+            if (!menu.contains(e.target)) {
+                menu.remove();
+                document.removeEventListener('click', closeHandler);
+            }
+        };
+        document.addEventListener('click', closeHandler);
+    }, 100);
 }
         function closeSidebar() {
             document.getElementById('sidebar').classList.remove('open');
