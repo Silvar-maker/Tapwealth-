@@ -230,37 +230,11 @@
                 <p class="opacity-80">Wallet Balance</p>
                 <p class="text-2xl font-bold mt-1" id="balance">₦0.00</p>
             </div>
-            <button class="bg-blue-50 backdrop-blur-sm px-4 py-2 rounded-full text-white font-medium" onclick="window.location.href='wallet.html'">
+            <button class="bg-white px-4 py-2 rounded-full text-blue-600 font-medium shadow-sm" onclick="window.location.href='wallet.html'">
     Wallet <i class="fas fa-arrow-right ml-1"></i>
 </button>
         </div>
     </div>
-
-    <!-- Quick Actions -->
-    <div class="quick-action" onclick="navigateTo('earn.html')">
-        <div class="blue-bg"><i class="fas fa-tv"></i></div>
-        <div>
-            <p class="font-bold">Watch Ads</p>
-            <p class="text-sm text-gray-500">Earn ₦10–₦50 per ad</p>
-        </div>
-    </div>
-
-    <div class="quick-action" onclick="navigateTo('referral.html')">
-        <div class="green-bg"><i class="fas fa-share-alt"></i></div>
-        <div>
-            <p class="font-bold">Invite Friends</p>
-            <p class="text-sm text-gray-500">Get ₦500 per referral</p>
-        </div>
-    </div>
-
-    <div class="quick-action" onclick="navigateTo('shop.html')">
-        <div class="purple-bg"><i class="fas fa-shopping-cart"></i></div>
-        <div>
-            <p class="font-bold">Shop & Earn</p>
-            <p class="text-sm text-gray-500">Cashback on every purchase</p>
-        </div>
-    </div>
-
     <!-- Recent Activity -->
 <div class="facebook-card p-6 mb-8">
     <h2 class="text-xl font-bold text-gray-800 mb-4">Recent Activity</h2>
@@ -268,7 +242,6 @@
         <!-- Will be filled by JS -->
     </div>
 </div>
-
     <!-- Bottom Nav -->
     <div class="pay-app-nav">
         <a href="dashboard.html" class="nav-item active">
@@ -292,9 +265,7 @@
             <span>Me</span>
         </a>
     </div>
-
     <div class="toast" id="toast">Message</div>
-
     <script>
         const USERS_KEY = 'tapwealth_users';
         const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
@@ -305,11 +276,40 @@
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('sidebar-overlay').classList.toggle('open');
         }
+        function showAdminMenu() {
+    const user = getCurrentUser();
+    if (!user) {
+        alert('🔒 Please log in first.');
+        window.location.href = 'login.html';
+        return;
+    }
+    // ✅ Only show Admin link if CEO email
+    if (user.email === 'wealthysilvar@gmail.com') {
+        const adminLink = document.createElement('a');
+        adminLink.href = 'admin.html';
+        adminLink.textContent = '🚀 Admin Dashboard';
+        adminLink.className = 'block px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md';
+
+        const menu = document.createElement('div');
+        menu.className = 'absolute top-12 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50';
+        menu.appendChild(adminLink);
+
+        document.body.appendChild(menu);
+        // Close on click outside
+        document.addEventListener('click', function close(e) {
+            if (!menu.contains(e.target)) {
+                menu.remove();
+                document.removeEventListener('click', close);
+            }
+        });
+    } else {
+        alert('🚫 Access denied. Admin only.');
+    }
+}
         function closeSidebar() {
             document.getElementById('sidebar').classList.remove('open');
             document.getElementById('sidebar-overlay').classList.remove('open');
         }
-
         // Navigation
         function navigateTo(page) {
             closeSidebar();
@@ -323,7 +323,6 @@
             const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
             return users[email] || null;
         }
-
         // Save user
         function saveUser(user) {
             const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
@@ -395,38 +394,6 @@ if (currentUser.transactions && currentUser.transactions.length > 0) {
             // Close sidebar on back
             window.addEventListener('popstate', closeSidebar);
         });
-            function showAdminMenu() {
-    const user = getCurrentUser();
-    if (!user) {
-        alert('🔒 Please log in first.');
-        window.location.href = 'login.html';
-        return;
-    }
-
-    // ✅ Only show Admin link if CEO email
-    if (user.email === 'wealthysilvar@gmail.com') {
-        const adminLink = document.createElement('a');
-        adminLink.href = 'admin.html';
-        adminLink.textContent = '🚀 Admin Dashboard';
-        adminLink.className = 'block px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md';
-
-        const menu = document.createElement('div');
-        menu.className = 'absolute top-12 right-0 bg-white border border-gray-200 rounded-lg shadow-lg z-50';
-        menu.appendChild(adminLink);
-
-        document.body.appendChild(menu);
-
-        // Close on click outside
-        document.addEventListener('click', function close(e) {
-            if (!menu.contains(e.target)) {
-                menu.remove();
-                document.removeEventListener('click', close);
-            }
-        });
-    } else {
-        alert('🚫 Access denied. Admin only.');
-    }
-}
     </script> 
 </body>
 </html>
