@@ -276,7 +276,9 @@
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('sidebar-overlay').classList.toggle('open');
-        }function showAdminMenu(event) {
+       }
+        
+        function showAdminMenu(event) {
     event.preventDefault(); // ✅ Stop page reload
     const user = getCurrentUser();
     if (!user) {
