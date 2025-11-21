@@ -245,6 +245,25 @@
     </div>
 
     <script>
+        // ===== TAPWEALTH CONFIG (Copy to all pages) =====
+const CONFIG = {
+    // Real-time config (editable in admin.html)
+    get adRate() {
+        const r = localStorage.getItem('tapwealth_ad_rate');
+        return r ? parseFloat(r) : 30; // default ₦30
+    },
+    get referralBonus() {
+        const r = localStorage.getItem('tapwealth_referral_bonus');
+        return r ? parseFloat(r) : 100; // default ₦100
+    }
+};
+
+// Save config (call from admin.html)
+function saveConfig() {
+    localStorage.setItem('tapwealth_ad_rate', document.getElementById('ads-rate')?.value || 30);
+    localStorage.setItem('tapwealth_referral_bonus', document.getElementById('referral-rate')?.value || 100);
+}
+// ================================================
         const USERS_KEY = 'tapwealth_users';
         const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
         const WITHDRAWALS_KEY = 'tapwealth_withdrawals';
