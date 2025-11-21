@@ -8,408 +8,258 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f0f2f5;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .facebook-blue {
-            background-color: #1877F2;
-        }
-        .facebook-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        .facebook-header {
-            background-color: white;
-            border-bottom: 1px solid #dddfe2;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .section-tabs {
-            display: none;
-        }
-        .section-tabs.active {
-            display: block;
-        }
-        .status-badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        .status-pending {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        .status-completed {
-            background: #dcfce7;
-            color: #166534;
-        }
-        .status-rejected {
-            background: #fee2e2;
-            color: #991b1b;
-        }
+        :root { --primary: #1877F2; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f0f2f5; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .header { background: white; border-bottom: 1px solid #e2e8f0; padding: 0.75rem 1rem; }
+        .tab-active { background: var(--primary); color: white; }
+        .status { padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-approved { background: #dcfce7; color: #166534; }
+        .status-rejected { background: #fee2e2; color: #991b1b; }
     </style>
 </head>
-<body class="facebook-light min-h-screen">
-    <!-- Facebook Header -->
-    <header class="facebook-header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-dollar-sign text-blue-600 text-2xl mr-2"></i>
-                        <span class="text-xl font-bold gradient-text">TapWealth</span>
-                    </div>
-                </div>
-                <button onclick="logoutAdmin()" class="bg-red-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors">
-                    Logout
-                </button>
-            </div>
-        </div>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="header flex justify-between items-center">
+        <h1 class="font-bold text-xl" style="background: linear-gradient(90deg, #1877F2, #4A90E2); -webkit-background-clip: text; color: transparent;">
+            <i class="fas fa-shield-alt mr-2"></i> Admin Dashboard
+        </h1>
+        <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700">
+            <i class="fas fa-sign-out-alt mr-1"></i> Logout
+        </button>
     </header>
 
-    <!-- Admin Dashboard -->
-    <div id="admin-dashboard" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 class="text-4xl font-bold text-center text-gray-800 mb-12 gradient-text">
-            Admin Dashboard
-        </h1>
-        
-        <!-- Navigation Tabs -->
-        <div class="flex flex-wrap justify-center gap-4 mb-8">
-            <button onclick="showAdminSection('overview')" id="tab-overview" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                Overview
-            </button>
-            <button onclick="showAdminSection('users')" id="tab-users" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors">
-                Users
-            </button>
-            <button onclick="showAdminSection('withdrawals')" id="tab-withdrawals" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors">
-                Withdrawals
-            </button>
-            <button onclick="showAdminSection('settings')" id="tab-settings" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors">
-                Settings
-            </button>
-        </div>
+    <!-- Navigation -->
+    <div class="flex flex-wrap justify-center gap-2 p-4 bg-gray-50">
+        <button onclick="showTab('overview')" class="tab-btn px-4 py-2 rounded-lg">📊 Overview</button>
+        <button onclick="showTab('users')" class="tab-btn px-4 py-2 rounded-lg">👤 Users</button>
+        <button onclick="showTab('withdrawals')" class="tab-btn px-4 py-2 rounded-lg">💰 Withdrawals</button>
+        <button onclick="showTab('settings')" class="tab-btn px-4 py-2 rounded-lg">⚙️ Settings</button>
+    </div>
 
-        <!-- Overview Section -->
-        <div id="section-overview" class="section-tabs active">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Platform Overview</h2>
-            
-            <!-- Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="facebook-card p-6 border">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 text-sm">Total Users</p>
-                            <p class="text-2xl font-bold text-gray-800" id="total-users">0</p>
-                        </div>
-                        <i class="fas fa-users text-blue-600 text-2xl"></i>
-                    </div>
+    <!-- Content -->
+    <main class="p-4 max-w-6xl mx-auto">
+        <!-- Overview -->
+        <section id="overview" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="card p-4">
+                    <p class="text-gray-600 text-sm">Total Users</p>
+                    <p id="stat-users" class="text-2xl font-bold">0</p>
                 </div>
-                
-                <div class="facebook-card p-6 border">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 text-sm">Total Earnings</p>
-                            <p class="text-2xl font-bold text-gray-800 text-green-600" id="total-earnings">₦0</p>
-                        </div>
-                        <i class="fas fa-wallet text-purple-600 text-2xl"></i>
-                    </div>
+                <div class="card p-4">
+                    <p class="text-gray-600 text-sm">Total Earnings</p>
+                    <p id="stat-earnings" class="text-2xl font-bold text-green-600">₦0</p>
                 </div>
-                
-                <div class="facebook-card p-6 border">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 text-sm">Pending Withdrawals</p>
-                            <p class="text-2xl font-bold text-gray-800 text-red-600" id="pending-withdrawals">0</p>
-                        </div>
-                        <i class="fas fa-hourglass-half text-orange-600 text-2xl"></i>
-                    </div>
+                <div class="card p-4">
+                    <p class="text-gray-600 text-sm">Pending Withdrawals</p>
+                    <p id="stat-pending" class="text-2xl font-bold text-orange-600">0</p>
                 </div>
-                
-                <div class="facebook-card p-6 border">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 text-sm">Total Referrals</p>
-                            <p class="text-2xl font-bold text-gray-800" id="total-referrals">0</p>
-                        </div>
-                        <i class="fas fa-share-alt text-green-600 text-2xl"></i>
-                    </div>
+                <div class="card p-4">
+                    <p class="text-gray-600 text-sm">Today's Activity</p>
+                    <p id="stat-today" class="text-2xl font-bold">0</p>
                 </div>
             </div>
-            
-            <!-- Recent Activity -->
-            <div class="facebook-card p-6 border mb-8">
-                <h3 class="text-xl font-bold text-gray-800 mb-4">Recent Activity</h3>
-                <div class="space-y-4" id="recent-activity">
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-inbox text-3xl mb-3"></i>
-                        <p>Loading activity...</p>
-                    </div>
+
+            <div class="card p-4">
+                <h2 class="font-bold mb-3">Recent Activity</h2>
+                <div id="activity-list" class="space-y-3">
+                    <div class="text-gray-500 text-center py-4">Loading activity...</div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Users Section -->
-        <div id="section-users" class="section-tabs">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">User Management</h2>
-            
-            <div class="facebook-card p-6 border mb-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-gray-800">All Users</h3>
-                    <div class="relative">
-                        <input type="text" id="search-users" placeholder="Search users..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-800" oninput="filterUsers()">
-                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                    </div>
+        <!-- Users -->
+        <section id="users" class="tab-content hidden">
+            <div class="card p-4 mb-4">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="font-bold">Users (<span id="user-count">0</span>)</h2>
+                    <input type="text" id="user-search" placeholder="Search..." class="px-3 py-2 border rounded-lg text-sm w-48" oninput="filterUsers()">
                 </div>
-                
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead>
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Balance</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Referrals</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <th class="p-2 text-left">Name</th>
+                                <th class="p-2 text-left">Email</th>
+                                <th class="p-2 text-left">Balance</th>
+                                <th class="p-2 text-left">Referrals</th>
+                                <th class="p-2 text-left">Joined</th>
+                                <th class="p-2 text-left">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="users-table-body" class="bg-white divide-y divide-gray-200">
-                            <!-- Users loaded by JS -->
-                        </tbody>
+                        <tbody id="users-table"></tbody>
                     </table>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Withdrawals Section -->
-        <div id="section-withdrawals" class="section-tabs">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Withdrawal Requests</h2>
-            
-            <div class="facebook-card p-6 border">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Pending Requests</h3>
-                <div class="space-y-4" id="withdrawal-requests">
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-inbox text-3xl mb-3"></i>
-                        <p>Loading withdrawals...</p>
-                    </div>
+        <!-- Withdrawals -->
+        <section id="withdrawals" class="tab-content hidden">
+            <div class="card p-4">
+                <h2 class="font-bold mb-3">Withdrawal Requests</h2>
+                <div id="withdrawals-list" class="space-y-3">
+                    <div class="text-gray-500 text-center py-4">Loading withdrawals...</div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Settings Section -->
-        <div id="section-settings" class="section-tabs">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6">Platform Settings</h2>
-            
-            <div class="facebook-card p-6 border">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Payout Rates</h3>
+        <!-- Settings -->
+        <section id="settings" class="tab-content hidden">
+            <div class="card p-4 mb-4">
+                <h2 class="font-bold mb-3">Payout Rates</h2>
                 <div class="space-y-4">
-                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                    <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
                         <div>
-                            <h4 class="font-bold text-gray-800">Ad View Rate</h4>
-                            <p class="text-sm text-gray-600">Per ad</p>
+                            <p class="font-medium">Ad View Rate</p>
+                            <p class="text-xs text-gray-600">Per ad</p>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-gray-700">₦</span>
-                            <input type="number" id="ads-rate" min="1" value="30" class="w-20 px-2 py-1 border border-gray-300 rounded bg-white text-gray-800 text-right">
+                        <div class="flex items-center">
+                            <span class="mr-2">₦</span>
+                            <input type="number" id="ads-rate" value="30" min="10" max="500" class="w-20 px-2 py-1 border rounded text-right">
                         </div>
                     </div>
-                    <div class="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                    <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
                         <div>
-                            <h4 class="font-bold text-gray-800">Referral Bonus</h4>
-                            <p class="text-sm text-gray-600">Per referral</p>
+                            <p class="font-medium">Referral Bonus</p>
+                            <p class="text-xs text-gray-600">Per referral</p>
                         </div>
-                        <div class="flex items-center space-x-4">
-                            <span class="text-gray-700">₦</span>
-                            <input type="number" id="referral-rate" min="50" value="100" class="w-20 px-2 py-1 border border-gray-300 rounded bg-white text-gray-800 text-right">
+                        <div class="flex items-center">
+                            <span class="mr-2">₦</span>
+                            <input type="number" id="referral-rate" value="100" min="50" max="1000" class="w-20 px-2 py-1 border rounded text-right">
                         </div>
                     </div>
-                    <button onclick="saveRates()" class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors">
+                    <button onclick="saveRates()" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700">
                         Save Payout Rates
                     </button>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
+    </main>
 
     <script>
-        // ===== TAPWEALTH CONFIG (Copy to all pages) =====
-const CONFIG = {
-    // Real-time config (editable in admin.html)
-    get adRate() {
-        const r = localStorage.getItem('tapwealth_ad_rate');
-        return r ? parseFloat(r) : 30; // default ₦30
-    },
-    get referralBonus() {
-        const r = localStorage.getItem('tapwealth_referral_bonus');
-        return r ? parseFloat(r) : 100; // default ₦100
-    }
-};
+        // ===== CONFIG (Paste this in every page) =====
+        const CONFIG = {
+            get adRate() { return parseFloat(localStorage.getItem('tapwealth_ad_rate') || '30'); },
+            get referralBonus() { return parseFloat(localStorage.getItem('tapwealth_referral_bonus') || '100'); }
+        };
+        // ================================================
 
-// Save config (call from admin.html)
-function saveConfig() {
-    localStorage.setItem('tapwealth_ad_rate', document.getElementById('ads-rate')?.value || 30);
-    localStorage.setItem('tapwealth_referral_bonus', document.getElementById('referral-rate')?.value || 100);
-}
-// ================================================
-        const USERS_KEY = 'tapwealth_users';
-        const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
-        const WITHDRAWALS_KEY = 'tapwealth_withdrawals';
+        let users = JSON.parse(localStorage.getItem('tapwealth_users') || '{}');
+        let withdrawals = JSON.parse(localStorage.getItem('tapwealth_withdrawals') || '[]');
 
-        // ✅ REAL DATA — no demo
-        let users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-        let withdrawals = JSON.parse(localStorage.getItem(WITHDRAWALS_KEY)) || [];
-
-        // Check CEO access
+        // Security
         function checkAccess() {
-            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
-            if (!email || email !== 'wealthysilvar@gmail.com') {
-                alert('🚫 Access denied. Log in as CEO first.');
-                window.location.href = 'login.html';
+            const email = localStorage.getItem('tapwealth_current_user_email');
+            if (email !== 'wealthysilvar@gmail.com') {
+                alert('🚫 Access denied. CEO only.');
+                window.location.href = 'dashboard.html';
                 return false;
             }
             return true;
         }
 
-        // Tab navigation
-        function showAdminSection(sectionId) {
-            document.querySelectorAll('.section-tabs').forEach(el => el.classList.remove('active'));
-            document.getElementById('section-' + sectionId).classList.add('active');
+        // Tabs
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(tab).classList.remove('hidden');
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('tab-active'));
+            event.target.classList.add('tab-active');
+        }
+
+        // Stats
+        function updateStats() {
+            const userArr = Object.values(users);
+            document.getElementById('stat-users').textContent = userArr.length;
+            document.getElementById('user-count').textContent = userArr.length;
             
-            document.querySelectorAll('[id^="tab-"]').forEach(tab => {
-                tab.classList.remove('bg-blue-600', 'text-white');
-                tab.classList.add('bg-gray-200', 'text-gray-700');
-            });
-            document.getElementById('tab-' + sectionId).classList.add('bg-blue-600', 'text-white');
+            const total = userArr.reduce((sum, u) => sum + (u.balance || 0), 0);
+            document.getElementById('stat-earnings').textContent = '₦' + total.toLocaleString();
+            
+            const pending = withdrawals.filter(w => w.status === 'pending').length;
+            document.getElementById('stat-pending').textContent = pending;
+            
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const todayActs = userArr.filter(u => 
+                u.createdAt && new Date(u.createdAt) >= today
+            ).length;
+            document.getElementById('stat-today').textContent = todayActs;
         }
 
-        // Load data
-        function loadDashboard() {
-            if (!checkAccess()) return;
-
-            // Stats
-            const userArray = Object.values(users);
-            const totalUsers = userArray.length;
-            const totalEarnings = userArray.reduce((sum, u) => sum + (u.balance || 0), 0);
-            const totalReferrals = userArray.reduce((sum, u) => sum + (u.referrals?.length || 0), 0);
-            const pendingWithdrawals = withdrawals.filter(w => w.status === 'pending').length;
-
-            document.getElementById('total-users').textContent = totalUsers;
-            document.getElementById('total-earnings').textContent = '₦' + totalEarnings.toLocaleString();
-            document.getElementById('pending-withdrawals').textContent = pendingWithdrawals;
-            document.getElementById('total-referrals').textContent = totalReferrals;
-
-            // Users table
-            renderUsers();
-            renderWithdrawals();
-        }
-
-        // Render users
+        // Users table
         function renderUsers() {
-            const tbody = document.getElementById('users-table-body');
-            tbody.innerHTML = '';
-
-            Object.values(users).forEach(user => {
-                const row = document.createElement('tr');
-                row.className = 'hover:bg-gray-50';
-                row.innerHTML = `
-                    <td class="px-6 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${user.name}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">${user.email}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">
-                        ₦${(user.balance || 0).toLocaleString()}
+            const tbody = document.getElementById('users-table');
+            tbody.innerHTML = Object.values(users).map(user => `
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="p-2">${user.name}</td>
+                    <td class="p-2">${user.email}</td>
+                    <td class="p-2">₦${(user.balance || 0).toLocaleString()}
                         <button onclick="editBalance('${user.email}')" class="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">✏️</button>
                     </td>
-                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">${user.referrals?.length || 0}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-sm text-gray-500">${new Date(user.createdAt || Date.now()).toLocaleDateString()}</td>
-                    <td class="px-6 py-3 whitespace-nowrap text-sm font-medium">
-                        <button onclick="banUser('${user.email}')" class="text-red-600 hover:text-red-900">Ban</button>
+                    <td class="p-2">${user.referrals?.length || 0}</td>
+                    <td class="p-2">${new Date(user.createdAt || Date.now()).toLocaleDateString()}</td>
+                    <td class="p-2">
+                        <button onclick="banUser('${user.email}')" class="text-red-600 hover:text-red-800 text-sm">Ban</button>
                     </td>
-                `;
-                tbody.appendChild(row);
-            });
+                </tr>
+            `).join('');
         }
 
         // Edit balance
         function editBalance(email) {
             const user = users[email];
-            const newBalance = prompt(`Enter new balance for ${user.name} (current: ₦${user.balance || 0})`);
-            if (newBalance !== null && !isNaN(newBalance)) {
-                user.balance = parseFloat(newBalance);
+            const newBal = prompt(`New balance for ${user.name}?`, user.balance || 0);
+            if (newBal !== null && !isNaN(newBal)) {
+                user.balance = parseFloat(newBal);
                 users[email] = user;
-                localStorage.setItem(USERS_KEY, JSON.stringify(users));
+                saveData();
                 renderUsers();
-                loadDashboard();
+                updateStats();
                 alert('✅ Balance updated');
             }
         }
 
         // Ban user
         function banUser(email) {
-            if (confirm(`Ban ${email}? They will be logged out.`)) {
+            if (confirm(`Permanently ban ${email}?`)) {
                 delete users[email];
-                localStorage.setItem(USERS_KEY, JSON.stringify(users));
-                if (email === localStorage.getItem(CURRENT_USER_EMAIL_KEY)) {
-                    localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
+                if (email === localStorage.getItem('tapwealth_current_user_email')) {
+                    localStorage.removeItem('tapwealth_current_user_email');
                 }
+                saveData();
                 renderUsers();
-                loadDashboard();
+                updateStats();
                 alert('✅ User banned');
             }
         }
 
-        // Render withdrawals
+        // Withdrawals
         function renderWithdrawals() {
-            const container = document.getElementById('withdrawal-requests');
-            
-            if (withdrawals.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-check-circle text-3xl mb-3 text-green-500"></i>
-                        <p>No pending withdrawals</p>
-                    </div>
-                `;
-                return;
-            }
-
+            const list = document.getElementById('withdrawals-list');
             const pending = withdrawals.filter(w => w.status === 'pending');
+            
             if (pending.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-check-circle text-3xl mb-3 text-green-500"></i>
-                        <p>All withdrawals processed</p>
-                    </div>
-                `;
+                list.innerHTML = '<div class="text-center py-6 text-green-600"><i class="fas fa-check-circle text-2xl mb-2"></i><p>All withdrawals processed</p></div>';
                 return;
             }
 
-            container.innerHTML = pending.map(w => {
+            list.innerHTML = pending.map(w => {
                 const user = users[w.userEmail] || { name: 'Unknown' };
                 return `
-                    <div class="facebook-card p-4">
+                    <div class="border rounded-lg p-3 hover:bg-gray-50">
                         <div class="flex justify-between">
                             <div>
-                                <p class="font-bold">${user.name} (${w.userEmail})</p>
-                                <p class="text-sm text-gray-600">${w.method} • ${w.reference}</p>
+                                <p class="font-medium">${user.name}</p>
+                                <p class="text-sm text-gray-600">${w.phone} • ${w.id}</p>
                             </div>
-                            <span class="status-badge status-pending">Pending</span>
+                            <span class="status status-pending">Pending</span>
                         </div>
-                        <div class="mt-3 flex justify-between items-center">
+                        <div class="mt-2 flex justify-between items-center">
                             <p class="text-lg font-bold">₦${w.amount.toLocaleString()}</p>
                             <div class="space-x-2">
-                                <button onclick="approveWithdrawal('${w.id}')" class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm">Approve</button>
-                                <button onclick="rejectWithdrawal('${w.id}')" class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm">Reject</button>
+                                <button onclick="approve('${w.id}')" class="px-3 py-1 bg-green-600 text-white rounded text-sm">Approve</button>
+                                <button onclick="reject('${w.id}')" class="px-3 py-1 bg-red-600 text-white rounded text-sm">Reject</button>
                             </div>
                         </div>
                     </div>
@@ -418,67 +268,76 @@ function saveConfig() {
         }
 
         // Approve withdrawal
-        function approveWithdrawal(id) {
+        function approve(id) {
             const w = withdrawals.find(x => x.id === id);
-            if (w) {
-                w.status = 'completed';
-                w.processedAt = new Date().toISOString();
-                
-                // Deduct from user balance
-                const user = users[w.userEmail];
-                if (user) {
-                    user.balance = (user.balance || 0) - w.amount;
-                    users[w.userEmail] = user;
-                }
-                
-                localStorage.setItem(USERS_KEY, JSON.stringify(users));
-                localStorage.setItem(WITHDRAWALS_KEY, JSON.stringify(withdrawals));
-                renderWithdrawals();
-                loadDashboard();
-                alert('✅ Withdrawal approved');
+            if (!w) return;
+            
+            const user = users[w.userEmail];
+            if (user) {
+                user.balance = (user.balance || 0) - w.amount;
+                users[w.userEmail] = user;
             }
+            
+            w.status = 'approved';
+            w.approvedAt = new Date().toISOString();
+            saveData();
+            renderWithdrawals();
+            updateStats();
+            alert('✅ Withdrawal approved');
         }
 
         // Reject withdrawal
-        function rejectWithdrawal(id) {
+        function reject(id) {
             const w = withdrawals.find(x => x.id === id);
             if (w) {
                 w.status = 'rejected';
-                w.processedAt = new Date().toISOString();
-                localStorage.setItem(WITHDRAWALS_KEY, JSON.stringify(withdrawals));
+                w.rejectedAt = new Date().toISOString();
+                saveData();
                 renderWithdrawals();
                 alert('❌ Withdrawal rejected');
             }
         }
 
-        // Save payout rates
+        // Settings
         function saveRates() {
-            const rates = {
-                adView: parseFloat(document.getElementById('ads-rate').value),
-                referral: parseFloat(document.getElementById('referral-rate').value)
-            };
-            localStorage.setItem('tapwealth_payout_rates', JSON.stringify(rates));
-            alert('✅ Payout rates saved');
+            localStorage.setItem('tapwealth_ad_rate', document.getElementById('ads-rate').value);
+            localStorage.setItem('tapwealth_referral_bonus', document.getElementById('referral-rate').value);
+            updateStats(); // refresh rates
+            alert('✅ Payout rates updated');
         }
 
-        // Logout
-        function logoutAdmin() {
-            localStorage.removeItem('tapwealth_is_admin');
-            window.location.href = 'dashboard.html';
+        // Data persistence
+        function saveData() {
+            localStorage.setItem('tapwealth_users', JSON.stringify(users));
+            localStorage.setItem('tapwealth_withdrawals', JSON.stringify(withdrawals));
         }
 
-        // Search users
+        // Search
         function filterUsers() {
-            const query = document.getElementById('search-users').value.toLowerCase();
-            const rows = document.querySelectorAll('#users-table-body tr');
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(query) ? '' : 'none';
+            const q = document.getElementById('user-search').value.toLowerCase();
+            document.querySelectorAll('#users-table tr').forEach(row => {
+                const txt = row.textContent.toLowerCase();
+                row.style.display = txt.includes(q) ? '' : 'none';
             });
         }
 
+        // Logout
+        function logout() {
+            if (confirm('Log out of admin?')) {
+                window.location.href = 'dashboard.html';
+            }
+        }
+
         // Init
-        document.addEventListener('DOMContentLoaded', loadDashboard);
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!checkAccess()) return;
+            updateStats();
+            renderUsers();
+            renderWithdrawals();
+            // Load current rates
+            document.getElementById('ads-rate').value = CONFIG.adRate;
+            document.getElementById('referral-rate').value = CONFIG.referralBonus;
+        });
     </script>
 </body>
 </html>
