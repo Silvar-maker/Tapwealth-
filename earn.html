@@ -8,39 +8,166 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; color: #1e293b; padding-bottom: 70px; }
-        .pay-app-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; }
-        .nav-item.active { color: #1d4ed8; }
-        .nav-item i { font-size: 20px; margin-bottom: 4px; }
-        .header { background: white; padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
-        .header h1 { font-weight: 700; font-size: 18px; color: #0f172a; }
-        .balance-card { background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); }
-        .task-card { background: white; border-radius: 16px; padding: 16px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; }
-        .btn { display: block; width: 100%; padding: 14px; border-radius: 12px; font-weight: 600; text-align: center; margin-top: 12px; transition: all 0.2s; }
-        .btn-primary { background: #1d4ed8; color: white; }
-        .btn-primary:hover { background: #1e40af; transform: translateY(-2px); }
-        .btn-success { background: #10b981; color: white; }
-        .toast { position: fixed; top: 60px; left: 50%; transform: translateX(-50%); background: #059669; color: white; padding: 12px 24px; border-radius: 12px; box-shadow: 0 6px 16px rgba(0,0,0,0.2); z-index: 2000; opacity: 0; transition: opacity 0.3s; }
-        .toast.show { opacity: 1; }
-        .pulse { animation: pulse 2s infinite; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+            margin: 0;
+            color: #1e293b;
+            padding-bottom: 70px;
+        }
+        .pay-app-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            z-index: 1000;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #94a3b8;
+        }
+        .nav-item.active {
+            color: #1d4ed8;
+        }
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        .header {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header h1 {
+            font-weight: 700;
+            font-size: 18px;
+            color: #0f172a;
+        }
+        .balance-card {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+        .task-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 12px;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: #1d4ed8;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        .toast {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #059669;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); }
             70% { box-shadow: 0 0 0 12px rgba(29, 78, 216, 0); }
             100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
         }
-        /* ✅ Countdown timer */
-        .countdown {
+
+        /* ✅ Overlay for countdown (on YOUR page, not popunder) */
+        #adOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
             display: none;
-            background: #1e40af;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             color: white;
-            padding: 12px;
-            border-radius: 12px;
-            font-weight: bold;
             text-align: center;
-            margin-top: 12px;
+        }
+        #countdownBox {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            z-index: 10000;
+        }
+        #closeBtn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #ef4444;
+            color: white;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10001;
         }
     </style>
+    <!-- ✅ POPUNDER SCRIPT — place ONCE in <head> -->
     <script type="text/javascript" src="//stinkymildred.com/c3/15/09/c31509f61d04a6fd175c2b8485eac857.js" async></script>
 </head>
 <body>
@@ -75,7 +202,6 @@
                 </div>
             </div>
             <button id="watchAdsBtn" class="btn btn-primary pulse">👉 Watch Ad Now</button>
-            <div id="countdown" class="countdown">⏳ Please keep the ad open for <span id="timer">30</span>s</div>
         </div>
 
         <!-- Surveys & Apps (unchanged) -->
@@ -90,9 +216,9 @@
                     <p class="text-sm text-green-600 font-medium mt-2">₦100–₦500 per survey</p>
                 </div>
             </div>
-            <a href="https://monetag.com/offerwall/3097082?uid=wealthysilvar&sub1=earn_survey" 
-               target="_blank" 
-               class="btn btn-success" 
+            <a href="https://monetag.com/offerwall/3097082?uid=wealthysilvar&sub1=earn_survey"
+               target="_blank"
+               class="btn btn-success"
                onclick="trackEarn('survey')">
                 Start Survey
             </a>
@@ -109,16 +235,12 @@
                     <p class="text-sm text-green-600 font-medium mt-2">₦150 per app</p>
                 </div>
             </div>
-            <a href="https://monetag.com/offerwall/3097082?uid=wealthysilvar&sub1=earn_app" 
-               target="_blank" 
-               class="btn btn-success" 
+            <a href="https://monetag.com/offerwall/3097082?uid=wealthysilvar&sub1=earn_app"
+               target="_blank"
+               class="btn btn-success"
                onclick="trackEarn('app')">
                 Try Apps
             </a>
-        </div>
-
-        <div class="text-center my-4">
-            <script async src="//stinkymildred.com/c3/15/09/c31509f61d04a6fd175c2b8485eac857.js"></script>
         </div>
 
         <div class="pay-app-nav">
@@ -145,6 +267,14 @@
         </div>
 
         <div class="toast" id="toast">Message</div>
+
+        <!-- ✅ Overlay for countdown (on YOUR page) -->
+        <div id="adOverlay">
+            <div id="countdownBox">
+                <span id="timer">30</span>
+            </div>
+            <div id="closeBtn">×</div>
+        </div>
 
         <script>
             const CONFIG = {
@@ -184,25 +314,38 @@
                 localStorage.setItem('tapwealth_earn_logs', JSON.stringify(log));
             }
 
-            // ✅ FIXED: 30-second countdown before payout
-            let countdownTimer = null;
+            // ✅ FIXED: Countdown on YOUR page (simulates popunder timer)
+            let countdownInterval = null;
+            let adWindow = null;
+
             function startCountdown() {
-                const countdownEl = document.getElementById('countdown');
+                const overlay = document.getElementById('adOverlay');
+                const countdownBox = document.getElementById('countdownBox');
                 const timerEl = document.getElementById('timer');
+                const closeBtn = document.getElementById('closeBtn');
+
                 let timeLeft = 30;
 
-                countdownEl.style.display = 'block';
+                overlay.style.display = 'flex';
                 timerEl.textContent = timeLeft;
 
-                countdownTimer = setInterval(() => {
+                countdownInterval = setInterval(() => {
                     timeLeft--;
                     timerEl.textContent = timeLeft;
                     if (timeLeft <= 0) {
-                        clearInterval(countdownTimer);
-                        countdownEl.style.display = 'none';
-                        creditUser(); // Only credit after 30s
+                        clearInterval(countdownInterval);
+                        overlay.style.display = 'none';
+                        creditUser();
                     }
                 }, 1000);
+
+                // Close early
+                closeBtn.onclick = () => {
+                    clearInterval(countdownInterval);
+                    overlay.style.display = 'none';
+                    if (adWindow && !adWindow.closed) adWindow.close();
+                    showToast('❌ Ad closed early — no reward.');
+                };
             }
 
             function creditUser() {
@@ -237,12 +380,27 @@
                     return;
                 }
 
-                // ✅ Popunder opens automatically on first interaction
-                if (typeof atOptions !== 'undefined' && atOptions.script) {
-                    atOptions.script();
+                // ✅ Open popunder in new window (Adsterra impression)
+                adWindow = window.open('about:blank', '_blank');
+                if (!adWindow) {
+                    alert('Pop-up blocked! Please allow and retry.');
+                    return;
                 }
 
-                // ✅ Start countdown — user must wait 30s
+                // Inject Adsterra script into blank window
+                adWindow.document.write(`
+                    <html><head><title>Ad</title></head><body>
+                    <script type="text/javascript" src="//stinkymildred.com/c3/15/09/c31509f61d04a6fd175c2b8485eac857.js" async></script>
+                    <script>
+                        setTimeout(() => {
+                            if (typeof atOptions !== 'undefined' && atOptions.script) atOptions.script();
+                        }, 500);
+                    </script>
+                    </body></html>
+                `);
+                adWindow.document.close();
+
+                // ✅ Start countdown on YOUR page
                 startCountdown();
             }
 
