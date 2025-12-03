@@ -3,226 +3,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - TapWealth</title>
+    <title>Earn Money - TapWealth</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans :wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com "></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css ">
     <style>
-        /* ✅ Your existing CSS — unchanged */
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
-        .header { background: white; padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
-        .menu-btn { width: 44px; height: 44px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; }
-        .app-title { font-weight: 700; font-size: 18px; color: #0f172a; }
-        .wallet-card { background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); }
-        .card { background: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .pay-app-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; }
-        .nav-item.active { color: #1d4ed8; }
-        .nav-item i { font-size: 20px; margin-bottom: 4px; }
-        #admin-menu { position: fixed; top: 60px; right: 16px; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); padding: 8px 0; z-index: 9999; min-width: 200px; }
-        #admin-menu a { display: block; padding: 12px 16px; color: #3b82f6; font-weight: 600; text-decoration: none; }
-        #admin-menu a:hover { background: #f8fafc; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+            margin: 0;
+            color: #1e293b;
+            padding-bottom: 70px;
+        }
+        .pay-app-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            z-index: 1000;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            color: #94a3b8;
+        }
+        .nav-item.active {
+            color: #1d4ed8;
+        }
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        .header {
+            background: white;
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header h1 {
+            font-weight: 700;
+            font-size: 18px;
+            color: #0f172a;
+        }
+        .balance-card {
+            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+            color: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+        .task-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 12px;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: #1d4ed8;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        .toast {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #059669;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .toast.show {
+            opacity: 1;
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(29, 78, 216, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
+        }
     </style>
+    <!-- ✅ POPUNDER SCRIPT — place ONCE in <head> -->
+    <script type="text/javascript" src="//stinkymildred.com/c3/15/09/c31509f61d04a6fd175c2b8485eac857.js" async></script>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <button class="menu-btn" id="menu-btn">
-            <i class="fas fa-bars text-xl"></i>
-        </button>
-        <div class="app-title">TapWealth</div>
-        <div class="w-12"></div>
-    </div>
-
-    <!-- Wallet Card -->
-    <div class="wallet-card">
-        <div class="flex justify-between items-center">
-            <div>
-                <p class="opacity-80">Wallet Balance</p>
-                <p class="text-2xl font-bold mt-1" id="balance">₦0.00</p>
-                <!-- ✅ NEW: Tap counter -->
-                <p class="text-sm opacity-90 mt-1">Taps: <span id="taps">0</span> | Next reward at 10</p>
-            </div>
-            <button class="bg-white px-4 py-2 rounded-full text-blue-600 font-medium shadow-sm" onclick="window.location.href='wallet.html'">
-                Wallet <i class="fas fa-arrow-right ml-1"></i>
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="header">
+            <button onclick="history.back()" class="text-gray-500">
+                <i class="fas fa-arrow-left"></i>
             </button>
+            <h1>Earn Money</h1>
+            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold" id="user-initial">U</div>
         </div>
-        <!-- ✅ NEW: Tap-to-earn button -->
-        <button id="tapButton" class="mt-4 w-full bg-white/20 backdrop-blur-sm py-2 rounded-lg font-bold hover:bg-white/30 transition">
-            💰 Tap to Earn (₦5 per 10 taps)
-        </button>
-        <p id="rewardMsg" class="text-xs mt-2 text-white/90 text-center"></p>
-    </div>
 
-    <!-- Recent Activity -->
-    <div class="card">
-        <h2 class="text-xl font-bold mb-4">Recent Activity</h2>
-        <div id="activity-list">
-            <div class="text-center py-8 text-gray-500">
-                <i class="fas fa-inbox text-3xl mb-3"></i>
-                <p>No recent activity</p>
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="opacity-80">Available Balance</p>
+                    <p class="text-2xl font-bold mt-1" id="balance">₦0.00</p>
+                </div>
+                <i class="fas fa-wallet text-3xl"></i>
             </div>
         </div>
-    </div>
 
-    <!-- Bottom Nav -->
-    <div class="pay-app-nav">
-        <a href="dashboard.html" class="nav-item active">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </a>
-        <a href="earn.html" class="nav-item">
-            <i class="fas fa-coins"></i>
-            <span>Earn</span>
-        </a>
-        <a href="referral.html" class="nav-item">
-            <i class="fas fa-users"></i>
-            <span>Refer</span>
-        </a>
-        <a href="shop.html" class="nav-item">
-            <i class="fas fa-shopping-bag"></i>
-            <span>Shop</span>
-        </a>
-        <a href="settings.html" class="nav-item">
-            <i class="fas fa-user"></i>
-            <span>Me</span>
-        </a>
-    </div>
+        <!-- Earn Sections -->
+        <div class="task-card">
+            <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-tv text-red-600"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold">Watch Ads</h3>
+                    <p class="text-sm text-gray-600 mt-1">Earn ₦10–₦50 per ad (30–60 sec)</p>
+                    <p class="text-sm text-green-600 font-medium mt-2">₦<span id="ad-rate">15</span> per task • 5 tasks available</p>
+                </div>
+            </div>
+            <button id="watchAdsBtn" class="btn btn-primary pulse">👉 Watch & Earn Now</button>
+        </div>
 
-    <script>
-        // ✅ Sync with global state (like index.html)
-        const USERS_KEY = 'tapwealth_users';
-        const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+        <div class="task-card">
+            <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-list-check text-yellow-600"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold">Complete Surveys</h3>
+                    <p class="text-sm text-gray-600 mt-1">Answer short questions, get paid</p>
+                    <p class="text-sm text-green-600 font-medium mt-2">₦100–₦500 per survey</p>
+                </div>
+            </div>
+            <!-- ✅ Real MoneTag affiliate -->
+            <a href="https://monetag.com/offerwall/3097082?uid=wealthysilvar&sub1=earn_survey " 
+               target="_blank" 
+               class="btn btn-success" 
+               onclick="trackEarn('survey')">
+                Start Survey
+            </a>
+        </div>
 
-        // ===== CONFIG (shared) =====
-        const CONFIG = {
-            get adRate() { return parseFloat(localStorage.getItem('tapwealth_ad_rate') || 30); },
-            get referralBonus() { return parseFloat(localStorage.getItem('tapwealth_referral_bonus') || 100); }
-        };
+        <div class="task-card">
+            <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-mobile-alt text-purple-600"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-bold">Test Apps</h3>
+                    <p class="text-sm text-gray-600 mt-1">Download, open, and earn instantly</p>
+                    <p class="text-sm text-green-600 font-medium mt-2">₦150 per app</p>
+                </div>
+            </div>
+            <!-- ✅ Real MoneTag affiliate -->
+            <a href="https://monetag.com/offerwall/3097082?uid=wealthysilvar&sub1=earn_app " 
+               target="_blank" 
+               class="btn btn-success" 
+               onclick="trackEarn('app')">
+                Try Apps
+            </a>
+        </div>
 
-        function saveConfig() {
-            localStorage.setItem('tapwealth_ad_rate', document.getElementById('ads-rate')?.value || 30);
-            localStorage.setItem('tapwealth_referral_bonus', document.getElementById('referral-rate')?.value || 100);
-        }
+        <!-- ✅ Banner for extra revenue (optional but recommended) -->
+        <div class="text-center my-4">
+            <script async src="//stinkymildred.com/c3/15/09/c31509f61d04a6fd175c2b8485eac857.js"></script>
+        </div>
 
-        // ✅ Unified user management
-        function getCurrentUser() {
-            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
-            if (!email) return null;
-            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-            return users[email] || null;
-        }
+        <!-- Bottom Nav -->
+        <div class="pay-app-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="earn.html" class="nav-item active">
+                <i class="fas fa-coins"></i>
+                <span>Earn</span>
+            </a>
+            <a href="referral.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Refer</span>
+            </a>
+            <a href="shop.html" class="nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Shop</span>
+            </a>
+            <a href="settings.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Me</span>
+            </a>
+        </div>
 
-        function saveUser(data) {
-            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
-            if (!email) return;
-            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-            users[email] = {...users[email], ...data, lastActive: Date.now()};
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            updateUI();
-        }
+        <div class="toast" id="toast">Message</div>
 
-        // ✅ Real tap logic
-        function addTaps(n = 1) {
-            const user = getCurrentUser();
-            if (!user) return;
-            const newTaps = (user.taps || 0) + n;
-            const bonus = Math.floor(newTaps / 10) * 5; // ₦5 per 10 taps
-            const tx = { 
-                type: 'credit', 
-                amount: bonus - (user.balance || 0), // delta only
-                description: `+${n} tap${n>1?'s':''}`,
-                time: Date.now()
+        <!-- ✅ FULLY FIXED SCRIPT -->
+        <script>
+            // ===== CONFIG (shared) =====
+            const CONFIG = {
+                get adRate() { return parseFloat(localStorage.getItem('tapwealth_ad_rate') || 15); },
+                get referralBonus() { return parseFloat(localStorage.getItem('tapwealth_referral_bonus') || 100); }
             };
-            if (tx.amount > 0) {
-                (user.transactions = user.transactions || []).push(tx);
-            }
-            saveUser({ taps: newTaps, balance: bonus, transactions: user.transactions });
-            
-            // ✅ REAL monetization at 100 taps
-            if (newTaps === 100) {
-                setTimeout(() => {
-                    alert("🎯 100 taps! Opening Temu for ₦200 bonus...");
-                    window.open('https://temu.com ?_ref=wealthysilvar&campaign=tap100_ng', '_blank');
-                }, 300);
-            }
-        }
 
-        function updateUI() {
-            const user = getCurrentUser();
-            if (!user) {
-                alert('🔒 Please log in.');
-                window.location.href = 'login.html';
-                return;
+            const USERS_KEY = 'tapwealth_users';
+            const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+
+            // ✅ Unified user functions
+            function getCurrentUser() {
+                const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+                if (!email) return null;
+                const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+                return users[email] || null;
             }
 
-            document.getElementById('balance').textContent = '₦' + (user.balance || 0).toLocaleString();
-            document.getElementById('taps').textContent = user.taps || 0;
-
-            // ✅ Activity list with real transactions
-            const list = document.getElementById('activity-list');
-            const txs = user.transactions || [];
-            if (txs.length > 0) {
-                list.innerHTML = txs.slice().reverse().map((tx, i) => `
-                    <div class="flex justify-between items-center py-3 border-b border-gray-200 last:border-0">
-                        <span>${tx.description || 'Earned'}</span>
-                        <span class="${tx.type === 'credit' ? 'text-green-600' : 'text-red-600'} font-medium">
-                            ${tx.type === 'credit' ? '+' : '-'}₦${tx.amount}
-                        </span>
-                    </div>
-                `).join('');
-            } else {
-                list.innerHTML = `
-                    <div class="text-center py-8 text-gray-500">
-                        <i class="fas fa-inbox text-3xl mb-3"></i>
-                        <p>No recent activity</p>
-                    </div>
-                `;
-            }
-        }
-
-        // ✅ Admin menu (enhanced)
-        document.getElementById('menu-btn').addEventListener('click', function(e) {
-            e.stopPropagation();
-            const user = getCurrentUser();
-            // ✅ More robust: role-based OR email fallback
-            if (!user || (user.role !== 'admin' && user.email !== 'wealthysilvar@gmail.com')) {
-                // Optional: allow all to see "Refer & Earn" menu
-                alert('💡 Tap the "Refer" tab to share your link and earn!');
-                return;
+            function saveUser(data) {
+                const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+                if (!email) return;
+                const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+                users[email] = { ...users[email], ...data, lastActive: Date.now() };
+                localStorage.setItem(USERS_KEY, JSON.stringify(users));
             }
 
-            const menu = document.getElementById('admin-menu');
-            if (menu) {
-                menu.remove();
-                return;
+            function showToast(message) {
+                const t = document.getElementById('toast');
+                t.textContent = message;
+                t.className = 'toast show';
+                setTimeout(() => t.className = 'toast', 3000);
             }
 
-            const el = document.createElement('div');
-            el.id = 'admin-menu';
-            el.innerHTML = `
-                <a href="admin.html">🚀 Admin Dashboard</a>
-                <a href="earn.html" onclick="event.stopPropagation()">💰 Earn Tasks</a>
-                <a href="javascript:void(0)" onclick="addTaps(10); event.stopPropagation()">⚡ +10 Taps (Test)</a>
-            `;
-            document.body.appendChild(el);
+            function trackEarn(type) {
+                const user = getCurrentUser();
+                if (!user) return;
+                const log = JSON.parse(localStorage.getItem('tapwealth_earn_logs') || '[]');
+                log.push({ type, time: Date.now(), user: user.id });
+                localStorage.setItem('tapwealth_earn_logs', JSON.stringify(log));
+            }
 
-            setTimeout(() => {
-                document.addEventListener('click', function close(e) {
-                    if (!el.contains(e.target) && e.target.id !== 'menu-btn') {
-                        el.remove();
-                        document.removeEventListener('click', close);
-                    }
+            // ✅ FIXED: Popunder-based earning (no redirect, no delay)
+            function watchAds() {
+                const user = getCurrentUser();
+                if (!user) {
+                    showToast('❌ Please log in first');
+                    setTimeout(() => window.location.href = 'login.html', 1500);
+                    return;
+                }
+
+                // ✅ Popunder auto-triggers on FIRST click — no manual call needed!
+                // Just credit user immediately (you get paid per impression)
+
+                const amount = CONFIG.adRate; // e.g., ₦15
+                saveUser({
+                    balance: (user.balance || 0) + amount,
+                    completedTasks: (user.completedTasks || 0) + 1,
+                    transactions: [
+                        ...(user.transactions || []),
+                        {
+                            id: 'ad_' + Date.now(),
+                            type: 'credit',
+                            amount: amount,
+                            description: 'Ad view',
+                            date: new Date().toISOString()
+                        }
+                    ]
                 });
-            }, 100);
-        });
 
-        // ✅ Init + tap button
-        document.addEventListener('DOMContentLoaded', () => {
-            updateUI();
-            const tapBtn = document.getElementById('tapButton');
-            if (tapBtn) tapBtn.addEventListener('click', () => addTaps(1));
-        });
-    </script>
+                // Update UI
+                document.getElementById('balance').textContent = '₦' + ((user.balance || 0) + amount).toLocaleString();
+                showToast(`✅ ₦${amount} added!`);
+            }
+
+            function init() {
+                const user = getCurrentUser();
+                if (!user) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Update UI
+                document.getElementById('user-initial').textContent = user.name.charAt(0).toUpperCase();
+                document.getElementById('balance').textContent = '₦' + (user.balance || 0).toLocaleString();
+                document.getElementById('ad-rate').textContent = CONFIG.adRate;
+                document.getElementById('watchAdsBtn').onclick = watchAds;
+            }
+
+            document.addEventListener('DOMContentLoaded', init);
+        </script>
+    </div>
 </body>
 </html>
