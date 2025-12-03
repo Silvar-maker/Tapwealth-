@@ -8,7 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ✅ Your existing CSS — unchanged */
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
         .header { background: white; padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
         .menu-btn { width: 44px; height: 44px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; }
@@ -40,18 +39,11 @@
             <div>
                 <p class="opacity-80">Wallet Balance</p>
                 <p class="text-2xl font-bold mt-1" id="balance">₦0.00</p>
-                <!-- ✅ NEW: Tap counter -->
-                <p class="text-sm opacity-90 mt-1">Taps: <span id="taps">0</span> | Next reward at 10</p>
             </div>
             <button class="bg-white px-4 py-2 rounded-full text-blue-600 font-medium shadow-sm" onclick="window.location.href='wallet.html'">
                 Wallet <i class="fas fa-arrow-right ml-1"></i>
             </button>
         </div>
-        <!-- ✅ NEW: Tap-to-earn button -->
-        <button id="tapButton" class="mt-4 w-full bg-white/20 backdrop-blur-sm py-2 rounded-lg font-bold hover:bg-white/30 transition">
-            💰 Tap to Earn (₦5 per 10 taps)
-        </button>
-        <p id="rewardMsg" class="text-xs mt-2 text-white/90 text-center"></p>
     </div>
 
     <!-- Recent Activity -->
@@ -90,11 +82,9 @@
     </div>
 
     <script>
-        // ✅ Sync with global state (like index.html)
         const USERS_KEY = 'tapwealth_users';
         const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
 
-        // ===== CONFIG (shared) =====
         const CONFIG = {
             get adRate() { return parseFloat(localStorage.getItem('tapwealth_ad_rate') || 30); },
             get referralBonus() { return parseFloat(localStorage.getItem('tapwealth_referral_bonus') || 100); }
@@ -105,7 +95,6 @@
             localStorage.setItem('tapwealth_referral_bonus', document.getElementById('referral-rate')?.value || 100);
         }
 
-        // ✅ Unified user management
         function getCurrentUser() {
             const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
             if (!email) return null;
@@ -122,32 +111,6 @@
             updateUI();
         }
 
-        // ✅ Real tap logic
-        function addTaps(n = 1) {
-            const user = getCurrentUser();
-            if (!user) return;
-            const newTaps = (user.taps || 0) + n;
-            const bonus = Math.floor(newTaps / 10) * 5; // ₦5 per 10 taps
-            const tx = { 
-                type: 'credit', 
-                amount: bonus - (user.balance || 0), // delta only
-                description: `+${n} tap${n>1?'s':''}`,
-                time: Date.now()
-            };
-            if (tx.amount > 0) {
-                (user.transactions = user.transactions || []).push(tx);
-            }
-            saveUser({ taps: newTaps, balance: bonus, transactions: user.transactions });
-            
-            // ✅ REAL monetization at 100 taps
-            if (newTaps === 100) {
-                setTimeout(() => {
-                    alert("🎯 100 taps! Opening Temu for ₦200 bonus...");
-                    window.open('https://temu.com?_ref=wealthysilvar&campaign=tap100_ng', '_blank');
-                }, 300);
-            }
-        }
-
         function updateUI() {
             const user = getCurrentUser();
             if (!user) {
@@ -157,9 +120,7 @@
             }
 
             document.getElementById('balance').textContent = '₦' + (user.balance || 0).toLocaleString();
-            document.getElementById('taps').textContent = user.taps || 0;
 
-            // ✅ Activity list with real transactions
             const list = document.getElementById('activity-list');
             const txs = user.transactions || [];
             if (txs.length > 0) {
@@ -181,13 +142,10 @@
             }
         }
 
-        // ✅ Admin menu (enhanced)
         document.getElementById('menu-btn').addEventListener('click', function(e) {
             e.stopPropagation();
             const user = getCurrentUser();
-            // ✅ More robust: role-based OR email fallback
             if (!user || (user.role !== 'admin' && user.email !== 'wealthysilvar@gmail.com')) {
-                // Optional: allow all to see "Refer & Earn" menu
                 alert('💡 Tap the "Refer" tab to share your link and earn!');
                 return;
             }
@@ -203,7 +161,6 @@
             el.innerHTML = `
                 <a href="admin.html">🚀 Admin Dashboard</a>
                 <a href="earn.html" onclick="event.stopPropagation()">💰 Earn Tasks</a>
-                <a href="javascript:void(0)" onclick="addTaps(10); event.stopPropagation()">⚡ +10 Taps (Test)</a>
             `;
             document.body.appendChild(el);
 
@@ -217,12 +174,7 @@
             }, 100);
         });
 
-        // ✅ Init + tap button
-        document.addEventListener('DOMContentLoaded', () => {
-            updateUI();
-            const tapBtn = document.getElementById('tapButton');
-            if (tapBtn) tapBtn.addEventListener('click', () => addTaps(1));
-        });
+        document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
 </html>
