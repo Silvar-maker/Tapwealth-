@@ -1,325 +1,159 @@
+<!-- Updated earn.html with Adsterra integrated -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Money - TapWealth</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans :wght@500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com "></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css ">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Earnings Dashboard</title>
+
+    <!-- Adsterra Head Script (already included in your original file) -->
+    <script
+      type="text/javascript"
+      src="//stinkymildred.com/c3/15/09/c31509f61d04a6fd175c2b8485eac857.js"
+    ></script>
+
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f8fafc;
-            margin: 0;
-            color: #1e293b;
-            padding-bottom: 70px;
-        }
-        .pay-app-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
-            z-index: 1000;
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 10px;
-            color: #94a3b8;
-        }
-        .nav-item.active {
-            color: #1d4ed8;
-        }
-        .nav-item i {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
-        .header {
-            background: white;
-            padding: 16px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .header h1 {
-            font-weight: 700;
-            font-size: 18px;
-            color: #0f172a;
-        }
-        .balance-card {
-            background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-            color: white;
-            border-radius: 16px;
-            padding: 20px;
-            margin: 16px;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-        }
-        .task-card {
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            margin: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            border: 1px solid #f1f5f9;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 600;
-            text-align: center;
-            margin-top: 12px;
-            transition: all 0.2s;
-        }
-        .btn-primary {
-            background: #1d4ed8;
-            color: white;
-        }
-        .btn-primary:hover {
-            background: #1e40af;
-            transform: translateY(-2px);
-        }
-        .btn-success {
-            background: #10b981;
-            color: white;
-        }
-        .toast {
-            position: fixed;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #059669;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .toast.show {
-            opacity: 1;
-        }
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(29, 78, 216, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+
+      body {
+        background: #f4f6f9;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+      }
+
+      .main-card, .wallet-section, .tasks-section {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .earn-text {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #444;
+      }
+
+      .earnings-amount {
+        font-size: 32px;
+        font-weight: 700;
+        color: #27ae60;
+      }
+
+      .task-card {
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        margin-bottom: 15px;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #3498db;
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 12px;
+      }
+
+      button:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+      }
+
+      .bottom-ad {
+        margin: 30px 0;
+        text-align: center;
+      }
     </style>
-    <!-- ✅ POPUNDER SCRIPT — place ONCE in <head> -->
-    <script type="text/javascript" src="//stinkymildred.com/c3/15/09/c31509f61d04a6fd175c2b8485eac857.js" async></script>
-</head>
-<body>
-    <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <div class="header">
-            <button onclick="history.back()" class="text-gray-500">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <h1>Earn Money</h1>
-            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold" id="user-initial">U</div>
-        </div>
+  </head>
 
-        <!-- Balance Card -->
-        <div class="balance-card">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="opacity-80">Available Balance</p>
-                    <p class="text-2xl font-bold mt-1" id="balance">₦0.00</p>
-                </div>
-                <i class="fas fa-wallet text-3xl"></i>
-            </div>
-        </div>
+  <body>
+    <h2 class="header">Earnings Dashboard 💰</h2>
 
-        <!-- Earn Sections -->
-        <div class="task-card">
-            <div class="flex items-start">
-                <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
-                    <i class="fas fa-tv text-red-600"></i>
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-bold">Watch Ads</h3>
-                    <p class="text-sm text-gray-600 mt-1">Earn ₦10–₦50 per ad (30–60 sec)</p>
-                    <p class="text-sm text-green-600 font-medium mt-2">₦<span id="ad-rate">15</span> per task • 5 tasks available</p>
-                </div>
-            </div>
-            <button id="watchAdsBtn" class="btn btn-primary pulse">👉 Watch & Earn Now</button>
-        </div>
-
-        <div class="task-card">
-            <div class="flex items-start">
-                <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
-                    <i class="fas fa-list-check text-yellow-600"></i>
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-bold">Complete Surveys</h3>
-                    <p class="text-sm text-gray-600 mt-1">Answer short questions, get paid</p>
-                    <p class="text-sm text-green-600 font-medium mt-2">₦100–₦500 per survey</p>
-                </div>
-            </div>
-            <!-- ✅ Real MoneTag affiliate -->
-            <a href="https://monetag.com/offerwall/3097082?uid=wealthysilvar&sub1=earn_survey " 
-               target="_blank" 
-               class="btn btn-success" 
-               onclick="trackEarn('survey')">
-                Start Survey
-            </a>
-        </div>
-
-        <div class="task-card">
-            <div class="flex items-start">
-                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
-                    <i class="fas fa-mobile-alt text-purple-600"></i>
-                </div>
-                <div class="flex-1">
-                    <h3 class="font-bold">Test Apps</h3>
-                    <p class="text-sm text-gray-600 mt-1">Download, open, and earn instantly</p>
-                    <p class="text-sm text-green-600 font-medium mt-2">₦150 per app</p>
-                </div>
-            </div>
-            <!-- ✅ Real MoneTag affiliate -->
-            <a href="https://monetag.com/offerwall/3097082?uid=wealthysilvar&sub1=earn_app " 
-               target="_blank" 
-               class="btn btn-success" 
-               onclick="trackEarn('app')">
-                Try Apps
-            </a>
-        </div>
-
-        <!-- ✅ Banner for extra revenue (optional but recommended) -->
-        <div class="text-center my-4">
-            <script async src="//stinkymildred.com/c3/15/09/c31509f61d04a6fd175c2b8485eac857.js"></script>
-        </div>
-
-        <!-- Bottom Nav -->
-        <div class="pay-app-nav">
-            <a href="dashboard.html" class="nav-item">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-            </a>
-            <a href="earn.html" class="nav-item active">
-                <i class="fas fa-coins"></i>
-                <span>Earn</span>
-            </a>
-            <a href="referral.html" class="nav-item">
-                <i class="fas fa-users"></i>
-                <span>Refer</span>
-            </a>
-            <a href="shop.html" class="nav-item">
-                <i class="fas fa-shopping-bag"></i>
-                <span>Shop</span>
-            </a>
-            <a href="settings.html" class="nav-item">
-                <i class="fas fa-user"></i>
-                <span>Me</span>
-            </a>
-        </div>
-
-        <div class="toast" id="toast">Message</div>
-
-        <!-- ✅ FULLY FIXED SCRIPT -->
-        <script>
-            // ===== CONFIG (shared) =====
-            const CONFIG = {
-                get adRate() { return parseFloat(localStorage.getItem('tapwealth_ad_rate') || 15); },
-                get referralBonus() { return parseFloat(localStorage.getItem('tapwealth_referral_bonus') || 100); }
-            };
-
-            const USERS_KEY = 'tapwealth_users';
-            const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
-
-            // ✅ Unified user functions
-            function getCurrentUser() {
-                const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
-                if (!email) return null;
-                const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-                return users[email] || null;
-            }
-
-            function saveUser(data) {
-                const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
-                if (!email) return;
-                const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-                users[email] = { ...users[email], ...data, lastActive: Date.now() };
-                localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            }
-
-            function showToast(message) {
-                const t = document.getElementById('toast');
-                t.textContent = message;
-                t.className = 'toast show';
-                setTimeout(() => t.className = 'toast', 3000);
-            }
-
-            function trackEarn(type) {
-                const user = getCurrentUser();
-                if (!user) return;
-                const log = JSON.parse(localStorage.getItem('tapwealth_earn_logs') || '[]');
-                log.push({ type, time: Date.now(), user: user.id });
-                localStorage.setItem('tapwealth_earn_logs', JSON.stringify(log));
-            }
-
-            // ✅ FIXED: Popunder-based earning (no redirect, no delay)
-            function watchAds() {
-                const user = getCurrentUser();
-                if (!user) {
-                    showToast('❌ Please log in first');
-                    setTimeout(() => window.location.href = 'login.html', 1500);
-                    return;
-                }
-
-                // ✅ Popunder auto-triggers on FIRST click — no manual call needed!
-                // Just credit user immediately (you get paid per impression)
-
-                const amount = CONFIG.adRate; // e.g., ₦15
-                saveUser({
-                    balance: (user.balance || 0) + amount,
-                    completedTasks: (user.completedTasks || 0) + 1,
-                    transactions: [
-                        ...(user.transactions || []),
-                        {
-                            id: 'ad_' + Date.now(),
-                            type: 'credit',
-                            amount: amount,
-                            description: 'Ad view',
-                            date: new Date().toISOString()
-                        }
-                    ]
-                });
-
-                // Update UI
-                document.getElementById('balance').textContent = '₦' + ((user.balance || 0) + amount).toLocaleString();
-                showToast(`✅ ₦${amount} added!`);
-            }
-
-            function init() {
-                const user = getCurrentUser();
-                if (!user) {
-                    window.location.href = 'login.html';
-                    return;
-                }
-
-                // Update UI
-                document.getElementById('user-initial').textContent = user.name.charAt(0).toUpperCase();
-                document.getElementById('balance').textContent = '₦' + (user.balance || 0).toLocaleString();
-                document.getElementById('ad-rate').textContent = CONFIG.adRate;
-                document.getElementById('watchAdsBtn').onclick = watchAds;
-            }
-
-            document.addEventListener('DOMContentLoaded', init);
-        </script>
+    <div class="main-card">
+      <p class="earn-text">Total Earnings:</p>
+      <p id="earnings" class="earnings-amount">₦0.00</p>
     </div>
-</body>
+
+    <div class="wallet-section">
+      <h3>Wallet Balance</h3>
+      <p id="wallet" style="font-size: 22px; font-weight: bold">₦0.00</p>
+    </div>
+
+    <div class="tasks-section">
+      <h3>Available Tasks</h3>
+
+      <div class="task-card">
+        <h4>Watch Ads</h4>
+        <p>Earn ₦15 after 30 seconds of ad view</p>
+
+        <!-- Inline Adsterra Script Ad Placement -->
+        <div class="my-4 text-center">
+          <script
+            type="text/javascript"
+            src="//stinkymildred.com/c3/15/09/c31509f61d04a6fd175c2b8485eac857.js"
+          ></script>
+        </div>
+
+        <button id="watchAdBtn">Watch Ad Now</button>
+      </div>
+    </div>
+
+    <!-- Bottom Adsterra Banner -->
+    <div class="bottom-ad">
+      <script
+        type="text/javascript"
+        src="//stinkymildred.com/c3/15/09/c31509f61d04a6fd175c2b8485eac857.js"
+      ></script>
+    </div>
+
+    <script>
+      const earningsDisplay = document.getElementById("earnings");
+      const walletDisplay = document.getElementById("wallet");
+      const watchAdBtn = document.getElementById("watchAdBtn");
+
+      let earnings = parseFloat(localStorage.getItem("earnings")) || 0;
+      let wallet = parseFloat(localStorage.getItem("wallet")) || 0;
+
+      function updateDisplay() {
+        earningsDisplay.textContent = `₦${earnings.toFixed(2)}`;
+        walletDisplay.textContent = `₦${wallet.toFixed(2)}`;
+      }
+
+      updateDisplay();
+
+      watchAdBtn.addEventListener("click", function () {
+        watchAdBtn.disabled = true;
+        watchAdBtn.textContent = "Watching Ad...";
+
+        setTimeout(() => {
+          earnings += 15;
+          wallet += 15;
+          localStorage.setItem("earnings", earnings);
+          localStorage.setItem("wallet", wallet);
+
+          updateDisplay();
+
+          watchAdBtn.disabled = false;
+          watchAdBtn.textContent = "Watch Ad Now";
+          alert("Ad watched successfully! You've earned ₦15.");
+        }, 30000);
+      });
+    </script>
+  </body>
 </html>
