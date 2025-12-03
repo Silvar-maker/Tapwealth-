@@ -349,28 +349,31 @@
             }
 
             function creditUser() {
-                const user = getCurrentUser();
-                if (!user) return;
+  const user = getCurrentUser();
+  if (!user) return;
 
-                const amount = CONFIG.adRate;
-                saveUser({
-                    balance: (user.balance || 0) + amount,
-                    completedTasks: (user.completedTasks || 0) + 1,
-                    transactions: [
-                        ...(user.transactions || []),
-                        {
-                            id: 'ad_' + Date.now(),
-                            type: 'credit',
-                            amount: amount,
-                            description: 'Ad view (30s)',
-                            date: new Date().toISOString()
-                        }
-                    ]
-                });
+  const amount = CONFIG.adRate;
+  const newBalance = (user.balance || 0) + amount;
 
-                document.getElementById('balance').textContent = '₦' + ((user.balance || 0) + amount).toLocaleString();
-                showToast(`✅ ₦${amount} added after 30s!`);
-            }
+  // ✅ CRITICAL: Save to localStorage → syncs across all pages
+  saveUser({
+    balance: newBalance,
+    completedTasks: (user.completedTasks || 0) + 1,
+    transactions: [
+      ...(user.transactions || []),
+      {
+        id: 'ad_' + Date.now(),
+        type: 'credit',
+        amount: amount,
+        description: 'Ad view (30s)',
+        date: new Date().toISOString()
+      }
+    ]
+  });
+
+  // Now update UI
+  document.getElementById('balance').textContent = '₦' + newBalance.toLocaleString();
+}
 
             function watchAds() {
                 const user = getCurrentUser();
