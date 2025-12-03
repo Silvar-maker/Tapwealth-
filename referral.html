@@ -8,7 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ✅ Your existing CSS — unchanged */
         body { font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; color: #1e293b; padding-bottom: 70px; }
         h1, h2, h3, h4, h5, h6 { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif; }
         .facebook-blue { background-color: #1877F2; }
@@ -27,10 +26,116 @@
     </style>
 </head>
 <body class="facebook-light min-h-screen">
-    <!-- ... unchanged HTML (header, stats, share section, nav) ... -->
+    <!-- Facebook Header -->
+    <header class="facebook-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-14 items-center">
+                <div class="flex items-center">
+                    <button class="text-gray-600" onclick="history.back()">
+                        <i class="fas fa-arrow-left text-xl mr-4"></i>
+                    </button>
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
+                        <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
+    <!-- Main Content -->
+    <div class="facebook-main-content">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-800 mb-2">Referrals</h1>
+                <p class="text-gray-600">Earn money by inviting friends to TapWealth</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="facebook-card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Your Referrals</p>
+                            <p class="text-2xl font-bold text-gray-800" id="total-referrals">0</p>
+                        </div>
+                        <i class="fas fa-users text-blue-600 text-2xl"></i>
+                    </div>
+                </div>
+                
+                <div class="facebook-card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Referral Bonus</p>
+                            <p class="text-2xl font-bold text-gray-800" id="referral-bonus">₦0</p>
+                        </div>
+                        <i class="fas fa-gift text-green-600 text-2xl"></i>
+                    </div>
+                </div>
+                
+                <div class="facebook-card p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-600 text-sm">Lifetime Earnings</p>
+                            <p class="text-2xl font-bold text-gray-800" id="lifetime-earnings">₦0</p>
+                        </div>
+                        <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Share Link -->
+            <div class="facebook-card p-6 mb-8">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Share Your Referral Link</h2>
+                <div class="flex items-center mb-4">
+                    <input type="text" id="referral-link" readonly class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value="Loading...">
+                    <button onclick="copyLink()" class="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Copy</button>
+                </div>
+                <button onclick="shareViaWhatsApp()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
+                    <i class="fab fa-whatsapp mr-2"></i> Share on WhatsApp
+                </button>
+            </div>
+
+            <!-- How It Works -->
+            <div class="facebook-card p-6">
+                <h3 class="font-bold mb-3">How It Works</h3>
+                <ol class="list-decimal pl-5 space-y-2 text-sm text-gray-700">
+                    <li>Share your link with friends</li>
+                    <li>They sign up & complete 1 task</li>
+                    <li>You get ₦100 instantly!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="pay-app-nav">
+        <a href="dashboard.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="earn.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Earn</span>
+        </a>
+        <a href="referral.html" class="nav-item active">
+            <i class="fas fa-users"></i>
+            <span>Refer</span>
+        </a>
+        <a href="shop.html" class="nav-item">
+            <i class="fas fa-shopping-bag"></i>
+            <span>Shop</span>
+        </a>
+        <a href="settings.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Me</span>
+        </a>
+    </div>
+
+    <!-- ✅ FULLY FIXED SCRIPT -->
     <script>
-        // ✅ CONFIG — shared across all pages
+        // ===== CONFIG (shared) =====
         const CONFIG = {
             get adRate() { return parseFloat(localStorage.getItem('tapwealth_ad_rate') || 30); },
             get referralBonus() { return parseFloat(localStorage.getItem('tapwealth_referral_bonus') || 100); }
@@ -43,7 +148,7 @@
         const USERS_KEY = 'tapwealth_users';
         const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
 
-        // ✅ Unified user management (matches dashboard/login/register)
+        // ✅ Unified user functions
         function getCurrentUser() {
             const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
             if (!email) return null;
@@ -83,12 +188,12 @@
         function shareViaWhatsApp() {
             const link = document.getElementById('referral-link').value;
             const msg = `Hey! Join TapWealth and earn real money — I’ll get ₦${CONFIG.referralBonus} when you sign up 👇\n\n${link}`;
-            // ✅ Fixed WhatsApp URL (no space before ?text=)
+            // ✅ CORRECTED: No space after ?text=
             const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
             window.open(url, '_blank');
         }
 
-        // ✅ FIXED: Real referral tracking
+        // ✅ FIXED: Robust referral tracking
         function trackReferral() {
             const urlParams = new URLSearchParams(window.location.search);
             const refId = urlParams.get('ref');
@@ -97,30 +202,29 @@
             const currentUser = getCurrentUser();
             if (!currentUser) return;
 
-            // ✅ Prevent self-referral & duplicates
+            // Prevent self-referral & duplicates
             if (currentUser.id === refId || currentUser.referrer) return;
 
             const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
             const referrer = Object.values(users).find(u => u.id === refId);
+            if (!referrer) return;
 
-            if (referrer) {
-                // ✅ Credit referrer
-                const bonus = CONFIG.referralBonus;
-                referrer.balance = (referrer.balance || 0) + bonus;
-                referrer.referrals = (referrer.referrals || 0) + 1;
-                referrer.transactions = [
-                    ...(referrer.transactions || []),
-                    { id: 'ref_' + Date.now(), type: 'credit', amount: bonus, description: `Referred ${currentUser.id}`, date: new Date().toISOString() }
-                ];
-                users[referrer.email] = referrer;
-                localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            // Credit referrer
+            const bonus = CONFIG.referralBonus;
+            referrer.balance = (referrer.balance || 0) + bonus;
+            referrer.referrals = (referrer.referrals || 0) + 1;
+            referrer.transactions = [
+                ...(referrer.transactions || []),
+                { id: 'ref_' + Date.now(), type: 'credit', amount: bonus, description: `Referred ${currentUser.id}`, date: new Date().toISOString() }
+            ];
+            users[referrer.email] = referrer;
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
 
-                // ✅ Update current user
-                currentUser.referrer = refId;
-                saveUser(currentUser);
+            // Update current user
+            currentUser.referrer = refId;
+            saveUser(currentUser);
 
-                showToast(`✅ You were referred by ${referrer.name || refId}!`);
-            }
+            showToast(`✅ Referred by ${referrer.name || refId}!`);
         }
 
         function updateUI() {
@@ -136,15 +240,32 @@
             document.getElementById('referral-bonus').textContent = '₦' + (referrals * CONFIG.referralBonus).toLocaleString();
             document.getElementById('lifetime-earnings').textContent = '₦' + (user.balance || 0).toLocaleString();
 
-            // ✅ FIXED: Dynamic, real referral link
-            const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
+            // ✅ FIXED: Safe base URL for local + live
+            let baseUrl = window.location.origin + window.location.pathname;
+            if (baseUrl.endsWith('referral.html')) {
+                baseUrl = baseUrl.replace(/referral\.html$/, '');
+            }
+            if (!baseUrl.endsWith('/')) baseUrl += '/';
             const refLink = `${baseUrl}?ref=${encodeURIComponent(user.id)}`;
             document.getElementById('referral-link').value = refLink;
         }
 
+        // ✅ INIT — no errors, no blank screen
         document.addEventListener('DOMContentLoaded', function() {
-            trackReferral();
-            updateUI();
+            try {
+                trackReferral();
+                updateUI();
+            } catch (err) {
+                console.error('Referral init error:', err);
+                document.body.innerHTML = `
+                    <div style="padding:20px; text-align:center; font-family:sans-serif">
+                        <h2>⚠️ Referral Page Error</h2>
+                        <p>${err.message}</p>
+                        <button onclick="location.reload()">Retry</button>
+                        <button onclick="location.href='dashboard.html'">Go to Dashboard</button>
+                    </div>
+                `;
+            }
         });
     </script>
 </body>
