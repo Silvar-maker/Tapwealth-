@@ -82,11 +82,10 @@
     }
   </style>
 
-  <!-- ✅ Adsterra Popunder – Official Script -->
+  <!-- ✅ Official Adsterra Popunder – Zone 28081285 -->
   <script type="text/javascript">
-    // 🔑 REPLACE WITH YOUR ZONE KEY
     var atOptions = {
-      'key': 'YOUR_ZONE_KEY',   // ← ← ← CHANGE THIS!
+      'key': '28081285',
       'format': 'iframe',
       'height': 250,
       'width': 300,
@@ -115,7 +114,7 @@
       </div>
     </div>
 
-    <!-- Watch Ads -->
+    <!-- ✅ Watch Ads – Now REAL with Adsterra -->
     <div class="task-card">
       <div class="flex items-start">
         <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
@@ -124,13 +123,15 @@
         <div class="flex-1">
           <h3 class="font-bold">Watch Ads</h3>
           <p class="text-sm text-gray-600 mt-1">Earn ₦15 per ad (30–60 sec)</p>
-          <p class="text-sm text-green-600 font-medium mt-2">₦15 per task • 10 tasks/day</p>
+          <p class="text-sm text-green-600 font-medium mt-2">
+            ₦15 per task • <span id="ads-left">10</span> left today
+          </p>
         </div>
       </div>
       <button id="watchAdsBtn" class="btn btn-primary pulse">👉 Watch & Earn Now</button>
     </div>
 
-    <!-- Surveys & Apps (optional – keep or replace later) -->
+    <!-- Optional: Surveys – Adsterra CPV later -->
     <div class="task-card">
       <div class="flex items-start">
         <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
@@ -141,13 +142,12 @@
           <p class="text-sm text-gray-600 mt-1">₦100–₦500 per survey</p>
         </div>
       </div>
-      <a href="https://ad.adsterra.com/adv-url?key=YOUR_CPV_SURVEY_KEY&uid=wealthysilvar&sub1=survey"
-         target="_blank"
-         class="btn btn-success">
-        Start Survey
+      <a href="survey.html" class="btn bg-gray-400 text-white" style="pointer-events:none; opacity:0.6">
+        🔒 Coming Soon
       </a>
     </div>
 
+    <!-- Nav -->
     <div class="pay-app-nav">
       <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
       <a href="earn.html" class="nav-item active"><i class="fas fa-coins"></i><span>Earn</span></a>
@@ -159,36 +159,51 @@
     <div class="toast" id="toast">Message</div>
   </div>
 
-  <!-- ✅ Core Logic -->
+  <!-- ✅ Core Logic: Adsterra + Safe Credit -->
   <script>
     // Config
-    const AD_REWARD = 15; // ₦15 per ad
+    const AD_REWARD = 15;
+    const DAILY_LIMIT = 10;
     const USER_EMAIL_KEY = 'tapwealth_current_user_email';
     const USERS_KEY = 'tapwealth_users';
+    const DAILY_KEY = 'tapwealth_ads_today_';
 
-    function getCurrentUser() {
+    // Helpers
+    const getCurrentUser = () => {
       const email = localStorage.getItem(USER_EMAIL_KEY);
       if (!email) return null;
       const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
       return users[email] || null;
-    }
+    };
 
-    function saveUser(data) {
+    const saveUser = data => {
       const email = localStorage.getItem(USER_EMAIL_KEY);
       if (!email) return;
       const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
       users[email] = { ...users[email], ...data, lastActive: Date.now() };
       localStorage.setItem(USERS_KEY, JSON.stringify(users));
-    }
+    };
 
-    function showToast(msg) {
+    const showToast = msg => {
       const t = document.getElementById('toast');
       t.textContent = msg;
       t.className = 'toast show';
       setTimeout(() => t.className = 'toast', 3000);
-    }
+    };
 
-    function creditAd() {
+    const canWatchAd = user => {
+      const key = DAILY_KEY + new Date().toISOString().split('T')[0];
+      const count = user[key] || 0;
+      return count < DAILY_LIMIT;
+    };
+
+    const incrementAdCount = user => {
+      const key = DAILY_KEY + new Date().toISOString().split('T')[0];
+      saveUser({ [key]: (user[key] || 0) + 1 });
+      return user[key] + 1;
+    };
+
+    const creditAd = () => {
       const user = getCurrentUser();
       if (!user) return;
 
@@ -203,25 +218,39 @@
 
       document.getElementById('balance').textContent = '₦' + ((user.balance || 0) + AD_REWARD).toLocaleString();
       showToast(`✅ ₦${AD_REWARD} added!`);
-    }
+    };
 
-    function watchAds() {
+    const watchAds = () => {
       const user = getCurrentUser();
       if (!user) {
-        showToast('❌ Log in first');
+        showToast('❌ Please log in');
         setTimeout(() => location.href = 'login.html', 1500);
+        return;
+      }
+
+      if (!canWatchAd(user)) {
+        showToast(`⚠️ Daily limit reached (${DAILY_LIMIT} ads)`);
         return;
       }
 
       // ✅ Trigger Adsterra popunder
       if (window.atOptions && typeof window.atdisplay !== 'undefined') {
-        atOptions.timestamp = Date.now();
+        atOptions.timestamp = Date.now(); // avoid throttling
         window.atdisplay?.push?.(atOptions);
       }
 
-      // ✅ Credit after 10s (safe for Adsterra impression tracking)
-      setTimeout(creditAd, 10000);
-    }
+      // ✅ Safe credit after 10s
+      setTimeout(() => {
+        const newUser = getCurrentUser();
+        if (newUser && canWatchAd(newUser)) {
+          incrementAdCount(newUser);
+          creditAd();
+          // Update UI counter
+          const left = DAILY_LIMIT - (newUser[DAILY_KEY + new Date().toISOString().split('T')[0]] || 1);
+          document.getElementById('ads-left').textContent = Math.max(0, left);
+        }
+      }, 10000);
+    };
 
     // Init
     document.addEventListener('DOMContentLoaded', () => {
@@ -230,6 +259,12 @@
 
       document.getElementById('user-initial').textContent = user.name.charAt(0).toUpperCase();
       document.getElementById('balance').textContent = '₦' + (user.balance || 0).toLocaleString();
+      
+      // Set daily counter
+      const key = DAILY_KEY + new Date().toISOString().split('T')[0];
+      const left = DAILY_LIMIT - (user[key] || 0);
+      document.getElementById('ads-left').textContent = Math.max(0, left);
+
       document.getElementById('watchAdsBtn').onclick = watchAds;
     });
   </script>
