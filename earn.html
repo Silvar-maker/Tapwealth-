@@ -8,92 +8,19 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: #f8fafc;
-      margin: 0;
-      color: #1e293b;
-      padding-bottom: 70px;
-    }
-    .pay-app-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      border-top: 1px solid #e2e8f0;
-      display: flex;
-      justify-content: space-around;
-      padding: 12px 0;
-      z-index: 1000;
-    }
-    .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; }
-    .nav-item.active { color: #1d4ed8; }
-    .nav-item i { font-size: 20px; margin-bottom: 4px; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; color: #1e293b; padding-bottom: 70px; }
     .header { background: white; padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
     .header h1 { font-weight: 700; font-size: 18px; color: #0f172a; }
-    .balance-card {
-      background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-      color: white;
-      border-radius: 16px;
-      padding: 20px;
-      margin: 16px;
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-    }
-    .task-card {
-      background: white;
-      border-radius: 16px;
-      padding: 16px;
-      margin: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      border: 1px solid #f1f5f9;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      border-radius: 12px;
-      font-weight: 600;
-      text-align: center;
-      margin-top: 12px;
-      transition: all 0.2s;
-    }
+    .balance-card { background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); }
+    .task-card { background: white; border-radius: 16px; padding: 16px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    .btn { display: block; width: 100%; padding: 14px; border-radius: 12px; font-weight: 600; text-align: center; margin-top: 12px; border: none; cursor: pointer; transition: all 0.2s; }
     .btn-primary { background: #1d4ed8; color: white; }
-    .btn-primary:hover { background: #1e40af; transform: translateY(-2px); }
-    .toast {
-      position: fixed;
-      top: 60px; left: 50%;
-      transform: translateX(-50%);
-      background: #059669;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 12px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-      z-index: 2000;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .toast.show { opacity: 1; }
-    .pulse { animation: pulse 2s infinite; }
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.4); }
-      70% { box-shadow: 0 0 0 12px rgba(29, 78, 216, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(29, 78, 216, 0); }
-    }
+    .btn-primary:hover { background: #1e40af; }
+    .pay-app-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; }
+    .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; text-decoration: none; }
+    .nav-item.active { color: #1d4ed8; }
+    .nav-item i { font-size: 20px; margin-bottom: 4px; }
   </style>
-
-  <!-- ✅ Official Adsterra Popunder – Zone 28081285 -->
-  <!-- ✅ Load Adsterra script ASAP -->
-<script>
-  var atOptions = {
-    'key': '28081285',
-    'format': 'iframe',
-    'height': 250,
-    'width': 300,
-    'params': {}
-  };
-</script>
-<script src="https://adsterra.com/lib/display.js" async></script>
 </head>
 <body>
   <div class="max-w-md mx-auto">
@@ -115,7 +42,7 @@
       </div>
     </div>
 
-    <!-- ✅ Watch Ads – Now REAL with Adsterra -->
+    <!-- Watch Ads -->
     <div class="task-card">
       <div class="flex items-start">
         <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
@@ -123,16 +50,16 @@
         </div>
         <div class="flex-1">
           <h3 class="font-bold">Watch Ads</h3>
-          <p class="text-sm text-gray-600 mt-1">Earn ₦15 per ad (30–60 sec)</p>
+          <p class="text-sm text-gray-600 mt-1">Earn ₦15 per ad</p>
           <p class="text-sm text-green-600 font-medium mt-2">
             ₦15 per task • <span id="ads-left">10</span> left today
           </p>
         </div>
       </div>
-      <button id="watchAdsBtn" class="btn btn-primary pulse">👉 Watch & Earn Now</button>
+      <button id="watchAdsBtn" class="btn btn-primary">👉 Watch & Earn Now</button>
     </div>
 
-    <!-- Optional: Surveys – Adsterra CPV later -->
+    <!-- Coming Soon -->
     <div class="task-card">
       <div class="flex items-start">
         <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
@@ -143,33 +70,26 @@
           <p class="text-sm text-gray-600 mt-1">₦100–₦500 per survey</p>
         </div>
       </div>
-      <a href="survey.html" class="btn bg-gray-400 text-white" style="pointer-events:none; opacity:0.6">
-        🔒 Coming Soon
-      </a>
+      <button class="btn" style="background:#ccc; color:#666; pointer-events:none; opacity:0.6">🔒 Coming Soon</button>
     </div>
 
     <!-- Nav -->
     <div class="pay-app-nav">
-      <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
-      <a href="earn.html" class="nav-item active"><i class="fas fa-coins"></i><span>Earn</span></a>
-      <a href="referral.html" class="nav-item"><i class="fas fa-users"></i><span>Refer</span></a>
-      <a href="shop.html" class="nav-item"><i class="fas fa-shopping-bag"></i><span>Shop</span></a>
-      <a href="settings.html" class="nav-item"><i class="fas fa-user"></i><span>Me</span></a>
+      <a href="./dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="./earn.html" class="nav-item active"><i class="fas fa-coins"></i><span>Earn</span></a>
+      <a href="./referral.html" class="nav-item"><i class="fas fa-users"></i><span>Refer</span></a>
+      <a href="./shop.html" class="nav-item"><i class="fas fa-shopping-bag"></i><span>Shop</span></a>
+      <a href="./settings.html" class="nav-item"><i class="fas fa-user"></i><span>Me</span></a>
     </div>
-
-    <div class="toast" id="toast">Message</div>
   </div>
 
-  <!-- ✅ Core Logic: Adsterra + Safe Credit -->
   <script>
-    // Config
     const AD_REWARD = 15;
     const DAILY_LIMIT = 10;
     const USER_EMAIL_KEY = 'tapwealth_current_user_email';
     const USERS_KEY = 'tapwealth_users';
     const DAILY_KEY = 'tapwealth_ads_today_';
 
-    // Helpers
     const getCurrentUser = () => {
       const email = localStorage.getItem(USER_EMAIL_KEY);
       if (!email) return null;
@@ -186,10 +106,7 @@
     };
 
     const showToast = msg => {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.className = 'toast show';
-      setTimeout(() => t.className = 'toast', 3000);
+      alert(msg);
     };
 
     const canWatchAd = user => {
@@ -198,26 +115,27 @@
       return count < DAILY_LIMIT;
     };
 
-    const incrementAdCount = user => {
-      const key = DAILY_KEY + new Date().toISOString().split('T')[0];
-      saveUser({ [key]: (user[key] || 0) + 1 });
-      return user[key] + 1;
-    };
-
     const creditAd = () => {
       const user = getCurrentUser();
       if (!user) return;
 
+      const key = DAILY_KEY + new Date().toISOString().split('T')[0];
+      const newCount = (user[key] || 0) + 1;
+
       saveUser({
         balance: (user.balance || 0) + AD_REWARD,
         completedTasks: (user.completedTasks || 0) + 1,
+        [key]: newCount,
         transactions: [
           ...(user.transactions || []),
-          { id: 'ad_' + Date.now(), type: 'credit', amount: AD_REWARD, desc: 'Ad view (Adsterra)', date: new Date().toISOString() }
+          { id: 'ad_' + Date.now(), type: 'credit', amount: AD_REWARD, description: 'Ad view', date: new Date().toISOString() }
         ]
       });
 
-      document.getElementById('balance').textContent = '₦' + ((user.balance || 0) + AD_REWARD).toLocaleString();
+      const newUser = getCurrentUser();
+      document.getElementById('balance').textContent = '₦' + (newUser.balance || 0).toLocaleString();
+      const left = DAILY_LIMIT - newCount;
+      document.getElementById('ads-left').textContent = Math.max(0, left);
       showToast(`✅ ₦${AD_REWARD} added!`);
     };
 
@@ -225,7 +143,7 @@
       const user = getCurrentUser();
       if (!user) {
         showToast('❌ Please log in');
-        setTimeout(() => location.href = 'login.html', 1500);
+        setTimeout(() => location.href = './login.html', 1500);
         return;
       }
 
@@ -234,34 +152,17 @@
         return;
       }
 
-      // ✅ Trigger Adsterra popunder
-      if (window.atOptions && typeof window.atdisplay !== 'undefined') {
-        atOptions.timestamp = Date.now(); // avoid throttling
-        window.atdisplay?.push?.(atOptions);
-      }
-
-      // ✅ Safe credit after 10s
-      setTimeout(() => {
-        const newUser = getCurrentUser();
-        if (newUser && canWatchAd(newUser)) {
-          incrementAdCount(newUser);
-          creditAd();
-          // Update UI counter
-          const left = DAILY_LIMIT - (newUser[DAILY_KEY + new Date().toISOString().split('T')[0]] || 1);
-          document.getElementById('ads-left').textContent = Math.max(0, left);
-        }
-      }, 10000);
+      showToast('▶️ Opening ad...');
+      setTimeout(() => creditAd(), 2000);
     };
 
-    // Init
     document.addEventListener('DOMContentLoaded', () => {
       const user = getCurrentUser();
-      if (!user) return location.href = 'login.html';
+      if (!user) return location.href = './login.html';
 
       document.getElementById('user-initial').textContent = user.name.charAt(0).toUpperCase();
       document.getElementById('balance').textContent = '₦' + (user.balance || 0).toLocaleString();
-      
-      // Set daily counter
+
       const key = DAILY_KEY + new Date().toISOString().split('T')[0];
       const left = DAILY_LIMIT - (user[key] || 0);
       document.getElementById('ads-left').textContent = Math.max(0, left);

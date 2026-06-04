@@ -4,261 +4,233 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ... your existing CSS (unchanged) ... */
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
+        .header { background: white; padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
+        .menu-btn { width: 44px; height: 44px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; border: none; cursor: pointer; }
+        .app-title { font-weight: 700; font-size: 18px; color: #0f172a; }
+        .wallet-card { background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2); }
+        .card { background: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .pay-app-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; text-decoration: none; }
+        .nav-item.active { color: #1d4ed8; }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; }
+        .nav-item span { margin-top: 2px; }
     </style>
 </head>
-<body class="facebook-light">
-    <!-- ... overlay & mobile menu (unchanged) ... -->
-
+<body>
     <!-- Header -->
-    <header class="facebook-header">
-        <button onclick="openMobileMenu()" class="text-gray-600">
+    <div class="header">
+        <button class="menu-btn" id="menu-btn">
             <i class="fas fa-bars text-xl"></i>
         </button>
-        <div class="flex items-center">
-            <i class="fas fa-dollar-sign text-white text-xl mr-1" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
-            <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
-        </div>
-        <div></div>
-    </header>
+        <div class="app-title">TapWealth</div>
+        <div class="w-12"></div>
+    </div>
 
     <!-- Main Content -->
-    <div class="facebook-main" id="mainContent">
+    <div id="mainContent" style="padding-bottom: 80px;">
         <!-- Home View -->
         <div id="homeView">
-            <div class="facebook-card">
+            <div class="wallet-card">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="opacity-80">Wallet Balance</p>
+                        <p class="text-2xl font-bold mt-1" id="home-balance">₦0.00</p>
+                    </div>
+                    <div><i class="fas fa-wallet text-3xl opacity-50"></i></div>
+                </div>
+            </div>
+
+            <div class="card">
                 <h2 class="text-xl font-bold text-gray-800 mb-2">Welcome back!</h2>
                 <p class="text-gray-600 mb-4">You're doing great! Keep earning.</p>
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div class="text-center p-3 bg-blue-50 rounded-lg">
-                        <p class="text-sm text-gray-600">Balance</p>
-                        <p class="text-lg font-bold text-blue-600" id="home-balance">₦0.00</p>
+                        <p class="text-sm text-gray-600">Taps</p>
+                        <p class="text-lg font-bold text-blue-600" id="home-taps">0</p>
                     </div>
                     <div class="text-center p-3 bg-green-50 rounded-lg">
-                        <p class="text-sm text-gray-600">Taps</p>
-                        <p class="text-lg font-bold text-green-600" id="home-taps">0</p>
+                        <p class="text-sm text-gray-600">Tasks</p>
+                        <p class="text-lg font-bold text-green-600" id="home-tasks">0</p>
                     </div>
                 </div>
-
-                <!-- ✅ NEW: Tap-to-Earn Button -->
                 <button id="tapButton" class="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-lg shadow hover:opacity-90 transition">
-                    💰 Tap to Earn (₦5 per 10 taps)
+                    💰 Start Earning
                 </button>
-                <p id="rewardMsg" class="text-xs text-gray-500 mt-2 text-center"></p>
             </div>
 
-            <!-- ... announcements & activity (unchanged) ... -->
+            <div class="card">
+                <h2 class="text-lg font-bold text-gray-800 mb-3">Quick Stats</h2>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+                        <span class="text-gray-700">💵 Total Earnings</span>
+                        <span class="font-bold text-green-600" id="total-earnings">₦0</span>
+                    </div>
+                    <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+                        <span class="text-gray-700">✅ Tasks Completed</span>
+                        <span class="font-bold text-blue-600" id="completed-tasks">0</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Earn View (FIXED) -->
+        <!-- Earn View -->
         <div id="earnView" class="hidden">
-            <div class="facebook-card">
+            <div class="card">
                 <h2 class="text-xl font-bold text-gray-800 mb-4">Earn Money</h2>
                 <div class="space-y-3">
-                    <!-- ✅ FIXED: Monetag with UTM & event -->
-                    <a href="https://monetag.com/offerwall/3097082?uid=wealthysilvar&sub1=tapwealth&sub2=earn" 
-                       target="_blank" 
-                       class="block p-3 bg-blue-50 rounded-lg text-blue-800 font-medium"
-                       onclick="trackEarn('task')">
-                        <i class="fas fa-tasks mr-2"></i> Perform Tasks (₦50–₦500)
+                    <a href="./earn.html" class="block p-3 bg-blue-50 rounded-lg text-blue-800 font-medium no-underline">
+                        <i class="fas fa-tasks mr-2"></i> Watch Ads & Offers
                     </a>
-                    <!-- ✅ FIXED: Real tap-based ads (no alert) -->
-                    <button class="w-full p-3 bg-green-100 rounded-lg text-green-800 font-medium" onclick="simulateAd()">
-                        <i class="fas fa-eye mr-2"></i> Watch Ads (₦5)
-                    </button>
-                    <button class="w-full p-3 bg-purple-100 rounded-lg text-purple-800 font-medium" onclick="simulateSurvey()">
-                        <i class="fas fa-poll mr-2"></i> Surveys (₦50–₦200)
-                    </button>
+                    <a href="./referral.html" class="block p-3 bg-green-100 rounded-lg text-green-800 font-medium no-underline">
+                        <i class="fas fa-users mr-2"></i> Refer Friends
+                    </a>
+                    <a href="./shop.html" class="block p-3 bg-purple-100 rounded-lg text-purple-800 font-medium no-underline">
+                        <i class="fas fa-shopping-bag mr-2"></i> Shop & Earn Cashback
+                    </a>
                 </div>
             </div>
         </div>
 
-        <!-- Shop View (FIXED) -->
+        <!-- Shop View -->
         <div id="shopView" class="hidden">
-            <div class="facebook-card">
+            <div class="card">
                 <h2 class="text-xl font-bold text-gray-800 mb-4">Marketplace</h2>
-                <p class="text-gray-600 mb-4">Shop & earn cashback!</p>
+                <p class="text-gray-600 mb-4">Coming soon! Shop via partner links and earn cashback.</p>
                 <div class="space-y-4">
-                    <!-- ✅ FIXED: Jumia with YOUR affiliate -->
-                    <div class="flex">
-                        <img src="https://placehold.co/60x60/FF6B35/white?text=J" alt="Jumia" class="w-12 h-12 rounded mr-3">
-                        <div class="flex-1">
-                            <p class="font-medium">Wireless Earbuds</p>
-                            <p class="text-sm text-gray-600">via Jumia • ₦8,500</p>
-                            <button class="mt-2 text-blue-600 text-sm font-medium" 
-                                    onclick="buyProduct('jumia')">Buy & Earn</button>
+                    <div class="flex p-3 bg-gray-50 rounded-lg">
+                        <div class="w-12 h-12 rounded bg-blue-100 flex items-center justify-center mr-3">
+                            <i class="fas fa-shopping-bag text-blue-600"></i>
                         </div>
-                    </div>
-                    <!-- ✅ FIXED: Temu with YOUR affiliate -->
-                    <div class="flex">
-                        <img src="https://placehold.co/60x60/FF4136/white?text=T" alt="Temu" class="w-12 h-12 rounded mr-3">
-                        <div class="flex-1">
-                            <p class="font-medium">Men's Sneakers</p>
-                            <p class="text-sm text-gray-600">via Temu • ₦12,200</p>
-                            <button class="mt-2 text-blue-600 text-sm font-medium" 
-                                    onclick="buyProduct('temu')">Buy & Earn</button>
-                        </div>
-                    </div>
-                    <!-- ✅ FIXED: AliExpress with YOUR affiliate -->
-                    <div class="flex">
-                        <img src="https://ae01.alicdn.com/kf/S61ffadb929dc4b00a2f4d0a4fa34393fx/432x432.png" alt="AliExpress" class="w-12 h-12 rounded mr-3">
-                        <div class="flex-1">
-                            <p class="font-medium">Smart Watch</p>
-                            <p class="text-sm text-gray-600">via AliExpress • ₦15,000</p>
-                            <button class="mt-2 text-blue-600 text-sm font-medium" 
-                                    onclick="buyProduct('aliexpress')">Buy & Earn</button>
+                        <div>
+                            <p class="font-medium text-gray-800">Partner Stores</p>
+                            <p class="text-sm text-gray-600">Earn 2-10% cashback</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Me View (unchanged UI) -->
+        <!-- Me View -->
         <div id="meView" class="hidden">
-            <!-- ... same content ... -->
+            <div class="card">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Account</h2>
+                <div id="userInfo">
+                    <div class="text-center p-4 mb-4">
+                        <div id="user-avatar" class="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white text-2xl font-bold mx-auto mb-3">U</div>
+                        <p id="user-name" class="text-lg font-bold text-gray-800">User</p>
+                        <p id="user-email" class="text-sm text-gray-600">user@example.com</p>
+                    </div>
+                    <div class="border-t pt-4 space-y-3">
+                        <a href="./wallet.html" class="block p-3 bg-gray-50 rounded-lg text-gray-800 font-medium no-underline">
+                            <i class="fas fa-wallet mr-2 text-blue-600"></i> Wallet
+                        </a>
+                        <a href="./settings.html" class="block p-3 bg-gray-50 rounded-lg text-gray-800 font-medium no-underline">
+                            <i class="fas fa-cog mr-2 text-gray-600"></i> Settings
+                        </a>
+                        <button onclick="logoutUser()" class="w-full p-3 bg-red-50 rounded-lg text-red-600 font-medium">
+                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Bottom Nav (unchanged) -->
+    <!-- Bottom Navigation -->
+    <div class="pay-app-nav">
+        <a href="#" class="nav-item active" onclick="switchView('home')">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchView('earn')">
+            <i class="fas fa-coins"></i>
+            <span>Earn</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchView('shop')">
+            <i class="fas fa-shopping-bag"></i>
+            <span>Shop</span>
+        </a>
+        <a href="#" class="nav-item" onclick="switchView('me')">
+            <i class="fas fa-user"></i>
+            <span>Me</span>
+        </a>
+    </div>
 
     <script>
-        // ✅ NEW: Core Tapwealth State Manager
-        const Tapwealth = {
-            init() {
-                let user = JSON.parse(localStorage.getItem('tapwealth_current_user')) || {
-                    id: 'user_' + Date.now().toString(36).substr(2, 6),
-                    name: 'User',
-                    balance: 0,
-                    taps: 0,
-                    completedTasks: 0,
-                    referrals: 0,
-                    lastActive: Date.now()
-                };
-                this.saveUser(user);
-                return user;
-            },
-            getUser() {
-                return JSON.parse(localStorage.getItem('tapwealth_current_user')) || this.init();
-            },
-            saveUser(data) {
-                const user = {...this.getUser(), ...data, lastActive: Date.now()};
-                localStorage.setItem('tapwealth_current_user', JSON.stringify(user));
-                this.updateUI();
-                return user;
-            },
-            updateUI() {
-                const user = this.getUser();
-                // Update all balance/tap displays
-                document.querySelectorAll('#home-balance, #mobile-menu-balance, #me-balance')
-                    .forEach(el => el.textContent = (user.balance || 0).toLocaleString());
-                document.querySelectorAll('#home-taps').forEach(el => el.textContent = user.taps || 0);
-                document.querySelectorAll('#mobile-menu-name, #me-name')
-                    .forEach(el => el.textContent = user.name);
-                // Show admin if role === 'admin' OR id === 'wealthysilvar'
-                if (user.role === 'admin' || user.id.includes('wealthysilvar')) {
-                    document.getElementById('admin-link').style.display = 'flex';
-                }
-            },
-            addTaps(n = 1) {
-                const user = this.getUser();
-                const newTaps = user.taps + n;
-                const bonus = Math.floor(newTaps / 10) * 5; // ₦5 per 10 taps
-                this.saveUser({ taps: newTaps, balance: bonus });
-                
-                // ✅ REAL MONETIZATION: Trigger affiliate at 100 taps
-                if (newTaps === 100) {
-                    setTimeout(() => {
-                        alert("🎯 100 taps! Opening Temu for ₦200 bonus...");
-                        window.open('https://temu.com?_ref=wealthysilvar&campaign=tap100_ng', '_blank');
-                    }, 300);
-                }
-            },
-            addBalance(amount, reason = 'earn') {
-                const user = this.getUser();
-                this.saveUser({
-                    balance: (user.balance || 0) + amount,
-                    completedTasks: (user.completedTasks || 0) + 1
-                });
+        // Unified user management
+        const USERS_KEY = 'tapwealth_users';
+        const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+
+        function getCurrentUser() {
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+            if (!email) return null;
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            return users[email] || null;
+        }
+
+        function saveUser(data) {
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+            if (!email) return;
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            users[email] = { ...users[email], ...data, lastActive: Date.now() };
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            updateUI();
+        }
+
+        function updateUI() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = './login.html';
+                return;
             }
-        };
 
-        // ✅ Track Monetag events (for analytics + payout proof)
-        function trackEarn(type) {
-            if (window.MoneTag && window.MoneTag.notify) {
-                window.MoneTag.notify({ action: 'offerwall_open', type });
-            }
-            // Also log to localStorage for backup
-            const log = JSON.parse(localStorage.getItem('tapwealth_logs') || '[]');
-            log.push({ type, time: Date.now(), user: Tapwealth.getUser().id });
-            localStorage.setItem('tapwealth_logs', JSON.stringify(log));
+            document.getElementById('home-balance').textContent = '₦' + (user.balance || 0).toLocaleString();
+            document.getElementById('home-taps').textContent = user.taps || 0;
+            document.getElementById('home-tasks').textContent = user.completedTasks || 0;
+            document.getElementById('total-earnings').textContent = '₦' + (user.balance || 0).toLocaleString();
+            document.getElementById('completed-tasks').textContent = user.completedTasks || 0;
+            document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('user-email').textContent = user.email;
         }
-
-        // ✅ Simulate ad/survey (real earning)
-        function simulateAd() {
-            alert("✅ Ad watched! +₦5 added.");
-            Tapwealth.addBalance(5, 'ad');
-        }
-        function simulateSurvey() {
-            const reward = Math.floor(Math.random() * 151) + 50; // ₦50–₦200
-            alert(`✅ Survey completed! +₦${reward} added.`);
-            Tapwealth.addBalance(reward, 'survey');
-        }
-
-        // ✅ FIXED: Buy with YOUR affiliate links
-        function buyProduct(store) {
-            const links = {
-                jumia: 'https://www.jumia.com.ng/?aff=1132345&c=wealthysilvar',
-                temu: 'https://www.temu.com?_ref=wealthysilvar&_bg_f=2332&_x_ads_csite=search&_x_ads_channel=google&_x_cid=ppc&_x_campaign=ng_generic&_x_source=sem&_x_medium=cpc',
-                aliexpress: 'https://s.click.aliexpress.com/e/_DC5rYdP' // Your affiliate link
-            };
-            if (confirm(`Buy from ${store.toUpperCase()} and earn cashback?`)) {
-                window.open(links[store], '_blank');
-                // Track for future cashback
-                const user = Tapwealth.getUser();
-                const log = { type: `purchase_${store}`, time: Date.now(), user: user.id };
-                const logs = JSON.parse(localStorage.getItem('tapwealth_purchases') || '[]');
-                logs.push(log);
-                localStorage.setItem('tapwealth_purchases', JSON.stringify(logs));
-                alert("✅ Purchase started! Cashback in 24–48h.");
-            }
-        }
-
-        // ✅ Existing functions (enhanced)
-        function getCurrentUser() { return Tapwealth.getUser(); }
-        function setCurrentUser(user) { Tapwealth.saveUser(user); }
-
-        function logoutUser() {
-            localStorage.removeItem('tapwealth_current_user');
-            alert('You have been logged out!');
-            window.location.href = 'login.html';
-        }
-
-        function openMobileMenu() { /* ... unchanged ... */ }
-        function closeMobileMenu() { /* ... unchanged ... */ }
 
         function switchView(view) {
-            ['home','earn','shop','me'].forEach(v => {
+            ['home', 'earn', 'shop', 'me'].forEach(v => {
                 document.getElementById(v + 'View').classList.toggle('hidden', v !== view);
-                const idx = ['home','earn','shop','me'].indexOf(v);
-                if (idx >= 0) document.querySelectorAll('.nav-item')[idx].classList.toggle('active', v === view);
+                document.querySelectorAll('.nav-item')[['home', 'earn', 'shop', 'me'].indexOf(v)].classList.toggle('active', v === view);
             });
-            Tapwealth.updateUI(); // ✅ Ensure UI syncs on tab switch
         }
 
-        // ✅ Init with tap button
-        window.addEventListener('DOMContentLoaded', function() {
-            const user = Tapwealth.init();
-            document.getElementById('tapButton').addEventListener('click', () => Tapwealth.addTaps(1));
+        function logoutUser() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
+                window.location.href = './login.html';
+            }
+        }
 
-            // Optional: Auto-open offerwall on first visit
-            if (!localStorage.getItem('tapwealth_first_visit')) {
-                localStorage.setItem('tapwealth_first_visit', '1');
-                setTimeout(() => {
-                    if (confirm("🚀 Welcome! Want to earn ₦200 in 2 mins?")) {
-                        window.open("https://monetag.com/offerwall/3097082?uid=wealthysilvar&sub1=tapwealth_welcome", '_blank');
-                    }
-                }, 2000);
+        document.getElementById('menu-btn').addEventListener('click', function() {
+            const user = getCurrentUser();
+            if (!user) return;
+            alert('👋 Hello ' + user.name + '!');
+        });
+
+        document.getElementById('tapButton').addEventListener('click', function() {
+            const user = getCurrentUser();
+            if (!user) return;
+            saveUser({ taps: (user.taps || 0) + 1 });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = './login.html';
+            } else {
+                updateUI();
             }
         });
     </script>

@@ -14,27 +14,16 @@
     .form { padding:24px; }
     .input-group { margin-bottom:16px; }
     .input-group label { display:block; font-size:14px; color:#333; margin-bottom:6px; font-weight:500; }
-    .input-group input { width:100%; padding:14px; border:1px solid #ddd; border-radius:8px; font-size:16px; outline:none; }
+    .input-group input { width:100%; padding:14px; border:1px solid #ddd; border-radius:8px; font-size:16px; outline:none; box-sizing: border-box; }
     .input-group input:focus { border-color:#1877f2; box-shadow:0 0 0 2px rgba(24,119,242,0.2); }
     .btn { width:100%; padding:14px; background:#1877f2; color:white; border:none; border-radius:8px; font-size:17px; font-weight:600; cursor:pointer; margin-top:8px; }
     .btn:hover { background:#166fe5; }
     .btn-outline { background:transparent; border:1px solid #1877f2; color:#1877f2; margin-top:12px; }
     .btn-outline:hover { background:rgba(24,119,242,0.05); }
-    .divider { text-align:center; margin:20px 0; position:relative; }
-    .divider::before { content:""; position:absolute; top:50%; left:0; right:0; height:1px; background:#eee; z-index:1; }
-    .divider span { background:white; padding:0 12px; position:relative; z-index:2; color:#777; font-size:14px; }
     .footer { text-align:center; padding:0 24px 24px; color:#666; font-size:14px; }
     .footer a { color:#1877f2; text-decoration:none; font-weight:600; }
-    .footer a:hover { text-decoration:underline; }
-    .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#28a745; color:white; padding:12px 24px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15); z-index:1000; opacity:0; transition:opacity 0.3s; }
+    .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#28a745; color:white; padding:12px 24px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15); z-index:9999; opacity:0; transition: opacity 0.3s; }
     .toast.show { opacity:1; }
-
-    /* ✅ Spark 20 Optimization */
-    @media (max-width: 360px) {
-      .header h1 { font-size:24px; }
-      .btn { font-size:16px; padding:12px; }
-      .container { border-radius:12px; }
-    }
   </style>
 </head>
 <body>
@@ -46,33 +35,16 @@
 
     <div class="form" id="loginForm">
       <h2 style="text-align:center; margin-bottom:20px; color:#333">Log In</h2>
-
       <div class="input-group">
         <label for="email">Email</label>
         <input type="email" id="email" placeholder="you@example.com" required />
       </div>
-
       <div class="input-group">
         <label for="password">Password</label>
         <input type="password" id="password" placeholder="••••••••" required />
       </div>
-
       <button class="btn" onclick="login()">Log In</button>
-
-      <div class="divider"><span>or</span></div>
-
-      <button class="btn btn-outline" onclick="showResetForm()">Forgot Password?</button>
       <button class="btn btn-outline" onclick="showSignupForm()">Create New Account</button>
-    </div>
-
-    <div class="form" id="resetForm" style="display:none;">
-      <h2 style="text-align:center; margin-bottom:20px; color:#333">Reset Password</h2>
-      <div class="input-group">
-        <label for="resetEmail">Email</label>
-        <input type="email" id="resetEmail" placeholder="you@example.com" required />
-      </div>
-      <button class="btn" onclick="resetPassword()">Send Reset Link</button>
-      <button class="btn btn-outline" onclick="showLoginForm()" style="margin-top:12px;">← Back to Login</button>
     </div>
 
     <div class="form" id="signupForm" style="display:none;">
@@ -86,28 +58,21 @@
         <input type="password" id="signupPassword" placeholder="••••••••" required />
       </div>
       <button class="btn" onclick="signup()">Create Account</button>
-      <button class="btn btn-outline" onclick="showLoginForm()" style="margin-top:12px;">← Back to Login</button>
+      <button class="btn btn-outline" onclick="showLoginForm()">← Back to Login</button>
     </div>
 
     <div class="footer">
-      <p>By logging in, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
+      <p>By logging in, you agree to our Terms and Privacy Policy.</p>
     </div>
   </div>
 
   <div class="toast" id="toast">Message</div>
 
   <script>
-    // ✅ SAFE JSON PARSER — prevents blank screen on corrupt localStorage
     function safeParse(str) {
       if (!str) return {};
-      try {
-        return JSON.parse(str);
-      } catch (e) {
-        console.warn('localStorage corrupted — resetting user data', e);
-        localStorage.removeItem('tapwealth_users');
-        localStorage.removeItem('tapwealth_current_user_email');
-        return {};
-      }
+      try { return JSON.parse(str); }
+      catch (e) { return {}; }
     }
 
     const USERS_KEY = 'tapwealth_users';
@@ -120,53 +85,34 @@
       setTimeout(() => t.className = 'toast', 3000);
     }
 
-    function showLoginForm() { 
-      document.getElementById('loginForm').style.display = 'block'; 
-      document.getElementById('resetForm').style.display = 'none'; 
-      document.getElementById('signupForm').style.display = 'none'; 
-    }
-    function showResetForm() { 
-      document.getElementById('loginForm').style.display = 'none'; 
-      document.getElementById('resetForm').style.display = 'block'; 
-      document.getElementById('signupForm').style.display = 'none'; 
-    }
-    function showSignupForm() { 
-      document.getElementById('loginForm').style.display = 'none'; 
-      document.getElementById('resetForm').style.display = 'none'; 
-      document.getElementById('signupForm').style.display = 'block'; 
+    function showLoginForm() {
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('signupForm').style.display = 'none';
     }
 
-    // ✅ FIXED: Login with safe localStorage access
+    function showSignupForm() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('signupForm').style.display = 'block';
+    }
+
     function login() {
       const email = document.getElementById('email').value.trim().toLowerCase();
       const password = document.getElementById('password').value;
 
       if (!email || !password) return showToast('⚠️ Enter email and password');
 
-      // ✅ SAFE: use safeParse
       const users = safeParse(localStorage.getItem(USERS_KEY));
       const user = users[email];
 
       if (user && user.password === password) {
-        // ✅ Save email only (string)
         localStorage.setItem(CURRENT_USER_EMAIL_KEY, email);
-        
-        // ✅ Verify write succeeded
-        const verified = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
-        if (verified !== email) {
-          throw new Error('Storage write failed');
-        }
-
-        showToast('✅ Login successful! Redirecting...');
-        setTimeout(() => {
-          window.location.href = 'dashboard.html';
-        }, 1200);
+        showToast('✅ Login successful!');
+        setTimeout(() => { window.location.href = './dashboard.html'; }, 1200);
       } else {
         showToast('❌ Email or password incorrect');
       }
     }
 
-    // ✅ FIXED: Signup with safe user creation
     function signup() {
       const email = document.getElementById('signupEmail').value.trim().toLowerCase();
       const password = document.getElementById('signupPassword').value;
@@ -174,7 +120,6 @@
       if (!email || !password) return showToast('⚠️ Fill all fields');
       if (password.length < 6) return showToast('⚠️ Password ≥6 chars');
 
-      // ✅ SAFE: use safeParse
       let users = safeParse(localStorage.getItem(USERS_KEY));
       if (users[email]) return showToast('📧 Account exists. Try logging in.');
 
@@ -186,8 +131,8 @@
         id: 'user_' + Math.random().toString(36).substr(2, 9),
         balance: 500,
         taps: 0,
-        referrals: [],
         completedTasks: 0,
+        referrals: [],
         transactions: [
           { id: 'welcome_' + Date.now(), type: 'credit', amount: 500, description: 'Welcome Bonus', date: new Date().toISOString() }
         ]
@@ -196,36 +141,14 @@
       try {
         localStorage.setItem(USERS_KEY, JSON.stringify(users));
         localStorage.setItem(CURRENT_USER_EMAIL_KEY, email);
-        const verified = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
-        if (verified !== email) throw new Error('Storage failed');
-        
-        showToast('✅ Account created! Redirecting...');
-        setTimeout(() => window.location.href = 'dashboard.html', 1200);
+        showToast('✅ Account created!');
+        setTimeout(() => window.location.href = './dashboard.html', 1200);
       } catch (err) {
-        console.error('Signup error:', err);
         showToast('⚠️ Failed to save. Try incognito mode.');
       }
     }
 
-    function resetPassword() {
-      const email = document.getElementById('resetEmail').value.trim().toLowerCase();
-      let users = safeParse(localStorage.getItem(USERS_KEY));
-      if (users[email]) {
-        const newPassword = 'PW' + Math.floor(Math.random()*9000 + 1000);
-        users[email].password = newPassword;
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        showToast(`✅ New password: ${newPassword}`);
-        setTimeout(() => {
-          document.getElementById('email').value = email;
-          document.getElementById('password').value = newPassword;
-          showLoginForm();
-        }, 2500);
-      } else {
-        showToast('📧 No account found');
-      }
-    }
-
-    // ✅ FIXED: CEO init with safe parsing
+    // Create CEO account
     function initCEO() {
       let users = safeParse(localStorage.getItem(USERS_KEY));
       const ceoEmail = 'wealthysilvar@gmail.com';
@@ -238,8 +161,8 @@
           id: 'ceo_001',
           balance: 500,
           taps: 0,
-          referrals: [],
           completedTasks: 0,
+          referrals: [],
           transactions: [{
             id: 'tx_welcome',
             type: 'credit',
@@ -252,27 +175,6 @@
       }
     }
 
-    // ✅ GLOBAL ERROR HANDLER — prevents blank screen
-    window.addEventListener('error', (e) => {
-      if (document.body.innerHTML.trim() === '') {
-        document.body.innerHTML = `
-          <div style="padding:20px; text-align:center; font-family:sans-serif; max-width:400px; margin:0 auto;">
-            <h2 style="color:#1877F2">⚠️ Login Page Error</h2>
-            <p>${e.message || 'Storage issue — recovering…'}</p>
-            <button onclick="location.reload()" 
-                    style="margin-top:16px; padding:10px 20px; background:#1877F2; color:white; border:none; border-radius:6px; font-weight:bold">
-              Retry Login
-            </button>
-            <button onclick="localStorage.clear(); location.href='login.html'" 
-                    style="margin-top:8px; padding:8px 16px; background:#666; color:white; border:none; border-radius:6px;">
-              Clear Data & Restart
-            </button>
-          </div>
-        `;
-      }
-    });
-
-    // Init
     initCEO();
   </script>
 </body>
