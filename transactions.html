@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
+        .header { background: white; padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
+        .menu-btn { width: 44px; height: 44px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; border: none; cursor: pointer; }
+        .app-title { font-weight: 700; font-size: 18px; color: #0f172a; }
+        .card { background: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .transaction-item { background: #f8fafc; border-left: 4px solid #1d4ed8; padding: 16px; border-radius: 8px; margin: 12px 0; display: flex; justify-content: space-between; align-items: center; }
+        .transaction-type { font-weight: 600; color: #1e293b; }
+        .transaction-date { font-size: 12px; color: #94a3b8; margin-top: 4px; }
+        .transaction-amount { font-weight: 600; font-size: 18px; }
+        .credit { color: #10b981; }
+        .debit { color: #dc2626; }
+        .filter-btn { padding: 8px 16px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer; margin: 4px; font-weight: 500; }
+        .filter-btn.active { background: #1d4ed8; color: white; border-color: #1d4ed8; }
+        .pay-app-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; text-decoration: none; }
+        .nav-item.active { color: #1d4ed8; }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button onclick="history.back()" class="menu-btn">
+            <i class="fas fa-arrow-left text-xl"></i>
+        </button>
+        <div class="app-title">Transaction History</div>
+        <div class="w-12"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div style="padding-bottom: 80px;">
+        <!-- Stats -->
+        <div class="card">
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-blue-50 p-4 rounded-lg text-center">
+                    <p class="text-xs text-gray-600">Total</p>
+                    <p class="text-lg font-bold text-blue-600" id="total-amount">₦0</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg text-center">
+                    <p class="text-xs text-gray-600">Income</p>
+                    <p class="text-lg font-bold text-green-600" id="income-amount">₦0</p>
+                </div>
+                <div class="bg-red-50 p-4 rounded-lg text-center">
+                    <p class="text-xs text-gray-600">Spent</p>
+                    <p class="text-lg font-bold text-red-600" id="spent-amount">₦0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="card">
+            <div class="flex overflow-x-auto pb-2">
+                <button onclick="filterTransactions('all')" class="filter-btn active" id="filter-all">All</button>
+                <button onclick="filterTransactions('credit')" class="filter-btn" id="filter-credit">Income</button>
+                <button onclick="filterTransactions('debit')" class="filter-btn" id="filter-debit">Expenses</button>
+            </div>
+        </div>
+
+        <!-- Transactions List -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">📜 All Transactions</h2>
+            <div id="transactions-list">
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-inbox text-3xl mb-3"></i>
+                    <p>No transactions yet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="pay-app-nav">
+        <a href="./dashboard.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="./earn.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Earn</span>
+        </a>
+        <a href="./referral.html" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Refer</span>
+        </a>
+        <a href="./wallet.html" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
+        <a href="./settings.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Me</span>
+        </a>
+    </div>
+
+    <script>
+        const USERS_KEY = 'tapwealth_users';
+        const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+        let currentFilter = 'all';
+
+        function getCurrentUser() {
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+            if (!email) return null;
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            return users[email] || null;
+        }
+
+        function filterTransactions(type) {
+            currentFilter = type;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('filter-' + type).classList.add('active');
+            updateUI();
+        }
+
+        function updateUI() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = './login.html';
+                return;
+            }
+
+            const txs = user.transactions || [];
+            const credits = txs.filter(t => t.type === 'credit');
+            const debits = txs.filter(t => t.type === 'debit');
+            const totalCredit = credits.reduce((sum, t) => sum + t.amount, 0);
+            const totalDebit = debits.reduce((sum, t) => sum + t.amount, 0);
+            const total = totalCredit - totalDebit;
+
+            document.getElementById('total-amount').textContent = '₦' + total.toLocaleString('en-NG');
+            document.getElementById('income-amount').textContent = '₦' + totalCredit.toLocaleString('en-NG');
+            document.getElementById('spent-amount').textContent = '₦' + totalDebit.toLocaleString('en-NG');
+
+            // Filter transactions
+            let filtered = txs;
+            if (currentFilter === 'credit') filtered = credits;
+            else if (currentFilter === 'debit') filtered = debits;
+
+            // Display transactions
+            const list = document.getElementById('transactions-list');
+            if (filtered.length > 0) {
+                list.innerHTML = filtered.slice().reverse().map(tx => `
+                    <div class="transaction-item">
+                        <div>
+                            <p class="transaction-type">${tx.description}</p>
+                            <p class="transaction-date">${new Date(tx.date).toLocaleString('en-NG')}</p>
+                        </div>
+                        <p class="transaction-amount ${tx.type === 'credit' ? 'credit' : 'debit'}">
+                            ${tx.type === 'credit' ? '+' : '-'}₦${tx.amount.toLocaleString('en-NG')}
+                        </p>
+                    </div>
+                `).join('');
+            } else {
+                list.innerHTML = `<div class="text-center py-8 text-gray-500"><i class="fas fa-inbox text-3xl mb-3"></i><p>No transactions</p></div>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateUI);
+    </script>
+</body>
+</html>

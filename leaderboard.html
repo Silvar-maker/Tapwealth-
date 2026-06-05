@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
+        .header { background: white; padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
+        .menu-btn { width: 44px; height: 44px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; border: none; cursor: pointer; }
+        .app-title { font-weight: 700; font-size: 18px; color: #0f172a; }
+        .card { background: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .top-3 { text-align: center; margin-bottom: 30px; }
+        .medal { width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 48px; margin: 0 auto 10px; color: white; }
+        .gold { background: linear-gradient(135deg, #fcd34d, #f59e0b); }
+        .silver { background: linear-gradient(135deg, #d1d5db, #9ca3af); }
+        .bronze { background: linear-gradient(135deg, #ea580c, #d97706); }
+        .leaderboard-item { display: flex; align-items: center; padding: 16px; border-bottom: 1px solid #e2e8f0; }
+        .leaderboard-item:last-child { border-bottom: none; }
+        .rank { width: 50px; text-align: center; font-weight: bold; font-size: 18px; color: #1d4ed8; }
+        .avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #0ea5e9, #3b82f6); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin: 0 12px; }
+        .user-info { flex: 1; }
+        .user-name { font-weight: 600; color: #1e293b; }
+        .user-earning { font-size: 12px; color: #94a3b8; }
+        .earning-amount { font-weight: 600; color: #10b981; font-size: 16px; }
+        .tab { padding: 8px 16px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer; margin: 4px; font-weight: 500; }
+        .tab.active { background: #1d4ed8; color: white; border-color: #1d4ed8; }
+        .pay-app-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; text-decoration: none; }
+        .nav-item.active { color: #1d4ed8; }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button onclick="history.back()" class="menu-btn">
+            <i class="fas fa-arrow-left text-xl"></i>
+        </button>
+        <div class="app-title">Leaderboard</div>
+        <div class="w-12"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div style="padding-bottom: 80px;">
+        <!-- Tabs -->
+        <div class="card">
+            <div class="flex justify-center gap-2">
+                <button onclick="switchTab('earnings')" class="tab active" id="tab-earnings">💰 By Earnings</button>
+                <button onclick="switchTab('referrals')" class="tab" id="tab-referrals">👥 By Referrals</button>
+                <button onclick="switchTab('tasks')" class="tab" id="tab-tasks">✅ By Tasks</button>
+            </div>
+        </div>
+
+        <!-- Top 3 -->
+        <div class="card">
+            <div class="top-3" id="top-3-container">
+                <p class="text-center text-gray-600">Loading...</p>
+            </div>
+        </div>
+
+        <!-- Full Leaderboard -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">🏆 Top Earners</h2>
+            <div id="leaderboard-list">
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-chart-bar text-3xl mb-3"></i>
+                    <p>Loading leaderboard...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="pay-app-nav">
+        <a href="./dashboard.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="./earn.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Earn</span>
+        </a>
+        <a href="./referral.html" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Refer</span>
+        </a>
+        <a href="./wallet.html" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
+        <a href="./settings.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Me</span>
+        </a>
+    </div>
+
+    <script>
+        const USERS_KEY = 'tapwealth_users';
+        const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+        let currentTab = 'earnings';
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            updateUI();
+        }
+
+        function getCurrentUser() {
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+            if (!email) return null;
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            return users[email] || null;
+        }
+
+        function getLeaderboard() {
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            const userList = Object.values(users).map(user => ({
+                name: user.name,
+                email: user.email,
+                balance: user.balance || 0,
+                referrals: user.referrals?.length || 0,
+                tasks: user.completedTasks || 0
+            }));
+
+            let sorted = userList.sort((a, b) => {
+                if (currentTab === 'referrals') return b.referrals - a.referrals;
+                if (currentTab === 'tasks') return b.tasks - a.tasks;
+                return b.balance - a.balance;
+            });
+
+            return sorted;
+        }
+
+        function updateUI() {
+            const leaderboard = getLeaderboard();
+            const current = getCurrentUser();
+
+            // Top 3
+            const top3 = leaderboard.slice(0, 3);
+            let top3Html = '';
+            top3.forEach((user, idx) => {
+                const medals = ['gold', 'silver', 'bronze'];
+                const value = currentTab === 'earnings' ? user.balance : currentTab === 'referrals' ? user.referrals : user.tasks;
+                const label = currentTab === 'earnings' ? '₦' + value.toLocaleString() : value + (currentTab === 'referrals' ? ' Referrals' : ' Tasks');
+                top3Html += `
+                    <div style="display: inline-block; margin: 0 10px;">
+                        <div class="medal ${medals[idx]}">🏅</div>
+                        <p class="font-bold text-gray-800" style="font-size: 12px;">#${idx + 1}</p>
+                        <p style="font-size: 12px; color: #666;">${user.name}</p>
+                        <p style="font-size: 12px; font-weight: bold; color: #1d4ed8;">${label}</p>
+                    </div>
+                `;
+            });
+            document.getElementById('top-3-container').innerHTML = top3Html || '<p>No data yet</p>';
+
+            // Full leaderboard
+            const list = document.getElementById('leaderboard-list');
+            if (leaderboard.length > 0) {
+                list.innerHTML = leaderboard.map((user, idx) => {
+                    const value = currentTab === 'earnings' ? user.balance : currentTab === 'referrals' ? user.referrals : user.tasks;
+                    const label = currentTab === 'earnings' ? '₦' + value.toLocaleString('en-NG') : value + (currentTab === 'referrals' ? ' 👥' : ' ✅');
+                    const isCurrentUser = current && current.email === user.email;
+                    return `
+                        <div class="leaderboard-item" style="background: ${isCurrentUser ? '#f0f9ff' : 'transparent'};">
+                            <div class="rank">#${idx + 1}</div>
+                            <div class="avatar">${user.name.charAt(0).toUpperCase()}</div>
+                            <div class="user-info">
+                                <p class="user-name">${user.name}${isCurrentUser ? ' (You)' : ''}</p>
+                                <p class="user-earning">${user.email.substring(0, 20)}...</p>
+                            </div>
+                            <p class="earning-amount">${label}</p>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', updateUI);
+    </script>
+</body>
+</html>

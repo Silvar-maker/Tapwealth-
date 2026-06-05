@@ -4,477 +4,301 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings - TapWealth</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f0f2f5;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .facebook-blue {
-            background-color: #1877F2;
-        }
-        .facebook-card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        .facebook-header {
-            background-color: white;
-            border-bottom: 1px solid #dddfe2;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .gradient-text {
-            background: linear-gradient(135deg, #0056FF 0%, #C0C0C0 50%, #FFFFFF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            border-bottom: 1px solid #eee;
-        }
-        .setting-item:last-child {
-            border-bottom: none;
-        }
-        .setting-label {
-            font-weight: 500;
-            color: #333;
-        }
-        .setting-value {
-            color: #666;
-            font-size: 0.9rem;
-        }
-        .toggle {
-            position: relative;
-            display: inline-block;
-            width: 48px;
-            height: 24px;
-        }
-        .toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 24px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider {
-            background-color: #1877F2;
-        }
-        input:checked + .slider:before {
-            transform: translateX(24px);
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        .modal-content {
-            background-color: white;
-            margin: 15% auto;
-            padding: 24px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 400px;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
+        .header { background: white; padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
+        .menu-btn { width: 44px; height: 44px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; border: none; cursor: pointer; }
+        .app-title { font-weight: 700; font-size: 18px; color: #0f172a; }
+        .card { background: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .profile-card { text-align: center; margin-bottom: 20px; }
+        .avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #0ea5e9, #3b82f6); display: flex; align-items: center; justify-content: center; color: white; font-size: 36px; font-weight: bold; margin: 0 auto 16px; }
+        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #e2e8f0; }
+        .setting-item:last-child { border-bottom: none; }
+        .btn { padding: 12px 24px; border-radius: 12px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; width: 100%; margin: 8px 0; }
+        .btn-primary { background: #1d4ed8; color: white; }
+        .btn-primary:hover { background: #1e40af; }
+        .btn-danger { background: #dc2626; color: white; }
+        .btn-danger:hover { background: #b91c1c; }
+        .pay-app-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; text-decoration: none; }
+        .nav-item.active { color: #1d4ed8; }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; }
+        .modal.show { display: flex; }
+        .modal-content { background: white; border-radius: 16px; padding: 24px; max-width: 400px; width: 90%; }
+        .input-group { margin-bottom: 16px; }
+        .input-group label { display: block; font-size: 14px; color: #333; margin-bottom: 6px; font-weight: 500; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; box-sizing: border-box; }
+        .input-group input:focus { border-color: #1d4ed8; box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.2); }
     </style>
 </head>
-<body class="facebook-light min-h-screen">
-    <!-- Navigation -->
-    <nav class="facebook-header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
-                    <button onclick="history.back()" class="flex items-center text-gray-600 hover:text-blue-600 font-medium mr-4">
-                        <i class="fas fa-arrow-left mr-2"></i>
-                        Back
-                    </button>
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-cog text-blue-600 text-2xl mr-2"></i>
-                        <span class="text-xl font-bold gradient-text">Settings</span>
-                    </div>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button onclick="history.back()" class="menu-btn">
+            <i class="fas fa-arrow-left text-xl"></i>
+        </button>
+        <div class="app-title">Settings</div>
+        <div class="w-12"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div style="padding-bottom: 80px;">
+        <!-- Profile Section -->
+        <div class="card">
+            <div class="profile-card">
+                <div class="avatar" id="user-avatar">U</div>
+                <p class="text-xl font-bold text-gray-800" id="user-name">User</p>
+                <p class="text-sm text-gray-600" id="user-email">user@example.com</p>
+            </div>
+            <button onclick="openEditProfileModal()" class="btn btn-primary">
+                <i class="fas fa-edit mr-2"></i> Edit Profile
+            </button>
+        </div>
+
+        <!-- Account Settings -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Account</h2>
+            <div class="setting-item" onclick="openChangePasswordModal()" style="cursor: pointer;">
+                <div>
+                    <p class="font-medium text-gray-800">Change Password</p>
+                    <p class="text-sm text-gray-600">Update your password</p>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold" id="header-initial">U</div>
+                <i class="fas fa-chevron-right text-gray-400"></i>
+            </div>
+            <div class="setting-item">
+                <div>
+                    <p class="font-medium text-gray-800">Two-Factor Auth</p>
+                    <p class="text-sm text-gray-600">Secure your account</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="2fa-toggle" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Notifications</h2>
+            <div class="setting-item">
+                <div>
+                    <p class="font-medium text-gray-800">Email Alerts</p>
+                    <p class="text-sm text-gray-600">Earning updates</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="email-notif" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+            </div>
+        </div>
+
+        <!-- About -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">About</h2>
+            <div class="space-y-3">
+                <div class="flex justify-between items-center">
+                    <p class="text-gray-600">App Version</p>
+                    <p class="font-medium text-gray-800">1.0.0</p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <p class="text-gray-600">Company</p>
+                    <p class="font-medium text-gray-800">TapWealth Inc</p>
                 </div>
             </div>
         </div>
-    </nav>
 
-    <!-- Settings Content -->
-    <div class="min-h-screen py-6 px-4">
-        <div class="max-w-3xl mx-auto">
-            <!-- Profile Section -->
-            <div class="facebook-card mb-6">
-                <div class="p-4 border-b">
-                    <h2 class="text-lg font-semibold text-gray-800">Profile</h2>
-                </div>
-                <div id="profileSection">
-                    <div class="setting-item">
-                        <div>
-                            <div class="setting-label">Name</div>
-                            <div class="setting-value" id="profile-name">Loading...</div>
-                        </div>
-                        <button onclick="editProfile()" class="text-blue-600 font-medium">Edit</button>
-                    </div>
-                    <div class="setting-item">
-                        <div>
-                            <div class="setting-label">Email</div>
-                            <div class="setting-value" id="profile-email">Loading...</div>
-                        </div>
-                        <button onclick="editEmail()" class="text-blue-600 font-medium">Edit</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Security Section -->
-            <div class="facebook-card mb-6">
-                <div class="p-4 border-b">
-                    <h2 class="text-lg font-semibold text-gray-800">Security</h2>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-label">Change Password</div>
-                    <button onclick="changePasswordModal()" class="text-blue-600 font-medium">Change</button>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-label">Two-Factor Authentication</div>
-                    <label class="toggle">
-                        <input type="checkbox" id="2fa-toggle" onchange="toggle2FA()">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Notifications Section -->
-            <div class="facebook-card mb-6">
-                <div class="p-4 border-b">
-                    <h2 class="text-lg font-semibold text-gray-800">Notifications</h2>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-label">Email Notifications</div>
-                    <label class="toggle">
-                        <input type="checkbox" id="email-notif" onchange="saveNotification('email')">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-label">Push Notifications</div>
-                    <label class="toggle">
-                        <input type="checkbox" id="push-notif" onchange="saveNotification('push')">
-                        <span class="slider"></span>
-                    </label>
-                </div>
-            </div>
-
-            <!-- Account Section -->
-            <div class="facebook-card">
-                <div class="p-4 border-b">
-                    <h2 class="text-lg font-semibold text-gray-800">Account</h2>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-label text-red-600">Delete Account</div>
-                    <button onclick="deleteAccountModal()" class="text-red-600 font-medium">Delete</button>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-label">Logout</div>
-                    <button onclick="logout()" class="text-red-600 font-medium">Logout</button>
-                </div>
-            </div>
+        <!-- Danger Zone -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-red-600 mb-4">⚠️ Danger Zone</h2>
+            <button onclick="logoutUser()" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </button>
+            <button onclick="openDeleteAccountModal()" class="btn btn-danger" style="opacity: 0.7;">
+                <i class="fas fa-trash mr-2"></i> Delete Account
+            </button>
         </div>
     </div>
 
-    <!-- Modals -->
     <!-- Edit Profile Modal -->
     <div id="editProfileModal" class="modal">
         <div class="modal-content">
-            <h3 class="text-lg font-bold mb-4">Edit Profile</h3>
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Name</label>
-                <input type="text" id="edit-name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Edit Profile</h2>
+            <div class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="edit-name" placeholder="Your name" />
             </div>
-            <div class="flex justify-end space-x-3">
-                <button onclick="closeModal('editProfileModal')" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
-                <button onclick="saveProfile()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Email Modal -->
-    <div id="editEmailModal" class="modal">
-        <div class="modal-content">
-            <h3 class="text-lg font-bold mb-4">Change Email</h3>
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">New Email</label>
-                <input type="email" id="edit-email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-            </div>
-            <div class="flex justify-end space-x-3">
-                <button onclick="closeModal('editEmailModal')" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
-                <button onclick="saveEmail()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save</button>
-            </div>
+            <button onclick="saveProfile()" class="btn btn-primary">Save Changes</button>
+            <button onclick="closeEditProfileModal()" class="btn" style="background: #e2e8f0; color: #1e293b;">Cancel</button>
         </div>
     </div>
 
     <!-- Change Password Modal -->
     <div id="changePasswordModal" class="modal">
         <div class="modal-content">
-            <h3 class="text-lg font-bold mb-4">Change Password</h3>
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Current Password</label>
-                <input type="password" id="current-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Change Password</h2>
+            <div class="input-group">
+                <label>Current Password</label>
+                <input type="password" id="current-password" placeholder="Enter current password" />
             </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">New Password</label>
-                <input type="password" id="new-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="input-group">
+                <label>New Password</label>
+                <input type="password" id="new-password" placeholder="Enter new password" />
             </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Confirm New Password</label>
-                <input type="password" id="confirm-password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <div class="input-group">
+                <label>Confirm Password</label>
+                <input type="password" id="confirm-password" placeholder="Confirm new password" />
             </div>
-            <div class="flex justify-end space-x-3">
-                <button onclick="closeModal('changePasswordModal')" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
-                <button onclick="savePassword()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Save</button>
-            </div>
+            <button onclick="savePassword()" class="btn btn-primary">Change Password</button>
+            <button onclick="closeChangePasswordModal()" class="btn" style="background: #e2e8f0; color: #1e293b;">Cancel</button>
         </div>
     </div>
 
     <!-- Delete Account Modal -->
     <div id="deleteAccountModal" class="modal">
         <div class="modal-content">
-            <h3 class="text-lg font-bold text-red-600 mb-4">Delete Account?</h3>
-            <p class="text-gray-700 mb-4">This action cannot be undone. All your data will be permanently deleted.</p>
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2">Type "DELETE" to confirm</label>
-                <input type="text" id="delete-confirm" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+            <h2 class="text-xl font-bold text-red-600 mb-4">Delete Account?</h2>
+            <p class="text-gray-600 mb-4">This action cannot be undone. All your data will be permanently deleted.</p>
+            <div class="input-group">
+                <label>Type "DELETE" to confirm</label>
+                <input type="text" id="delete-confirm" placeholder="Type DELETE" />
             </div>
-            <div class="flex justify-end space-x-3">
-                <button onclick="closeModal('deleteAccountModal')" class="px-4 py-2 text-gray-600 bg-gray-200 rounded-lg hover:bg-gray-300">Cancel</button>
-                <button onclick="deleteAccount()" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">Delete</button>
-            </div>
+            <button onclick="deleteAccount()" class="btn btn-danger">Delete My Account</button>
+            <button onclick="closeDeleteAccountModal()" class="btn" style="background: #e2e8f0; color: #1e293b;">Cancel</button>
         </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="pay-app-nav">
+        <a href="./dashboard.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="./earn.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Earn</span>
+        </a>
+        <a href="./referral.html" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Refer</span>
+        </a>
+        <a href="./wallet.html" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
+        <a href="./settings.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Me</span>
+        </a>
     </div>
 
     <script>
         const USERS_KEY = 'tapwealth_users';
         const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
-        let currentUser = null;
 
-        // Get current user
         function getCurrentUser() {
             const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
             if (!email) return null;
-            
             const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
             return users[email] || null;
         }
 
-        // Save user
-        function saveUser(user) {
+        function saveUser(data) {
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+            if (!email) return;
             const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-            users[user.email] = user;
+            users[email] = { ...users[email], ...data, lastActive: Date.now() };
             localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            updateUI();
         }
 
-        // Update UI
         function updateUI() {
-            if (!currentUser) {
-                alert('Please log in first.');
-                window.location.href = 'login.html';
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = './login.html';
                 return;
             }
 
-            // Update header initial
-            document.getElementById('header-initial').textContent = currentUser.name.charAt(0).toUpperCase();
-            
-            // Profile
-            document.getElementById('profile-name').textContent = currentUser.name;
-            document.getElementById('profile-email').textContent = currentUser.email;
-
-            // Load settings
-            const settings = currentUser.settings || {};
-            document.getElementById('2fa-toggle').checked = settings.twoFactor || false;
-            document.getElementById('email-notif').checked = settings.emailNotifications !== false; // default true
-            document.getElementById('push-notif').checked = settings.pushNotifications !== false; // default true
+            document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('user-name').textContent = user.name;
+            document.getElementById('user-email').textContent = user.email;
         }
 
-        // Edit profile
-        function editProfile() {
-            document.getElementById('edit-name').value = currentUser.name;
-            document.getElementById('editProfileModal').style.display = 'block';
+        function openEditProfileModal() {
+            const user = getCurrentUser();
+            document.getElementById('edit-name').value = user.name;
+            document.getElementById('editProfileModal').classList.add('show');
+        }
+
+        function closeEditProfileModal() {
+            document.getElementById('editProfileModal').classList.remove('show');
         }
 
         function saveProfile() {
             const newName = document.getElementById('edit-name').value.trim();
-            if (!newName) return alert('Name cannot be empty');
-            
-            currentUser.name = newName;
-            saveUser(currentUser);
-            updateUI();
-            closeModal('editProfileModal');
-            showToast('✅ Profile updated');
+            if (!newName) return alert('⚠️ Name cannot be empty');
+            saveUser({ name: newName });
+            closeEditProfileModal();
+            alert('✅ Profile updated successfully!');
         }
 
-        // Edit email
-        function editEmail() {
-            document.getElementById('edit-email').value = currentUser.email;
-            document.getElementById('editEmailModal').style.display = 'block';
+        function openChangePasswordModal() {
+            document.getElementById('changePasswordModal').classList.add('show');
         }
 
-        function saveEmail() {
-            const newEmail = document.getElementById('edit-email').value.trim().toLowerCase();
-            if (!newEmail || !newEmail.includes('@')) return alert('Invalid email');
-            
-            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-            if (users[newEmail] && newEmail !== currentUser.email) {
-                return alert('Email already in use');
-            }
-
-            // Move user data to new email
-            delete users[currentUser.email];
-            currentUser.email = newEmail;
-            users[newEmail] = currentUser;
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            localStorage.setItem(CURRENT_USER_EMAIL_KEY, newEmail);
-            
-            updateUI();
-            closeModal('editEmailModal');
-            showToast('✅ Email updated');
-        }
-
-        // Password change
-        function changePasswordModal() {
-            document.getElementById('changePasswordModal').style.display = 'block';
+        function closeChangePasswordModal() {
+            document.getElementById('changePasswordModal').classList.remove('show');
         }
 
         function savePassword() {
-            const current = document.getElementById('current-password').value;
-            const newPassword = document.getElementById('new-password').value;
-            const confirm = document.getElementById('confirm-password').value;
+            const user = getCurrentUser();
+            const currentPwd = document.getElementById('current-password').value;
+            const newPwd = document.getElementById('new-password').value;
+            const confirmPwd = document.getElementById('confirm-password').value;
 
-            if (current !== currentUser.password) return alert('Current password is incorrect');
-            if (newPassword.length < 6) return alert('Password must be at least 6 characters');
-            if (newPassword !== confirm) return alert('Passwords do not match');
+            if (currentPwd !== user.password) return alert('❌ Current password is incorrect');
+            if (newPwd.length < 6) return alert('⚠️ Password must be at least 6 characters');
+            if (newPwd !== confirmPwd) return alert('⚠️ Passwords do not match');
 
-            currentUser.password = newPassword;
-            saveUser(currentUser);
-            closeModal('changePasswordModal');
-            showToast('✅ Password updated');
+            saveUser({ password: newPwd });
+            closeChangePasswordModal();
+            alert('✅ Password changed successfully!');
         }
 
-        // Toggle 2FA
-        function toggle2FA() {
-            currentUser.settings = currentUser.settings || {};
-            currentUser.settings.twoFactor = document.getElementById('2fa-toggle').checked;
-            saveUser(currentUser);
-            showToast(currentUser.settings.twoFactor ? '✅ 2FA enabled' : '✅ 2FA disabled');
+        function openDeleteAccountModal() {
+            document.getElementById('deleteAccountModal').classList.add('show');
         }
 
-        // Save notification
-        function saveNotification(type) {
-            currentUser.settings = currentUser.settings || {};
-            if (type === 'email') {
-                currentUser.settings.emailNotifications = document.getElementById('email-notif').checked;
-            } else {
-                currentUser.settings.pushNotifications = document.getElementById('push-notif').checked;
-            }
-            saveUser(currentUser);
-            showToast('✅ Preferences saved');
-        }
-
-        // Delete account
-        function deleteAccountModal() {
-            document.getElementById('delete-confirm').value = '';
-            document.getElementById('deleteAccountModal').style.display = 'block';
+        function closeDeleteAccountModal() {
+            document.getElementById('deleteAccountModal').classList.remove('show');
         }
 
         function deleteAccount() {
             const confirm = document.getElementById('delete-confirm').value.trim().toUpperCase();
-            if (confirm !== 'DELETE') return alert('Type "DELETE" to confirm');
-            
+            if (confirm !== 'DELETE') return alert('⚠️ Type DELETE to confirm');
+
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
             const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-            delete users[currentUser.email];
+            delete users[email];
             localStorage.setItem(USERS_KEY, JSON.stringify(users));
             localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
-            
-            alert('✅ Account deleted. Redirecting to login...');
-            window.location.href = 'login.html';
+
+            alert('✅ Account deleted successfully');
+            window.location.href = './login.html';
         }
 
-        // Logout
-        function logout() {
-            if (!confirm('Are you sure you want to log out?')) return;
-            localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
-            alert('✅ Logged out');
-            window.location.href = 'login.html';
-        }
-
-        // Modal helpers
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
+        function logoutUser() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
+                alert('✅ Logged out successfully');
+                window.location.href = './login.html';
             }
-        };
-
-        // Toast
-        function showToast(message) {
-            let toast = document.getElementById('toast');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.id = 'toast';
-                toast.className = 'fixed top-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg z-50';
-                document.body.appendChild(toast);
-            }
-            toast.textContent = message;
-            toast.style.opacity = '1';
-            setTimeout(() => toast.style.opacity = '0', 2500);
         }
 
-        // Init
-        document.addEventListener('DOMContentLoaded', function() {
-            currentUser = getCurrentUser();
-            if (!currentUser) {
-                window.location.href = 'login.html';
-                return;
-            }
-            updateUI();
-        });
+        document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
 </html>

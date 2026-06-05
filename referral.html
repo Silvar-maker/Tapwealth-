@@ -3,152 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Referrals - TapWealth</title>
-    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@700&family=SF+Pro+Text:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Referral - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; color: #1e293b; padding-bottom: 70px; }
-        h1, h2, h3, h4, h5, h6 { font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif; }
-        .facebook-blue { background-color: #1877F2; }
-        .facebook-dark { background-color: #1C1E21; }
-        .facebook-light { background-color: #f0f2f5; }
-        .facebook-card { background-color: white; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        .facebook-header { background-color: white; border-bottom: 1px solid #dddfe2; position: sticky; top: 0; z-index: 100; }
-        .facebook-main-content { margin-left: 0; padding: 20px; }
-        @media (max-width: 768px) {
-            .facebook-main-content { padding: 12px; }
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
+        .header { background: white; padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
+        .menu-btn { width: 44px; height: 44px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; border: none; cursor: pointer; }
+        .app-title { font-weight: 700; font-size: 18px; color: #0f172a; }
+        .card { background: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .bonus-card { background: linear-gradient(135deg, #10b981, #059669); color: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+        .referral-code { background: #f1f5f9; border: 2px dashed #3b82f6; border-radius: 12px; padding: 16px; text-align: center; margin: 16px 0; }
+        .referral-code .code { font-size: 24px; font-weight: bold; color: #1877f2; font-family: monospace; margin: 8px 0; }
+        .btn { padding: 12px 24px; border-radius: 12px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; width: 100%; margin: 8px 0; }
+        .btn-primary { background: #1d4ed8; color: white; }
+        .btn-primary:hover { background: #1e40af; }
+        .btn-secondary { background: #e2e8f0; color: #1e293b; }
+        .btn-secondary:hover { background: #cbd5e1; }
         .pay-app-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; text-decoration: none; }
         .nav-item.active { color: #1d4ed8; }
         .nav-item i { font-size: 20px; margin-bottom: 4px; }
+        .referral-item { background: #f8fafc; border-left: 4px solid #1d4ed8; padding: 16px; border-radius: 8px; margin: 12px 0; }
+        .referral-item-name { font-weight: 600; color: #1e293b; }
+        .referral-item-bonus { color: #10b981; font-weight: 600; }
     </style>
 </head>
-<body class="facebook-light min-h-screen">
-    <!-- Facebook Header -->
-    <header class="facebook-header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-14 items-center">
-                <div class="flex items-center">
-                    <button class="text-gray-600" onclick="history.back()">
-                        <i class="fas fa-arrow-left text-xl mr-4"></i>
-                    </button>
-                    <div class="flex-shrink-0 flex items-center">
-                        <i class="fas fa-dollar-sign text-white text-xl mr-2" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"></i>
-                        <span class="text-xl font-bold" style="background: linear-gradient(135deg, #1877F2 0%, #C0C0C0 50%, #FFFFFF 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">TapWealth</span>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button onclick="history.back()" class="menu-btn">
+            <i class="fas fa-arrow-left text-xl"></i>
+        </button>
+        <div class="app-title">Referral Program</div>
+        <div class="w-12"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div style="padding-bottom: 80px;">
+        <!-- Referral Bonus Card -->
+        <div class="bonus-card">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="opacity-80">Referral Bonus Earned</p>
+                    <p class="text-3xl font-bold mt-2" id="referral-bonus">₦0</p>
+                </div>
+                <i class="fas fa-users text-4xl opacity-50"></i>
+            </div>
+        </div>
+
+        <!-- How It Works -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">📋 How It Works</h2>
+            <div class="space-y-3">
+                <div class="flex items-start">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold mr-3 flex-shrink-0">1</div>
+                    <div>
+                        <p class="font-medium text-gray-800">Share Your Link</p>
+                        <p class="text-sm text-gray-600">Copy your unique referral link below</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold mr-3 flex-shrink-0">2</div>
+                    <div>
+                        <p class="font-medium text-gray-800">Friends Sign Up</p>
+                        <p class="text-sm text-gray-600">Send to friends and they sign up with your link</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold mr-3 flex-shrink-0">3</div>
+                    <div>
+                        <p class="font-medium text-gray-800">Earn Bonus</p>
+                        <p class="text-sm text-gray-600">Get ₦100 for each friend that signs up</p>
                     </div>
                 </div>
             </div>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <div class="facebook-main-content">
-        <div class="max-w-4xl mx-auto">
-            <!-- Header -->
-            <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">Referrals</h1>
-                <p class="text-gray-600">Earn money by inviting friends to TapWealth</p>
+        <!-- Your Referral Code -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">🔗 Your Referral Link</h2>
+            <div class="referral-code">
+                <p class="text-sm text-gray-600 mb-2">Your Referral Code</p>
+                <div class="code" id="referral-code">LOADING...</div>
+                <p class="text-xs text-gray-600 mt-2">Or use your full link:</p>
+                <div class="text-xs text-blue-600 break-all mt-2" id="referral-link">Loading...</div>
             </div>
+            <button onclick="copyReferralLink()" class="btn btn-primary">
+                <i class="fas fa-copy mr-2"></i> Copy Link
+            </button>
+            <button onclick="shareReferralLink()" class="btn btn-secondary">
+                <i class="fas fa-share-alt mr-2"></i> Share via Link
+            </button>
+        </div>
 
-            <!-- Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="facebook-card p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 text-sm">Your Referrals</p>
-                            <p class="text-2xl font-bold text-gray-800" id="total-referrals">0</p>
-                        </div>
-                        <i class="fas fa-users text-blue-600 text-2xl"></i>
-                    </div>
+        <!-- Stats -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">📊 Your Stats</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-blue-50 p-4 rounded-lg text-center">
+                    <p class="text-sm text-gray-600">Total Referrals</p>
+                    <p class="text-2xl font-bold text-blue-600" id="total-referrals">0</p>
                 </div>
-                
-                <div class="facebook-card p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 text-sm">Referral Bonus</p>
-                            <p class="text-2xl font-bold text-gray-800" id="referral-bonus">₦0</p>
-                        </div>
-                        <i class="fas fa-gift text-green-600 text-2xl"></i>
-                    </div>
-                </div>
-                
-                <div class="facebook-card p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-600 text-sm">Lifetime Earnings</p>
-                            <p class="text-2xl font-bold text-gray-800" id="lifetime-earnings">₦0</p>
-                        </div>
-                        <i class="fas fa-chart-line text-purple-600 text-2xl"></i>
-                    </div>
+                <div class="bg-green-50 p-4 rounded-lg text-center">
+                    <p class="text-sm text-gray-600">Active Referrals</p>
+                    <p class="text-2xl font-bold text-green-600" id="active-referrals">0</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Share Link -->
-            <div class="facebook-card p-6 mb-8">
-                <h2 class="text-xl font-bold text-gray-800 mb-4">Share Your Referral Link</h2>
-                <div class="flex items-center mb-4">
-                    <input type="text" id="referral-link" readonly class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" value="Loading...">
-                    <button onclick="copyLink()" class="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Copy</button>
+        <!-- Referrals List -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">👥 Your Referrals</h2>
+            <div id="referrals-list">
+                <div class="text-center py-8 text-gray-500">
+                    <i class="fas fa-users text-3xl mb-3"></i>
+                    <p>No referrals yet. Start sharing!</p>
                 </div>
-                <button onclick="shareViaWhatsApp()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-bold">
-                    <i class="fab fa-whatsapp mr-2"></i> Share on WhatsApp
-                </button>
-            </div>
-
-            <!-- How It Works -->
-            <div class="facebook-card p-6">
-                <h3 class="font-bold mb-3">How It Works</h3>
-                <ol class="list-decimal pl-5 space-y-2 text-sm text-gray-700">
-                    <li>Share your link with friends</li>
-                    <li>They sign up & complete 1 task</li>
-                    <li>You get ₦100 instantly!</li>
-                </ol>
             </div>
         </div>
     </div>
 
     <!-- Bottom Nav -->
     <div class="pay-app-nav">
-        <a href="dashboard.html" class="nav-item">
+        <a href="./dashboard.html" class="nav-item">
             <i class="fas fa-home"></i>
             <span>Home</span>
         </a>
-        <a href="earn.html" class="nav-item">
+        <a href="./earn.html" class="nav-item">
             <i class="fas fa-coins"></i>
             <span>Earn</span>
         </a>
-        <a href="referral.html" class="nav-item active">
+        <a href="./referral.html" class="nav-item active">
             <i class="fas fa-users"></i>
             <span>Refer</span>
         </a>
-        <a href="shop.html" class="nav-item">
-            <i class="fas fa-shopping-bag"></i>
-            <span>Shop</span>
+        <a href="./wallet.html" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
         </a>
-        <a href="settings.html" class="nav-item">
+        <a href="./settings.html" class="nav-item">
             <i class="fas fa-user"></i>
             <span>Me</span>
         </a>
     </div>
 
-    <!-- ✅ FULLY FIXED SCRIPT -->
     <script>
-        // ===== CONFIG (shared) =====
-        const CONFIG = {
-            get adRate() { return parseFloat(localStorage.getItem('tapwealth_ad_rate') || 30); },
-            get referralBonus() { return parseFloat(localStorage.getItem('tapwealth_referral_bonus') || 100); }
-        };
-        function saveConfig() {
-            localStorage.setItem('tapwealth_ad_rate', document.getElementById('ads-rate')?.value || 30);
-            localStorage.setItem('tapwealth_referral_bonus', document.getElementById('referral-rate')?.value || 100);
-        }
-
         const USERS_KEY = 'tapwealth_users';
         const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+        const REFERRAL_BONUS = 100;
 
-        // ✅ Unified user functions
         function getCurrentUser() {
             const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
             if (!email) return null;
@@ -164,109 +169,69 @@
             localStorage.setItem(USERS_KEY, JSON.stringify(users));
         }
 
-        function showToast(message) {
-            let t = document.getElementById('toast');
-            if (!t) {
-                t = document.createElement('div');
-                t.id = 'toast';
-                t.className = 'fixed top-16 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-4 py-2 rounded-lg z-50';
-                document.body.appendChild(t);
-            }
-            t.textContent = message;
-            t.style.transition = 'opacity 0.3s';
-            t.style.opacity = '1';
-            setTimeout(() => t.style.opacity = '0', 2500);
-        }
-
-        function copyLink() {
-            const input = document.getElementById('referral-link');
-            input.select();
-            navigator.clipboard?.writeText(input.value) || document.execCommand('copy');
-            showToast('✅ Link copied!');
-        }
-
-        function shareViaWhatsApp() {
-            const link = document.getElementById('referral-link').value;
-            const msg = `Hey! Join TapWealth and earn real money — I’ll get ₦${CONFIG.referralBonus} when you sign up 👇\n\n${link}`;
-            // ✅ CORRECTED: No space after ?text=
-            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
-        }
-
-        // ✅ FIXED: Robust referral tracking
-        function trackReferral() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const refId = urlParams.get('ref');
-            if (!refId) return;
-
-            const currentUser = getCurrentUser();
-            if (!currentUser) return;
-
-            // Prevent self-referral & duplicates
-            if (currentUser.id === refId || currentUser.referrer) return;
-
-            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-            const referrer = Object.values(users).find(u => u.id === refId);
-            if (!referrer) return;
-
-            // Credit referrer
-            const bonus = CONFIG.referralBonus;
-            referrer.balance = (referrer.balance || 0) + bonus;
-            referrer.referrals = (referrer.referrals || 0) + 1;
-            referrer.transactions = [
-                ...(referrer.transactions || []),
-                { id: 'ref_' + Date.now(), type: 'credit', amount: bonus, description: `Referred ${currentUser.id}`, date: new Date().toISOString() }
-            ];
-            users[referrer.email] = referrer;
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-
-            // Update current user
-            currentUser.referrer = refId;
-            saveUser(currentUser);
-
-            showToast(`✅ Referred by ${referrer.name || refId}!`);
-        }
-
         function updateUI() {
             const user = getCurrentUser();
             if (!user) {
-                alert('🔒 Please log in first.');
-                window.location.href = 'login.html';
+                window.location.href = './login.html';
                 return;
             }
 
-            const referrals = user.referrals || 0;
-            document.getElementById('total-referrals').textContent = referrals;
-            document.getElementById('referral-bonus').textContent = '₦' + (referrals * CONFIG.referralBonus).toLocaleString();
-            document.getElementById('lifetime-earnings').textContent = '₦' + (user.balance || 0).toLocaleString();
+            // Generate referral code
+            const refCode = 'REF' + user.id.toUpperCase().substring(0, 8);
+            document.getElementById('referral-code').textContent = refCode;
+            document.getElementById('referral-link').textContent = window.location.origin + window.location.pathname.replace('referral.html', 'login.html') + '?ref=' + refCode;
 
-            // ✅ FIXED: Safe base URL for local + live
-            let baseUrl = window.location.origin + window.location.pathname;
-            if (baseUrl.endsWith('referral.html')) {
-                baseUrl = baseUrl.replace(/referral\.html$/, '');
+            // Calculate referral bonus
+            const referralBonus = (user.referrals?.length || 0) * REFERRAL_BONUS;
+            document.getElementById('referral-bonus').textContent = '₦' + referralBonus.toLocaleString();
+            document.getElementById('total-referrals').textContent = user.referrals?.length || 0;
+            document.getElementById('active-referrals').textContent = user.referrals?.filter(r => r.active).length || 0;
+
+            // Display referrals
+            const referralsList = document.getElementById('referrals-list');
+            if (user.referrals && user.referrals.length > 0) {
+                referralsList.innerHTML = user.referrals.map((ref, idx) => `
+                    <div class="referral-item">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="referral-item-name">${ref.name}</p>
+                                <p class="text-xs text-gray-600">Joined ${new Date(ref.joinDate).toLocaleDateString()}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="referral-item-bonus">+₦${REFERRAL_BONUS}</p>
+                                <p class="text-xs text-gray-600">${ref.active ? '✅ Active' : '⏳ Pending'}</p>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
             }
-            if (!baseUrl.endsWith('/')) baseUrl += '/';
-            const refLink = `${baseUrl}?ref=${encodeURIComponent(user.id)}`;
-            document.getElementById('referral-link').value = refLink;
         }
 
-        // ✅ INIT — no errors, no blank screen
-        document.addEventListener('DOMContentLoaded', function() {
-            try {
-                trackReferral();
-                updateUI();
-            } catch (err) {
-                console.error('Referral init error:', err);
-                document.body.innerHTML = `
-                    <div style="padding:20px; text-align:center; font-family:sans-serif">
-                        <h2>⚠️ Referral Page Error</h2>
-                        <p>${err.message}</p>
-                        <button onclick="location.reload()">Retry</button>
-                        <button onclick="location.href='dashboard.html'">Go to Dashboard</button>
-                    </div>
-                `;
+        function copyReferralLink() {
+            const link = document.getElementById('referral-link').textContent;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('✅ Referral link copied to clipboard!');
+            });
+        }
+
+        function shareReferralLink() {
+            const user = getCurrentUser();
+            const refCode = 'REF' + user.id.toUpperCase().substring(0, 8);
+            const link = window.location.origin + window.location.pathname.replace('referral.html', 'login.html') + '?ref=' + refCode;
+            const text = `🚀 Join TapWealth with my referral link and earn ₦100! ${link}`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'TapWealth Referral',
+                    text: text,
+                    url: link
+                });
+            } else {
+                alert('Share this link:\n' + text);
             }
-        });
+        }
+
+        document.addEventListener('DOMContentLoaded', updateUI);
     </script>
 </body>
 </html>

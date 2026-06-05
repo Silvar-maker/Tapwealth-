@@ -4,339 +4,246 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - TapWealth</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --primary: #1877F2; }
-        body { font-family: 'Poppins', sans-serif; background-color: #f0f2f5; }
-        .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .header { background: white; border-bottom: 1px solid #e2e8f0; padding: 0.75rem 1rem; }
-        .tab-active { background: var(--primary); color: white; }
-        .status { padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
-        .status-pending { background: #fef3c7; color: #92400e; }
-        .status-approved { background: #dcfce7; color: #166534; }
-        .status-rejected { background: #fee2e2; color: #991b1b; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; }
+        .header { background: linear-gradient(135deg, #1d4ed8, #3b82f6); color: white; padding: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .app-title { font-weight: 700; font-size: 18px; }
+        .card { background: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .stat-grid { display: grid; grid-cols-repeat: 2, minmax(0, 1fr); gap: 16px; }
+        .stat-card { background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 12px; padding: 16px; text-align: center; }
+        .stat-number { font-size: 24px; font-weight: bold; color: #1d4ed8; }
+        .stat-label { font-size: 12px; color: #64748b; margin-top: 4px; }
+        .tab { padding: 8px 16px; border: 1px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer; margin: 4px; font-weight: 500; }
+        .tab.active { background: #1d4ed8; color: white; border-color: #1d4ed8; }
+        .table { width: 100%; border-collapse: collapse; }
+        .table th { background: #f1f5f9; padding: 12px; text-align: left; font-weight: 600; border-bottom: 1px solid #e2e8f0; }
+        .table td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
+        .table tr:hover { background: #f8fafc; }
+        .btn { padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
+        .btn-primary { background: #1d4ed8; color: white; }
+        .btn-danger { background: #dc2626; color: white; }
+        .input-group { margin-bottom: 16px; }
+        .input-group label { display: block; font-size: 14px; color: #333; margin-bottom: 6px; font-weight: 500; }
+        .input-group input, .input-group select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; box-sizing: border-box; }
     </style>
 </head>
-<body class="min-h-screen">
+<body>
     <!-- Header -->
-    <header class="header flex justify-between items-center">
-        <h1 class="font-bold text-xl" style="background: linear-gradient(90deg, #1877F2, #4A90E2); -webkit-background-clip: text; color: transparent;">
-            <i class="fas fa-shield-alt mr-2"></i> Admin Dashboard
-        </h1>
-        <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-700">
+    <div class="header">
+        <div class="app-title">🚀 Admin Dashboard</div>
+        <button onclick="logoutAdmin()" class="btn btn-danger" style="padding: 8px 16px;">
             <i class="fas fa-sign-out-alt mr-1"></i> Logout
         </button>
-    </header>
-
-    <!-- Navigation -->
-    <div class="flex flex-wrap justify-center gap-2 p-4 bg-gray-50">
-        <button onclick="showTab('overview')" class="tab-btn px-4 py-2 rounded-lg">📊 Overview</button>
-        <button onclick="showTab('users')" class="tab-btn px-4 py-2 rounded-lg">👤 Users</button>
-        <button onclick="showTab('withdrawals')" class="tab-btn px-4 py-2 rounded-lg">💰 Withdrawals</button>
-        <button onclick="showTab('settings')" class="tab-btn px-4 py-2 rounded-lg">⚙️ Settings</button>
     </div>
 
-    <!-- Content -->
-    <main class="p-4 max-w-6xl mx-auto">
-        <!-- Overview -->
-        <section id="overview" class="tab-content">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <div class="card p-4">
-                    <p class="text-gray-600 text-sm">Total Users</p>
-                    <p id="stat-users" class="text-2xl font-bold">0</p>
+    <!-- Main Content -->
+    <div style="padding-bottom: 20px;">
+        <!-- Stats -->
+        <div class="card">
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <p class="stat-label">👥 Total Users</p>
+                    <p class="stat-number" id="stat-users">0</p>
                 </div>
-                <div class="card p-4">
-                    <p class="text-gray-600 text-sm">Total Earnings</p>
-                    <p id="stat-earnings" class="text-2xl font-bold text-green-600">₦0</p>
+                <div class="stat-card">
+                    <p class="stat-label">💰 Total Balance</p>
+                    <p class="stat-number" id="stat-balance">₦0</p>
                 </div>
-                <div class="card p-4">
-                    <p class="text-gray-600 text-sm">Pending Withdrawals</p>
-                    <p id="stat-pending" class="text-2xl font-bold text-orange-600">0</p>
+                <div class="stat-card">
+                    <p class="stat-label">📈 Total Earnings</p>
+                    <p class="stat-number" id="stat-earnings">₦0</p>
                 </div>
-                <div class="card p-4">
-                    <p class="text-gray-600 text-sm">Today's Activity</p>
-                    <p id="stat-today" class="text-2xl font-bold">0</p>
+                <div class="stat-card">
+                    <p class="stat-label">📊 Active Users</p>
+                    <p class="stat-number" id="stat-active">0</p>
                 </div>
             </div>
+        </div>
 
-            <div class="card p-4">
-                <h2 class="font-bold mb-3">Recent Activity</h2>
-                <div id="activity-list" class="space-y-3">
-                    <div class="text-gray-500 text-center py-4">Loading activity...</div>
-                </div>
+        <!-- Tabs -->
+        <div class="card">
+            <div class="flex justify-center flex-wrap">
+                <button onclick="switchAdminTab('overview')" class="tab active" id="tab-overview">📊 Overview</button>
+                <button onclick="switchAdminTab('users')" class="tab" id="tab-users">👥 Users</button>
+                <button onclick="switchAdminTab('settings')" class="tab" id="tab-settings">⚙️ Settings</button>
             </div>
-        </section>
+        </div>
 
-        <!-- Users -->
-        <section id="users" class="tab-content hidden">
-            <div class="card p-4 mb-4">
-                <div class="flex justify-between items-center mb-3">
-                    <h2 class="font-bold">Users (<span id="user-count">0</span>)</h2>
-                    <input type="text" id="user-search" placeholder="Search..." class="px-3 py-2 border rounded-lg text-sm w-48" oninput="filterUsers()">
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">📈 Platform Statistics</h2>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center p-4 bg-blue-50 rounded-lg">
+                    <span class="text-gray-700">Total Transactions</span>
+                    <span class="font-bold text-blue-600" id="total-txs">0</span>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead class="bg-gray-100">
-                            <tr>
-                                <th class="p-2 text-left">Name</th>
-                                <th class="p-2 text-left">Email</th>
-                                <th class="p-2 text-left">Balance</th>
-                                <th class="p-2 text-left">Referrals</th>
-                                <th class="p-2 text-left">Joined</th>
-                                <th class="p-2 text-left">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="users-table"></tbody>
-                    </table>
+                <div class="flex justify-between items-center p-4 bg-green-50 rounded-lg">
+                    <span class="text-gray-700">Total Earned by Users</span>
+                    <span class="font-bold text-green-600" id="total-earned">₦0</span>
+                </div>
+                <div class="flex justify-between items-center p-4 bg-purple-50 rounded-lg">
+                    <span class="text-gray-700">Total Withdrawn</span>
+                    <span class="font-bold text-purple-600" id="total-withdrawn">₦0</span>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Withdrawals -->
-        <section id="withdrawals" class="tab-content hidden">
-            <div class="card p-4">
-                <h2 class="font-bold mb-3">Withdrawal Requests</h2>
-                <div id="withdrawals-list" class="space-y-3">
-                    <div class="text-gray-500 text-center py-4">Loading withdrawals...</div>
-                </div>
+        <!-- Users Tab -->
+        <div id="users-tab" class="card" style="display: none;">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">👥 Manage Users</h2>
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Balance</th>
+                            <th>Tasks</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table">
+                        <tr>
+                            <td colspan="5" class="text-center text-gray-500">Loading users...</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </section>
+        </div>
 
-        <!-- Settings -->
-        <section id="settings" class="tab-content hidden">
-            <div class="card p-4 mb-4">
-                <h2 class="font-bold mb-3">Payout Rates</h2>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
-                        <div>
-                            <p class="font-medium">Ad View Rate</p>
-                            <p class="text-xs text-gray-600">Per ad</p>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="mr-2">₦</span>
-                            <input type="number" id="ads-rate" value="30" min="10" max="500" class="w-20 px-2 py-1 border rounded text-right">
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
-                        <div>
-                            <p class="font-medium">Referral Bonus</p>
-                            <p class="text-xs text-gray-600">Per referral</p>
-                        </div>
-                        <div class="flex items-center">
-                            <span class="mr-2">₦</span>
-                            <input type="number" id="referral-rate" value="100" min="50" max="1000" class="w-20 px-2 py-1 border rounded text-right">
-                        </div>
-                    </div>
-                    <button onclick="saveRates()" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700">
-                        Save Payout Rates
-                    </button>
-                </div>
+        <!-- Settings Tab -->
+        <div id="settings-tab" class="card" style="display: none;">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">⚙️ Platform Settings</h2>
+            <div class="input-group">
+                <label>Ad Reward (₦)</label>
+                <input type="number" id="ad-rate" value="15" min="5" max="100" />
             </div>
-        </section>
-    </main>
+            <div class="input-group">
+                <label>Referral Bonus (₦)</label>
+                <input type="number" id="referral-bonus" value="100" min="50" max="500" />
+            </div>
+            <div class="input-group">
+                <label>Welcome Bonus (₦)</label>
+                <input type="number" id="welcome-bonus" value="500" min="100" max="2000" />
+            </div>
+            <button onclick="saveAdminSettings()" class="btn btn-primary" style="width: 100%; margin-top: 16px;">
+                <i class="fas fa-save mr-2"></i> Save Settings
+            </button>
+        </div>
+    </div>
 
     <script>
-        // ===== CONFIG (Paste this in every page) =====
-        const CONFIG = {
-            get adRate() { return parseFloat(localStorage.getItem('tapwealth_ad_rate') || '30'); },
-            get referralBonus() { return parseFloat(localStorage.getItem('tapwealth_referral_bonus') || '100'); }
-        };
-        // ================================================
+        const USERS_KEY = 'tapwealth_users';
+        const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+        const ADMIN_EMAIL = 'wealthysilvar@gmail.com';
+        let currentAdminTab = 'overview';
 
-        let users = JSON.parse(localStorage.getItem('tapwealth_users') || '{}');
-        let withdrawals = JSON.parse(localStorage.getItem('tapwealth_withdrawals') || '[]');
-
-        // Security
-        function checkAccess() {
-            const email = localStorage.getItem('tapwealth_current_user_email');
-            if (email !== 'wealthysilvar@gmail.com') {
-                alert('🚫 Access denied. CEO only.');
-                window.location.href = 'dashboard.html';
+        function checkAdminAccess() {
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+            if (email !== ADMIN_EMAIL) {
+                alert('🚫 Access Denied! Admin only.');
+                window.location.href = './dashboard.html';
                 return false;
             }
             return true;
         }
 
-        // Tabs
-        function showTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById(tab).classList.remove('hidden');
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('tab-active'));
-            event.target.classList.add('tab-active');
+        function switchAdminTab(tab) {
+            currentAdminTab = tab;
+            document.querySelectorAll('[id$="-tab"]').forEach(el => el.style.display = 'none');
+            document.getElementById(tab + '-tab').style.display = 'block';
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            if (tab === 'users') renderUsers();
         }
 
-        // Stats
-        function updateStats() {
-            const userArr = Object.values(users);
-            document.getElementById('stat-users').textContent = userArr.length;
-            document.getElementById('user-count').textContent = userArr.length;
-            
-            const total = userArr.reduce((sum, u) => sum + (u.balance || 0), 0);
-            document.getElementById('stat-earnings').textContent = '₦' + total.toLocaleString();
-            
-            const pending = withdrawals.filter(w => w.status === 'pending').length;
-            document.getElementById('stat-pending').textContent = pending;
-            
-            const today = new Date();
-            today.setHours(0,0,0,0);
-            const todayActs = userArr.filter(u => 
-                u.createdAt && new Date(u.createdAt) >= today
-            ).length;
-            document.getElementById('stat-today').textContent = todayActs;
-        }
-
-        // Users table
         function renderUsers() {
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
             const tbody = document.getElementById('users-table');
+
+            if (Object.keys(users).length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-500">No users yet</td></tr>';
+                return;
+            }
+
             tbody.innerHTML = Object.values(users).map(user => `
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-2">${user.name}</td>
-                    <td class="p-2">${user.email}</td>
-                    <td class="p-2">₦${(user.balance || 0).toLocaleString()}
-                        <button onclick="editBalance('${user.email}')" class="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">✏️</button>
-                    </td>
-                    <td class="p-2">${user.referrals?.length || 0}</td>
-                    <td class="p-2">${new Date(user.createdAt || Date.now()).toLocaleDateString()}</td>
-                    <td class="p-2">
-                        <button onclick="banUser('${user.email}')" class="text-red-600 hover:text-red-800 text-sm">Ban</button>
+                <tr>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>₦${(user.balance || 0).toLocaleString('en-NG')}</td>
+                    <td>${user.completedTasks || 0}</td>
+                    <td>
+                        <button onclick="banUser('${user.email}')" class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;">Ban</button>
                     </td>
                 </tr>
             `).join('');
         }
 
-        // Edit balance
-        function editBalance(email) {
-            const user = users[email];
-            const newBal = prompt(`New balance for ${user.name}?`, user.balance || 0);
-            if (newBal !== null && !isNaN(newBal)) {
-                user.balance = parseFloat(newBal);
-                users[email] = user;
-                saveData();
-                renderUsers();
-                updateStats();
-                alert('✅ Balance updated');
-            }
-        }
-
-        // Ban user
         function banUser(email) {
-            if (confirm(`Permanently ban ${email}?`)) {
+            if (confirm(`Ban ${email}?`)) {
+                const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
                 delete users[email];
-                if (email === localStorage.getItem('tapwealth_current_user_email')) {
-                    localStorage.removeItem('tapwealth_current_user_email');
-                }
-                saveData();
+                localStorage.setItem(USERS_KEY, JSON.stringify(users));
                 renderUsers();
-                updateStats();
-                alert('✅ User banned');
+                updateAdminStats();
+                alert('✅ User banned successfully');
             }
         }
 
-        // Withdrawals
-        function renderWithdrawals() {
-            const list = document.getElementById('withdrawals-list');
-            const pending = withdrawals.filter(w => w.status === 'pending');
-            
-            if (pending.length === 0) {
-                list.innerHTML = '<div class="text-center py-6 text-green-600"><i class="fas fa-check-circle text-2xl mb-2"></i><p>All withdrawals processed</p></div>';
-                return;
-            }
+        function updateAdminStats() {
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            const userArray = Object.values(users);
 
-            list.innerHTML = pending.map(w => {
-                const user = users[w.userEmail] || { name: 'Unknown' };
-                return `
-                    <div class="border rounded-lg p-3 hover:bg-gray-50">
-                        <div class="flex justify-between">
-                            <div>
-                                <p class="font-medium">${user.name}</p>
-                                <p class="text-sm text-gray-600">${w.phone} • ${w.id}</p>
-                            </div>
-                            <span class="status status-pending">Pending</span>
-                        </div>
-                        <div class="mt-2 flex justify-between items-center">
-                            <p class="text-lg font-bold">₦${w.amount.toLocaleString()}</p>
-                            <div class="space-x-2">
-                                <button onclick="approve('${w.id}')" class="px-3 py-1 bg-green-600 text-white rounded text-sm">Approve</button>
-                                <button onclick="reject('${w.id}')" class="px-3 py-1 bg-red-600 text-white rounded text-sm">Reject</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
+            let totalBalance = 0;
+            let totalEarned = 0;
+            let totalWithdrawn = 0;
+            let totalTxs = 0;
+            let activeUsers = 0;
 
-        // Approve withdrawal
-        function approve(id) {
-            const w = withdrawals.find(x => x.id === id);
-            if (!w) return;
-            
-            const user = users[w.userEmail];
-            if (user) {
-                user.balance = (user.balance || 0) - w.amount;
-                users[w.userEmail] = user;
-            }
-            
-            w.status = 'approved';
-            w.approvedAt = new Date().toISOString();
-            saveData();
-            renderWithdrawals();
-            updateStats();
-            alert('✅ Withdrawal approved');
-        }
-
-        // Reject withdrawal
-        function reject(id) {
-            const w = withdrawals.find(x => x.id === id);
-            if (w) {
-                w.status = 'rejected';
-                w.rejectedAt = new Date().toISOString();
-                saveData();
-                renderWithdrawals();
-                alert('❌ Withdrawal rejected');
-            }
-        }
-
-        // Settings
-        function saveRates() {
-            localStorage.setItem('tapwealth_ad_rate', document.getElementById('ads-rate').value);
-            localStorage.setItem('tapwealth_referral_bonus', document.getElementById('referral-rate').value);
-            updateStats(); // refresh rates
-            alert('✅ Payout rates updated');
-        }
-
-        // Data persistence
-        function saveData() {
-            localStorage.setItem('tapwealth_users', JSON.stringify(users));
-            localStorage.setItem('tapwealth_withdrawals', JSON.stringify(withdrawals));
-        }
-
-        // Search
-        function filterUsers() {
-            const q = document.getElementById('user-search').value.toLowerCase();
-            document.querySelectorAll('#users-table tr').forEach(row => {
-                const txt = row.textContent.toLowerCase();
-                row.style.display = txt.includes(q) ? '' : 'none';
+            userArray.forEach(user => {
+                totalBalance += user.balance || 0;
+                const txs = user.transactions || [];
+                totalTxs += txs.length;
+                txs.forEach(tx => {
+                    if (tx.type === 'credit') totalEarned += tx.amount;
+                    else totalWithdrawn += tx.amount;
+                });
+                if (user.lastActive && Date.now() - user.lastActive < 86400000) activeUsers++;
             });
+
+            document.getElementById('stat-users').textContent = userArray.length;
+            document.getElementById('stat-balance').textContent = '₦' + totalBalance.toLocaleString('en-NG');
+            document.getElementById('stat-earnings').textContent = '₦' + totalEarned.toLocaleString('en-NG');
+            document.getElementById('stat-active').textContent = activeUsers;
+            document.getElementById('total-txs').textContent = totalTxs;
+            document.getElementById('total-earned').textContent = '₦' + totalEarned.toLocaleString('en-NG');
+            document.getElementById('total-withdrawn').textContent = '₦' + totalWithdrawn.toLocaleString('en-NG');
         }
 
-        // Logout
-        function logout() {
-            if (confirm('Log out of admin?')) {
-                window.location.href = 'dashboard.html';
+        function saveAdminSettings() {
+            const settings = {
+                adRate: parseFloat(document.getElementById('ad-rate').value),
+                referralBonus: parseFloat(document.getElementById('referral-bonus').value),
+                welcomeBonus: parseFloat(document.getElementById('welcome-bonus').value)
+            };
+            localStorage.setItem('tapwealth_admin_settings', JSON.stringify(settings));
+            alert('✅ Settings saved successfully!');
+        }
+
+        function logoutAdmin() {
+            if (confirm('Logout from admin?')) {
+                localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
+                window.location.href = './login.html';
             }
         }
 
-        // Init
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!checkAccess()) return;
-            updateStats();
-            renderUsers();
-            renderWithdrawals();
-            // Load current rates
-            document.getElementById('ads-rate').value = CONFIG.adRate;
-            document.getElementById('referral-rate').value = CONFIG.referralBonus;
+        document.addEventListener('DOMContentLoaded', function() {
+            if (checkAdminAccess()) {
+                updateAdminStats();
+            }
         });
     </script>
 </body>
