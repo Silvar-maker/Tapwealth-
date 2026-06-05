@@ -1,181 +1,361 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Tapwealth — Log In</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
-    body { background: linear-gradient(135deg, #1e3c72, #2a5298); min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; }
-    .container { width:100%; max-width:400px; background:white; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.2); overflow:hidden; }
-    .header { background:#1877f2; color:white; text-align:center; padding:24px 20px; }
-    .header h1 { font-size:28px; font-weight:700; }
-    .header p { opacity:0.9; margin-top:6px; }
-    .form { padding:24px; }
-    .input-group { margin-bottom:16px; }
-    .input-group label { display:block; font-size:14px; color:#333; margin-bottom:6px; font-weight:500; }
-    .input-group input { width:100%; padding:14px; border:1px solid #ddd; border-radius:8px; font-size:16px; outline:none; box-sizing: border-box; }
-    .input-group input:focus { border-color:#1877f2; box-shadow:0 0 0 2px rgba(24,119,242,0.2); }
-    .btn { width:100%; padding:14px; background:#1877f2; color:white; border:none; border-radius:8px; font-size:17px; font-weight:600; cursor:pointer; margin-top:8px; }
-    .btn:hover { background:#166fe5; }
-    .btn-outline { background:transparent; border:1px solid #1877f2; color:#1877f2; margin-top:12px; }
-    .btn-outline:hover { background:rgba(24,119,242,0.05); }
-    .footer { text-align:center; padding:0 24px 24px; color:#666; font-size:14px; }
-    .footer a { color:#1877f2; text-decoration:none; font-weight:600; }
-    .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#28a745; color:white; padding:12px 24px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15); z-index:9999; opacity:0; transition: opacity 0.3s; }
-    .toast.show { opacity:1; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Tapwealth — Log In</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background: linear-gradient(135deg, #1e3c72, #2a5298); min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; transition: background 0.3s; }
+        body.dark-mode { background: linear-gradient(135deg, #0f1419, #1a2332); }
+        .container { width:100%; max-width:400px; background:white; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.2); overflow:hidden; }
+        .dark-mode .container { background: #1a1d23; }
+        .header { background:#1877f2; color:white; text-align:center; padding:24px 20px; }
+        .dark-mode .header { background: #0d47a1; }
+        .header h1 { font-size:28px; font-weight:700; }
+        .header p { opacity:0.9; margin-top:6px; }
+        .form { padding:24px; }
+        .dark-mode .form { background: #1a1d23; color: #e0e0e0; }
+        .input-group { margin-bottom:16px; }
+        .input-group label { display:block; font-size:14px; color:#333; margin-bottom:6px; font-weight:500; }
+        .dark-mode .input-group label { color: #b0b0b0; }
+        .input-group input, .input-group select { width:100%; padding:14px; border:1px solid #ddd; border-radius:8px; font-size:16px; outline:none; box-sizing:border-box; }
+        .dark-mode .input-group input, .dark-mode .input-group select { background: #2d3139; border-color: #444; color: #e0e0e0; }
+        .input-group input:focus, .input-group select:focus { border-color:#1877f2; box-shadow:0 0 0 2px rgba(24,119,242,0.2); }
+        .btn { width:100%; padding:14px; background:#1877f2; color:white; border:none; border-radius:8px; font-size:17px; font-weight:600; cursor:pointer; margin-top:8px; }
+        .btn:hover { background:#166fe5; }
+        .btn-outline { background:transparent; border:1px solid #1877f2; color:#1877f2; margin-top:12px; }
+        .btn-outline:hover { background:rgba(24,119,242,0.05); }
+        .dark-mode .btn-outline { border-color: #4a90e2; color: #4a90e2; }
+        .footer { text-align:center; padding:0 24px 24px; color:#666; font-size:14px; }
+        .dark-mode .footer { color: #999; }
+        .footer a { color:#1877f2; text-decoration:none; font-weight:600; }
+        .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%); background:#28a745; color:white; padding:12px 24px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.15); z-index:9999; opacity:0; transition: opacity 0.3s; }
+        .toast.show { opacity:1; }
+        .theme-toggle { position: fixed; top: 20px; right: 20px; background: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; font-size: 24px; z-index: 100; }
+        .dark-mode .theme-toggle { background: #2d3139; color: white; }
+        .lang-select { position: fixed; top: 80px; right: 20px; background: white; border: 1px solid #ddd; border-radius: 8px; padding: 8px 12px; cursor: pointer; font-size: 12px; z-index: 100; }
+        .dark-mode .lang-select { background: #2d3139; border-color: #444; color: #e0e0e0; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>Tapwealth</h1>
-      <p>Earn real money — anytime, anywhere</p>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    
+    <!-- Language Select -->
+    <select class="lang-select" id="language-select" onchange="changeLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="yo">Yorùbá</option>
+    </select>
+
+    <div class="container">
+        <div class="header">
+            <h1>Tapwealth</h1>
+            <p data-i18n="earn-real-money">Earn real money — anytime, anywhere</p>
+        </div>
+
+        <div class="form" id="loginForm">
+            <h2 style="text-align:center; margin-bottom:20px; color:#333" data-i18n="log-in">Log In</h2>
+            <div class="input-group">
+                <label for="email" data-i18n="email">Email</label>
+                <input type="email" id="email" placeholder="you@example.com" required />
+            </div>
+            <div class="input-group">
+                <label for="password" data-i18n="password">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required />
+            </div>
+            <button class="btn" onclick="login()" data-i18n="log-in">Log In</button>
+            <button class="btn btn-outline" onclick="showSignupForm()" data-i18n="create-account">Create New Account</button>
+        </div>
+
+        <div class="form" id="signupForm" style="display:none;">
+            <h2 style="text-align:center; margin-bottom:20px; color:#333" data-i18n="create-account">Create Account</h2>
+            <div class="input-group">
+                <label for="signupName" data-i18n="full-name">Full Name</label>
+                <input type="text" id="signupName" placeholder="John Doe" required />
+            </div>
+            <div class="input-group">
+                <label for="signupEmail" data-i18n="email">Email</label>
+                <input type="email" id="signupEmail" placeholder="you@example.com" required />
+            </div>
+            <div class="input-group">
+                <label for="signupPhone" data-i18n="phone">Phone (for SMS)</label>
+                <input type="tel" id="signupPhone" placeholder="+2348012345678" required />
+            </div>
+            <div class="input-group">
+                <label for="signupPassword" data-i18n="password-min">Password (min 6 chars)</label>
+                <input type="password" id="signupPassword" placeholder="••••••••" required />
+            </div>
+            <button class="btn" onclick="signup()" data-i18n="create-account">Create Account</button>
+            <button class="btn btn-outline" onclick="showLoginForm()" data-i18n="back-login">← Back to Login</button>
+        </div>
+
+        <div class="form" id="verifyForm" style="display:none;">
+            <h2 style="text-align:center; margin-bottom:20px; color:#333" data-i18n="verify-email">Verify Email</h2>
+            <p style="text-align:center; font-size:12px; margin-bottom:16px;" data-i18n="check-email">We sent a verification code to your email</p>
+            <div class="input-group">
+                <label for="verifyCode" data-i18n="code">Verification Code</label>
+                <input type="text" id="verifyCode" placeholder="123456" required />
+            </div>
+            <button class="btn" onclick="verifyEmail()" data-i18n="verify">Verify Email</button>
+        </div>
+
+        <div class="footer">
+            <p data-i18n="agree-terms">By logging in, you agree to our Terms and Privacy Policy.</p>
+        </div>
     </div>
 
-    <div class="form" id="loginForm">
-      <h2 style="text-align:center; margin-bottom:20px; color:#333">Log In</h2>
-      <div class="input-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" placeholder="you@example.com" required />
-      </div>
-      <div class="input-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" placeholder="••••••••" required />
-      </div>
-      <button class="btn" onclick="login()">Log In</button>
-      <button class="btn btn-outline" onclick="showSignupForm()">Create New Account</button>
-    </div>
+    <div class="toast" id="toast">Message</div>
 
-    <div class="form" id="signupForm" style="display:none;">
-      <h2 style="text-align:center; margin-bottom:20px; color:#333">Create Account</h2>
-      <div class="input-group">
-        <label for="signupEmail">Email</label>
-        <input type="email" id="signupEmail" placeholder="you@example.com" required />
-      </div>
-      <div class="input-group">
-        <label for="signupPassword">Password (min 6 chars)</label>
-        <input type="password" id="signupPassword" placeholder="••••••••" required />
-      </div>
-      <button class="btn" onclick="signup()">Create Account</button>
-      <button class="btn btn-outline" onclick="showLoginForm()">← Back to Login</button>
-    </div>
-
-    <div class="footer">
-      <p>By logging in, you agree to our Terms and Privacy Policy.</p>
-    </div>
-  </div>
-
-  <div class="toast" id="toast">Message</div>
-
-  <script>
-    function safeParse(str) {
-      if (!str) return {};
-      try { return JSON.parse(str); }
-      catch (e) { return {}; }
-    }
-
-    const USERS_KEY = 'tapwealth_users';
-    const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
-
-    function showToast(message) {
-      const t = document.getElementById('toast');
-      t.textContent = message;
-      t.className = 'toast show';
-      setTimeout(() => t.className = 'toast', 3000);
-    }
-
-    function showLoginForm() {
-      document.getElementById('loginForm').style.display = 'block';
-      document.getElementById('signupForm').style.display = 'none';
-    }
-
-    function showSignupForm() {
-      document.getElementById('loginForm').style.display = 'none';
-      document.getElementById('signupForm').style.display = 'block';
-    }
-
-    function login() {
-      const email = document.getElementById('email').value.trim().toLowerCase();
-      const password = document.getElementById('password').value;
-
-      if (!email || !password) return showToast('⚠️ Enter email and password');
-
-      const users = safeParse(localStorage.getItem(USERS_KEY));
-      const user = users[email];
-
-      if (user && user.password === password) {
-        localStorage.setItem(CURRENT_USER_EMAIL_KEY, email);
-        showToast('✅ Login successful!');
-        setTimeout(() => { window.location.href = './dashboard.html'; }, 1200);
-      } else {
-        showToast('❌ Email or password incorrect');
-      }
-    }
-
-    function signup() {
-      const email = document.getElementById('signupEmail').value.trim().toLowerCase();
-      const password = document.getElementById('signupPassword').value;
-
-      if (!email || !password) return showToast('⚠️ Fill all fields');
-      if (password.length < 6) return showToast('⚠️ Password ≥6 chars');
-
-      let users = safeParse(localStorage.getItem(USERS_KEY));
-      if (users[email]) return showToast('📧 Account exists. Try logging in.');
-
-      users[email] = {
-        email: email,
-        password: password,
-        name: email.split('@')[0],
-        role: 'user',
-        id: 'user_' + Math.random().toString(36).substr(2, 9),
-        balance: 500,
-        taps: 0,
-        completedTasks: 0,
-        referrals: [],
-        transactions: [
-          { id: 'welcome_' + Date.now(), type: 'credit', amount: 500, description: 'Welcome Bonus', date: new Date().toISOString() }
-        ]
-      };
-
-      try {
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        localStorage.setItem(CURRENT_USER_EMAIL_KEY, email);
-        showToast('✅ Account created!');
-        setTimeout(() => window.location.href = './dashboard.html', 1200);
-      } catch (err) {
-        showToast('⚠️ Failed to save. Try incognito mode.');
-      }
-    }
-
-    // Create CEO account
-    function initCEO() {
-      let users = safeParse(localStorage.getItem(USERS_KEY));
-      const ceoEmail = 'wealthysilvar@gmail.com';
-      if (!users[ceoEmail]) {
-        users[ceoEmail] = {
-          email: ceoEmail,
-          password: 'TapwealthCEO2025!',
-          name: 'CEO',
-          role: 'admin',
-          id: 'ceo_001',
-          balance: 500,
-          taps: 0,
-          completedTasks: 0,
-          referrals: [],
-          transactions: [{
-            id: 'tx_welcome',
-            type: 'credit',
-            amount: 500,
-            description: 'Welcome Bonus',
-            date: new Date().toISOString()
-          }]
+    <script>
+        // Language translations
+        const translations = {
+            en: {
+                'earn-real-money': 'Earn real money — anytime, anywhere',
+                'log-in': 'Log In',
+                'email': 'Email',
+                'password': 'Password',
+                'create-account': 'Create New Account',
+                'full-name': 'Full Name',
+                'phone': 'Phone (for SMS)',
+                'password-min': 'Password (min 6 chars)',
+                'back-login': '← Back to Login',
+                'verify-email': 'Verify Email',
+                'check-email': 'We sent a verification code to your email',
+                'code': 'Verification Code',
+                'verify': 'Verify Email',
+                'agree-terms': 'By logging in, you agree to our Terms and Privacy Policy.'
+            },
+            es: {
+                'earn-real-money': 'Gana dinero real — en cualquier momento, en cualquier lugar',
+                'log-in': 'Iniciar sesión',
+                'email': 'Correo electrónico',
+                'password': 'Contraseña',
+                'create-account': 'Crear nueva cuenta',
+                'full-name': 'Nombre completo',
+                'phone': 'Teléfono (para SMS)',
+                'password-min': 'Contraseña (mín. 6 caracteres)',
+                'back-login': '← Volver al inicio de sesión',
+                'verify-email': 'Verificar correo electrónico',
+                'check-email': 'Enviamos un código de verificación a tu correo',
+                'code': 'Código de verificación',
+                'verify': 'Verificar correo electrónico',
+                'agree-terms': 'Al iniciar sesión, aceptas nuestros Términos y Política de privacidad.'
+            },
+            fr: {
+                'earn-real-money': 'Gagnez de l\'argent réel — n\'importe quand, n\'importe où',
+                'log-in': 'Se connecter',
+                'email': 'E-mail',
+                'password': 'Mot de passe',
+                'create-account': 'Créer un nouveau compte',
+                'full-name': 'Nom complet',
+                'phone': 'Téléphone (pour SMS)',
+                'password-min': 'Mot de passe (min. 6 caractères)',
+                'back-login': '← Retour à la connexion',
+                'verify-email': 'Vérifier l\'e-mail',
+                'check-email': 'Nous avons envoyé un code de vérification à votre e-mail',
+                'code': 'Code de vérification',
+                'verify': 'Vérifier l\'e-mail',
+                'agree-terms': 'En vous connectant, vous acceptez nos conditions et notre politique de confidentialité.'
+            },
+            de: {
+                'earn-real-money': 'Verdienen Sie echtes Geld — jederzeit, überall',
+                'log-in': 'Anmelden',
+                'email': 'E-Mail',
+                'password': 'Passwort',
+                'create-account': 'Neues Konto erstellen',
+                'full-name': 'Vollständiger Name',
+                'phone': 'Telefon (für SMS)',
+                'password-min': 'Passwort (mind. 6 Zeichen)',
+                'back-login': '← Zurück zur Anmeldung',
+                'verify-email': 'E-Mail verifizieren',
+                'check-email': 'Wir haben einen Bestätigungscode an Ihre E-Mail gesendet',
+                'code': 'Bestätigungscode',
+                'verify': 'E-Mail verifizieren',
+                'agree-terms': 'Durch die Anmeldung stimmen Sie unseren Bedingungen und Datenschutzrichtlinien zu.'
+            },
+            yo: {
+                'earn-real-money': 'Tì owo gbajúmọ̀ — nigbakugba, nibikíbi',
+                'log-in': 'Wọlé',
+                'email': 'Imeeli',
+                'password': 'Ọ̀rọ̀-ìṣirò',
+                'create-account': 'Ṣẹ̀dá Àkọ́ọ̀ Tuntun',
+                'full-name': 'Orúkọ Kikọ',
+                'phone': 'Fóònù (fun SMS)',
+                'password-min': 'Ọ̀rọ̀-ìṣirò (o kere jù 6)',
+                'back-login': '← Padà si Wọlé',
+                'verify-email': 'Ìdánilójú Imeeli',
+                'check-email': 'A rán ìlànà ìdánilójú sí imeeli e',
+                'code': 'Ìlànà ìdánilójú',
+                'verify': 'Ìdánilójú Imeeli',
+                'agree-terms': 'Nipa wọlé, o gbe ara e ṣe fun Awọn ìpilẹ̀ ati Ètò Ìṣòro.'
+            }
         };
-        localStorage.setItem(USERS_KEY, JSON.stringify(users));
-      }
-    }
 
-    initCEO();
-  </script>
+        let currentLanguage = localStorage.getItem('tapwealth_language') || 'en';
+        let isDarkMode = localStorage.getItem('tapwealth_dark_mode') === 'true';
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('tapwealth_language', lang);
+            updateLanguage();
+        }
+
+        function updateLanguage() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    el.textContent = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('tapwealth_dark_mode', isDarkMode);
+            document.querySelector('.theme-toggle').textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function showToast(message) {
+            const t = document.getElementById('toast');
+            t.textContent = message;
+            t.className = 'toast show';
+            setTimeout(() => t.className = 'toast', 3000);
+        }
+
+        function showLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('verifyForm').style.display = 'none';
+        }
+
+        function showSignupForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'block';
+            document.getElementById('verifyForm').style.display = 'none';
+        }
+
+        function generateVerificationCode() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        function signup() {
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim().toLowerCase();
+            const phone = document.getElementById('signupPhone').value.trim();
+            const password = document.getElementById('signupPassword').value;
+
+            if (!name || !email || !phone || !password) return showToast('⚠️ Fill all fields');
+            if (password.length < 6) return showToast('⚠️ Password ≥6 chars');
+
+            const users = JSON.parse(localStorage.getItem('tapwealth_users')) || {};
+            if (users[email]) return showToast('📧 Account exists');
+
+            const verCode = generateVerificationCode();
+            localStorage.setItem('tapwealth_pending_signup', JSON.stringify({
+                name, email, phone, password, verCode, createdAt: Date.now()
+            }));
+
+            // Simulate email send
+            alert(`✅ Verification code sent to ${email}: ${verCode}`);
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('verifyForm').style.display = 'block';
+            document.getElementById('verifyCode').focus();
+        }
+
+        function verifyEmail() {
+            const code = document.getElementById('verifyCode').value.trim();
+            const pending = JSON.parse(localStorage.getItem('tapwealth_pending_signup'));
+
+            if (!pending) return showToast('⚠️ No pending signup');
+            if (code !== pending.verCode) return showToast('❌ Wrong verification code');
+
+            const users = JSON.parse(localStorage.getItem('tapwealth_users')) || {};
+            users[pending.email] = {
+                email: pending.email,
+                password: pending.password,
+                name: pending.name,
+                phone: pending.phone,
+                role: 'user',
+                id: 'user_' + Math.random().toString(36).substr(2, 9),
+                balance: 500,
+                taps: 0,
+                completedTasks: 0,
+                referrals: [],
+                emailVerified: true,
+                transactions: [
+                    { id: 'welcome_' + Date.now(), type: 'credit', amount: 500, description: 'Welcome Bonus', date: new Date().toISOString() }
+                ]
+            };
+
+            localStorage.setItem('tapwealth_users', JSON.stringify(users));
+            localStorage.setItem('tapwealth_current_user_email', pending.email);
+            localStorage.removeItem('tapwealth_pending_signup');
+
+            showToast('✅ Account created!');
+            setTimeout(() => window.location.href = './dashboard.html', 1200);
+        }
+
+        function login() {
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) return showToast('⚠️ Enter email and password');
+
+            const users = JSON.parse(localStorage.getItem('tapwealth_users')) || {};
+            const user = users[email];
+
+            if (user && user.password === password) {
+                localStorage.setItem('tapwealth_current_user_email', email);
+                showToast('✅ Login successful!');
+                setTimeout(() => window.location.href = './dashboard.html', 1200);
+            } else {
+                showToast('❌ Email or password incorrect');
+            }
+        }
+
+        // Initialize
+        function initCEO() {
+            let users = JSON.parse(localStorage.getItem('tapwealth_users')) || {};
+            const ceoEmail = 'wealthysilvar@gmail.com';
+            if (!users[ceoEmail]) {
+                users[ceoEmail] = {
+                    email: ceoEmail,
+                    password: 'TapwealthCEO2025!',
+                    name: 'CEO',
+                    phone: '+2348012345678',
+                    role: 'admin',
+                    id: 'ceo_001',
+                    balance: 500,
+                    taps: 0,
+                    completedTasks: 0,
+                    referrals: [],
+                    emailVerified: true,
+                    transactions: [{
+                        id: 'tx_welcome',
+                        type: 'credit',
+                        amount: 500,
+                        description: 'Welcome Bonus',
+                        date: new Date().toISOString()
+                    }]
+                };
+                localStorage.setItem('tapwealth_users', JSON.stringify(users));
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initCEO();
+            updateLanguage();
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.theme-toggle').textContent = '☀️';
+            }
+            document.getElementById('language-select').value = currentLanguage;
+        });
+    </script>
 </body>
 </html>

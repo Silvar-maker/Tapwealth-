@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - TapWealth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; margin: 0; padding: 0; color: #1e293b; transition: background 0.3s; }
+        body.dark-mode { background: #0f1419; color: #e0e0e0; }
+        .header { background: white; padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; justify-content: space-between; }
+        .dark-mode .header { background: #1a1d23; border-color: #333; }
+        .app-title { font-weight: 700; font-size: 18px; }
+        .card { background: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .dark-mode .card { background: #1a1d23; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .chart-container { position: relative; height: 300px; margin: 20px 0; }
+        .stat-box { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 12px; margin: 10px 0; text-align: center; }
+        .dark-mode .stat-box { background: linear-gradient(135deg, #444, #666); }
+        .pay-app-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-around; padding: 12px 0; z-index: 1000; }
+        .dark-mode .pay-app-nav { background: #1a1d23; border-color: #333; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; text-decoration: none; }
+        .nav-item.active { color: #1d4ed8; }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; }
+        .theme-toggle { background: #f1f5f9; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-size: 18px; }
+        .dark-mode .theme-toggle { background: #2d3139; color: white; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <button onclick="history.back()" class="theme-toggle" style="margin-right: auto;">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="app-title">📊 Analytics</div>
+        <button onclick="toggleTheme()" class="theme-toggle">
+            <span id="theme-icon">🌙</span>
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div style="padding-bottom: 80px;">
+        <!-- Key Metrics -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 dark:text-gray-200">📈 Key Metrics</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="stat-box">
+                    <p class="text-sm opacity-90">Lifetime Earnings</p>
+                    <p class="text-2xl font-bold" id="lifetime-earnings">₦0</p>
+                </div>
+                <div class="stat-box">
+                    <p class="text-sm opacity-90">Total Tasks</p>
+                    <p class="text-2xl font-bold" id="total-tasks-metric">0</p>
+                </div>
+                <div class="stat-box">
+                    <p class="text-sm opacity-90">Referral Bonus</p>
+                    <p class="text-2xl font-bold" id="referral-bonus-metric">₦0</p>
+                </div>
+                <div class="stat-box">
+                    <p class="text-sm opacity-90">Daily Average</p>
+                    <p class="text-2xl font-bold" id="daily-avg-metric">₦0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 dark:text-gray-200">💰 Earnings Trend (Last 7 Days)</h2>
+            <div class="chart-container">
+                <canvas id="earningsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 dark:text-gray-200">🎯 Income Breakdown</h2>
+            <div class="chart-container">
+                <canvas id="incomeChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 dark:text-gray-200">📊 Tasks Completed</h2>
+            <div class="chart-container">
+                <canvas id="tasksChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Goals -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 dark:text-gray-200">🎯 Goals Progress</h2>
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm">Earn ₦5,000</span>
+                        <span class="text-sm font-bold" id="goal-5k">0%</span>
+                    </div>
+                    <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
+                        <div id="goal-5k-bar" style="background: #1d4ed8; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm">Get 50 Referrals</span>
+                        <span class="text-sm font-bold" id="goal-ref">0%</span>
+                    </div>
+                    <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
+                        <div id="goal-ref-bar" style="background: #10b981; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-sm">Complete 100 Tasks</span>
+                        <span class="text-sm font-bold" id="goal-tasks">0%</span>
+                    </div>
+                    <div style="background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden;">
+                        <div id="goal-tasks-bar" style="background: #f59e0b; height: 100%; width: 0%; transition: width 0.3s;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <div class="pay-app-nav">
+        <a href="./dashboard.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="./earn.html" class="nav-item">
+            <i class="fas fa-coins"></i>
+            <span>Earn</span>
+        </a>
+        <a href="./referral.html" class="nav-item">
+            <i class="fas fa-users"></i>
+            <span>Refer</span>
+        </a>
+        <a href="./wallet.html" class="nav-item">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+        </a>
+        <a href="./settings.html" class="nav-item">
+            <i class="fas fa-user"></i>
+            <span>Me</span>
+        </a>
+    </div>
+
+    <script>
+        const USERS_KEY = 'tapwealth_users';
+        const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+        let isDarkMode = localStorage.getItem('tapwealth_dark_mode') === 'true';
+
+        function getCurrentUser() {
+            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+            if (!email) return null;
+            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+            return users[email] || null;
+        }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('tapwealth_dark_mode', isDarkMode);
+            document.getElementById('theme-icon').textContent = isDarkMode ? '☀️' : '🌙';
+        }
+
+        function generateLast7Days() {
+            const days = [];
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                days.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+            }
+            return days;
+        }
+
+        function calculateEarningsByDay() {
+            const user = getCurrentUser();
+            if (!user) return [0, 0, 0, 0, 0, 0, 0];
+
+            const earnings = [0, 0, 0, 0, 0, 0, 0];
+            const txs = user.transactions || [];
+
+            txs.forEach(tx => {
+                if (tx.type === 'credit') {
+                    const txDate = new Date(tx.date);
+                    const dayDiff = Math.floor((Date.now() - txDate.getTime()) / (1000 * 60 * 60 * 24));
+                    if (dayDiff < 7 && dayDiff >= 0) {
+                        earnings[6 - dayDiff] += tx.amount;
+                    }
+                }
+            });
+
+            return earnings;
+        }
+
+        function updateUI() {
+            const user = getCurrentUser();
+            if (!user) {
+                window.location.href = './login.html';
+                return;
+            }
+
+            const txs = user.transactions || [];
+            const earned = txs.filter(t => t.type === 'credit').reduce((sum, t) => sum + t.amount, 0);
+            const referralBonus = (user.referrals?.length || 0) * 100;
+            const dailyAvg = Math.floor(earned / Math.max(1, Math.floor((Date.now() - (user.createdAt || Date.now())) / (1000 * 60 * 60 * 24))));
+
+            document.getElementById('lifetime-earnings').textContent = '₦' + earned.toLocaleString('en-NG');
+            document.getElementById('total-tasks-metric').textContent = user.completedTasks || 0;
+            document.getElementById('referral-bonus-metric').textContent = '₦' + referralBonus.toLocaleString('en-NG');
+            document.getElementById('daily-avg-metric').textContent = '₦' + dailyAvg.toLocaleString('en-NG');
+
+            // Goals
+            const goal5k = Math.min(100, Math.floor((earned / 5000) * 100));
+            const goalRef = Math.min(100, Math.floor(((user.referrals?.length || 0) / 50) * 100));
+            const goalTasks = Math.min(100, Math.floor(((user.completedTasks || 0) / 100) * 100));
+
+            document.getElementById('goal-5k').textContent = goal5k + '%';
+            document.getElementById('goal-ref').textContent = goalRef + '%';
+            document.getElementById('goal-tasks').textContent = goalTasks + '%';
+            document.getElementById('goal-5k-bar').style.width = goal5k + '%';
+            document.getElementById('goal-ref-bar').style.width = goalRef + '%';
+            document.getElementById('goal-tasks-bar').style.width = goalTasks + '%';
+
+            // Charts
+            renderCharts();
+        }
+
+        function renderCharts() {
+            const user = getCurrentUser();
+            const days = generateLast7Days();
+            const earningsByDay = calculateEarningsByDay();
+            const txs = user.transactions || [];
+            const adEarnings = txs.filter(t => t.type === 'credit' && t.description.includes('Ad')).reduce((s, t) => s + t.amount, 0);
+            const taskEarnings = txs.filter(t => t.type === 'credit' && t.description.includes('Task')).reduce((s, t) => s + t.amount, 0);
+            const refEarnings = txs.filter(t => t.type === 'credit' && t.description.includes('Referral')).reduce((s, t) => s + t.amount, 0);
+
+            // Earnings Trend
+            const ctx1 = document.getElementById('earningsChart').getContext('2d');
+            new Chart(ctx1, {
+                type: 'line',
+                data: {
+                    labels: days,
+                    datasets: [{
+                        label: 'Daily Earnings (₦)',
+                        data: earningsByDay,
+                        borderColor: '#1d4ed8',
+                        backgroundColor: 'rgba(29, 78, 216, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+
+            // Income Breakdown
+            const ctx2 = document.getElementById('incomeChart').getContext('2d');
+            new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Ads', 'Tasks', 'Referrals'],
+                    datasets: [{
+                        data: [adEarnings, taskEarnings, refEarnings],
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            // Tasks Completed
+            const ctx3 = document.getElementById('tasksChart').getContext('2d');
+            new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: ['Completed', 'Remaining'],
+                    datasets: [{
+                        label: 'Tasks',
+                        data: [user.completedTasks || 0, Math.max(0, 100 - (user.completedTasks || 0))],
+                        backgroundColor: ['#1d4ed8', '#e2e8f0']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-icon').textContent = '☀️';
+            }
+            updateUI();
+        });
+    </script>
+</body>
+</html>
