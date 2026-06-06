@@ -13,10 +13,15 @@
         .menu-btn { width: 44px; height: 44px; border-radius: 12px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; border: none; cursor: pointer; }
         .app-title { font-weight: 700; font-size: 18px; color: #0f172a; }
         .card { background: white; border-radius: 16px; padding: 20px; margin: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .profile-card { text-align: center; margin-bottom: 20px; }
-        .avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #0ea5e9, #3b82f6); display: flex; align-items: center; justify-content: center; color: white; font-size: 36px; font-weight: bold; margin: 0 auto 16px; }
-        .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #e2e8f0; }
+        .profile-card { background: linear-gradient(135deg, #6366f1, #4f46e5); color: white; border-radius: 16px; padding: 24px; margin: 16px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); text-align: center; }
+        .setting-item { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid #e2e8f0; }
         .setting-item:last-child { border-bottom: none; }
+        .setting-label { font-weight: 600; color: #1e293b; }
+        .setting-description { font-size: 12px; color: #64748b; margin-top: 4px; }
+        .toggle-switch { width: 50px; height: 28px; background: #e2e8f0; border-radius: 14px; position: relative; cursor: pointer; transition: all 0.2s; }
+        .toggle-switch.active { background: #10b981; }
+        .toggle-slider { width: 24px; height: 24px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: all 0.2s; }
+        .toggle-switch.active .toggle-slider { left: 24px; }
         .btn { padding: 12px 24px; border-radius: 12px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; width: 100%; margin: 8px 0; }
         .btn-primary { background: #1d4ed8; color: white; }
         .btn-primary:hover { background: #1e40af; }
@@ -26,13 +31,13 @@
         .nav-item { display: flex; flex-direction: column; align-items: center; font-size: 10px; color: #94a3b8; text-decoration: none; }
         .nav-item.active { color: #1d4ed8; }
         .nav-item i { font-size: 20px; margin-bottom: 4px; }
+        .input-group { margin-bottom: 16px; }
+        .input-group label { display: block; font-size: 14px; color: #333; margin-bottom: 6px; font-weight: 500; }
+        .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; box-sizing: border-box; }
+        .input-group input:focus, .input-group select:focus { border-color: #1d4ed8; box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.2); }
         .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 2000; align-items: center; justify-content: center; }
         .modal.show { display: flex; }
         .modal-content { background: white; border-radius: 16px; padding: 24px; max-width: 400px; width: 90%; }
-        .input-group { margin-bottom: 16px; }
-        .input-group label { display: block; font-size: 14px; color: #333; margin-bottom: 6px; font-weight: 500; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; box-sizing: border-box; }
-        .input-group input:focus { border-color: #1d4ed8; box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.2); }
     </style>
 </head>
 <body>
@@ -48,37 +53,34 @@
     <!-- Main Content -->
     <div style="padding-bottom: 80px;">
         <!-- Profile Section -->
-        <div class="card">
-            <div class="profile-card">
-                <div class="avatar" id="user-avatar">U</div>
-                <p class="text-xl font-bold text-gray-800" id="user-name">User</p>
-                <p class="text-sm text-gray-600" id="user-email">user@example.com</p>
+        <div class="profile-card">
+            <div class="w-16 h-16 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white text-2xl font-bold mx-auto mb-3">
+                <span id="profile-initial">U</span>
             </div>
-            <button onclick="openEditProfileModal()" class="btn btn-primary">
-                <i class="fas fa-edit mr-2"></i> Edit Profile
-            </button>
+            <p id="profile-name" class="text-xl font-bold">User Name</p>
+            <p id="profile-email" class="text-sm opacity-80">user@example.com</p>
         </div>
 
         <!-- Account Settings -->
         <div class="card">
             <h2 class="text-lg font-bold text-gray-800 mb-4">Account</h2>
-            <div class="setting-item" onclick="openChangePasswordModal()" style="cursor: pointer;">
+            <div class="setting-item">
                 <div>
-                    <p class="font-medium text-gray-800">Change Password</p>
-                    <p class="text-sm text-gray-600">Update your password</p>
+                    <p class="setting-label">Email</p>
+                    <p class="setting-description" id="email-display">user@example.com</p>
                 </div>
-                <i class="fas fa-chevron-right text-gray-400"></i>
+                <button onclick="editEmail()" class="text-blue-600 text-sm font-medium">Edit</button>
             </div>
             <div class="setting-item">
                 <div>
-                    <p class="font-medium text-gray-800">Two-Factor Auth</p>
-                    <p class="text-sm text-gray-600">Secure your account</p>
+                    <p class="setting-label">Phone</p>
+                    <p class="setting-description" id="phone-display">Not set</p>
                 </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" id="2fa-toggle" class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                </label>
+                <button onclick="editPhone()" class="text-blue-600 text-sm font-medium">Edit</button>
             </div>
+            <button onclick="changePassword()" class="btn btn-primary mt-4">
+                <i class="fas fa-key mr-2"></i> Change Password
+            </button>
         </div>
 
         <!-- Notifications -->
@@ -86,29 +88,72 @@
             <h2 class="text-lg font-bold text-gray-800 mb-4">Notifications</h2>
             <div class="setting-item">
                 <div>
-                    <p class="font-medium text-gray-800">Email Alerts</p>
-                    <p class="text-sm text-gray-600">Earning updates</p>
+                    <p class="setting-label">Push Notifications</p>
+                    <p class="setting-description">Get earning alerts</p>
                 </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" id="email-notif" class="sr-only peer" checked>
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                </label>
+                <div class="toggle-switch active" id="push-toggle" onclick="togglePushNotifications()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div>
+                    <p class="setting-label">SMS Notifications</p>
+                    <p class="setting-description">Receive SMS alerts</p>
+                </div>
+                <div class="toggle-switch" id="sms-toggle" onclick="toggleSMSNotifications()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div>
+                    <p class="setting-label">Email Notifications</p>
+                    <p class="setting-description">Daily summary emails</p>
+                </div>
+                <div class="toggle-switch active" id="email-toggle" onclick="toggleEmailNotifications()">
+                    <div class="toggle-slider"></div>
+                </div>
             </div>
         </div>
 
-        <!-- About -->
+        <!-- Privacy & Security -->
         <div class="card">
-            <h2 class="text-lg font-bold text-gray-800 mb-4">About</h2>
-            <div class="space-y-3">
-                <div class="flex justify-between items-center">
-                    <p class="text-gray-600">App Version</p>
-                    <p class="font-medium text-gray-800">1.0.0</p>
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Privacy & Security</h2>
+            <div class="setting-item">
+                <div>
+                    <p class="setting-label">Two-Factor Authentication</p>
+                    <p class="setting-description">Add extra security</p>
                 </div>
-                <div class="flex justify-between items-center">
-                    <p class="text-gray-600">Company</p>
-                    <p class="font-medium text-gray-800">TapWealth Inc</p>
-                </div>
+                <button onclick="enable2FA()" class="text-blue-600 text-sm font-medium">Enable</button>
             </div>
+            <button onclick="viewPrivacyPolicy()" class="btn" style="background: #e2e8f0; color: #1e293b; margin-top: 12px;">
+                <i class="fas fa-shield-alt mr-2"></i> Privacy Policy
+            </button>
+            <button onclick="viewTerms()" class="btn" style="background: #e2e8f0; color: #1e293b;">
+                <i class="fas fa-file-contract mr-2"></i> Terms & Conditions
+            </button>
+        </div>
+
+        <!-- App Settings -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">App</h2>
+            <div class="setting-item">
+                <div>
+                    <p class="setting-label">Language</p>
+                    <p class="setting-description" id="language-display">English</p>
+                </div>
+                <button onclick="changeLanguage()" class="text-blue-600 text-sm font-medium">Change</button>
+            </div>
+        </div>
+
+        <!-- Support -->
+        <div class="card">
+            <h2 class="text-lg font-bold text-gray-800 mb-4">Help & Support</h2>
+            <button onclick="contactSupport()" class="btn btn-primary">
+                <i class="fas fa-life-ring mr-2"></i> Contact Support
+            </button>
+            <button onclick="reportIssue()" class="btn" style="background: #f59e0b; color: white;">
+                <i class="fas fa-bug mr-2"></i> Report Issue
+            </button>
         </div>
 
         <!-- Danger Zone -->
@@ -117,63 +162,40 @@
             <button onclick="logoutUser()" class="btn btn-danger">
                 <i class="fas fa-sign-out-alt mr-2"></i> Logout
             </button>
-            <button onclick="openDeleteAccountModal()" class="btn btn-danger" style="opacity: 0.7;">
+            <button onclick="deleteAccount()" class="btn" style="background: #991b1b; color: white; margin-top: 8px;">
                 <i class="fas fa-trash mr-2"></i> Delete Account
             </button>
         </div>
     </div>
 
-    <!-- Edit Profile Modal -->
-    <div id="editProfileModal" class="modal">
+    <!-- Modals -->
+    <div id="editEmailModal" class="modal">
         <div class="modal-content">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Edit Profile</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Edit Email</h2>
             <div class="input-group">
-                <label>Full Name</label>
-                <input type="text" id="edit-name" placeholder="Your name" />
+                <label>New Email</label>
+                <input type="email" id="new-email-input" placeholder="your@email.com" />
             </div>
-            <button onclick="saveProfile()" class="btn btn-primary">Save Changes</button>
-            <button onclick="closeEditProfileModal()" class="btn" style="background: #e2e8f0; color: #1e293b;">Cancel</button>
+            <button onclick="saveEmail()" class="btn btn-primary">Save Changes</button>
+            <button onclick="closeModal('editEmailModal')" class="btn" style="background: #e2e8f0; color: #1e293b;">Cancel</button>
         </div>
     </div>
 
-    <!-- Change Password Modal -->
-    <div id="changePasswordModal" class="modal">
+    <div id="editPhoneModal" class="modal">
         <div class="modal-content">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Change Password</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Edit Phone</h2>
             <div class="input-group">
-                <label>Current Password</label>
-                <input type="password" id="current-password" placeholder="Enter current password" />
+                <label>Phone Number</label>
+                <input type="tel" id="new-phone-input" placeholder="+2348012345678" />
             </div>
-            <div class="input-group">
-                <label>New Password</label>
-                <input type="password" id="new-password" placeholder="Enter new password" />
-            </div>
-            <div class="input-group">
-                <label>Confirm Password</label>
-                <input type="password" id="confirm-password" placeholder="Confirm new password" />
-            </div>
-            <button onclick="savePassword()" class="btn btn-primary">Change Password</button>
-            <button onclick="closeChangePasswordModal()" class="btn" style="background: #e2e8f0; color: #1e293b;">Cancel</button>
-        </div>
-    </div>
-
-    <!-- Delete Account Modal -->
-    <div id="deleteAccountModal" class="modal">
-        <div class="modal-content">
-            <h2 class="text-xl font-bold text-red-600 mb-4">Delete Account?</h2>
-            <p class="text-gray-600 mb-4">This action cannot be undone. All your data will be permanently deleted.</p>
-            <div class="input-group">
-                <label>Type "DELETE" to confirm</label>
-                <input type="text" id="delete-confirm" placeholder="Type DELETE" />
-            </div>
-            <button onclick="deleteAccount()" class="btn btn-danger">Delete My Account</button>
-            <button onclick="closeDeleteAccountModal()" class="btn" style="background: #e2e8f0; color: #1e293b;">Cancel</button>
+            <button onclick="savePhone()" class="btn btn-primary">Save Changes</button>
+            <button onclick="closeModal('editPhoneModal')" class="btn" style="background: #e2e8f0; color: #1e293b;">Cancel</button>
         </div>
     </div>
 
     <!-- Bottom Nav -->
     <div class="pay-app-nav">
-        <a href="./dashboard.html" class="nav-item">
+        <a href="./index.html" class="nav-item">
             <i class="fas fa-home"></i>
             <span>Home</span>
         </a>
@@ -185,9 +207,9 @@
             <i class="fas fa-users"></i>
             <span>Refer</span>
         </a>
-        <a href="./wallet.html" class="nav-item">
-            <i class="fas fa-wallet"></i>
-            <span>Wallet</span>
+        <a href="./shop.html" class="nav-item">
+            <i class="fas fa-shopping-bag"></i>
+            <span>Shop</span>
         </a>
         <a href="./settings.html" class="nav-item active">
             <i class="fas fa-user"></i>
@@ -198,6 +220,7 @@
     <script>
         const USERS_KEY = 'tapwealth_users';
         const CURRENT_USER_EMAIL_KEY = 'tapwealth_current_user_email';
+        const SETTINGS_KEY = 'tapwealth_settings';
 
         function getCurrentUser() {
             const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
@@ -215,6 +238,12 @@
             updateUI();
         }
 
+        function saveSettings(key, value) {
+            const settings = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {};
+            settings[key] = value;
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+        }
+
         function updateUI() {
             const user = getCurrentUser();
             if (!user) {
@@ -222,79 +251,123 @@
                 return;
             }
 
-            document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
-            document.getElementById('user-name').textContent = user.name;
-            document.getElementById('user-email').textContent = user.email;
+            document.getElementById('profile-name').textContent = user.name;
+            document.getElementById('profile-email').textContent = user.email;
+            document.getElementById('profile-initial').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('email-display').textContent = user.email;
+            document.getElementById('phone-display').textContent = user.phone || 'Not set';
         }
 
-        function openEditProfileModal() {
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function editEmail() {
             const user = getCurrentUser();
-            document.getElementById('edit-name').value = user.name;
-            document.getElementById('editProfileModal').classList.add('show');
+            document.getElementById('new-email-input').value = user.email;
+            openModal('editEmailModal');
         }
 
-        function closeEditProfileModal() {
-            document.getElementById('editProfileModal').classList.remove('show');
+        function saveEmail() {
+            const newEmail = document.getElementById('new-email-input').value.trim();
+            if (!newEmail || !newEmail.includes('@')) {
+                alert('⚠️ Please enter a valid email');
+                return;
+            }
+            saveUser({ email: newEmail });
+            localStorage.setItem(CURRENT_USER_EMAIL_KEY, newEmail);
+            closeModal('editEmailModal');
+            alert('✅ Email updated successfully');
         }
 
-        function saveProfile() {
-            const newName = document.getElementById('edit-name').value.trim();
-            if (!newName) return alert('⚠️ Name cannot be empty');
-            saveUser({ name: newName });
-            closeEditProfileModal();
-            alert('✅ Profile updated successfully!');
-        }
-
-        function openChangePasswordModal() {
-            document.getElementById('changePasswordModal').classList.add('show');
-        }
-
-        function closeChangePasswordModal() {
-            document.getElementById('changePasswordModal').classList.remove('show');
-        }
-
-        function savePassword() {
+        function editPhone() {
             const user = getCurrentUser();
-            const currentPwd = document.getElementById('current-password').value;
-            const newPwd = document.getElementById('new-password').value;
-            const confirmPwd = document.getElementById('confirm-password').value;
-
-            if (currentPwd !== user.password) return alert('❌ Current password is incorrect');
-            if (newPwd.length < 6) return alert('⚠️ Password must be at least 6 characters');
-            if (newPwd !== confirmPwd) return alert('⚠️ Passwords do not match');
-
-            saveUser({ password: newPwd });
-            closeChangePasswordModal();
-            alert('✅ Password changed successfully!');
+            document.getElementById('new-phone-input').value = user.phone || '';
+            openModal('editPhoneModal');
         }
 
-        function openDeleteAccountModal() {
-            document.getElementById('deleteAccountModal').classList.add('show');
+        function savePhone() {
+            const newPhone = document.getElementById('new-phone-input').value.trim();
+            if (!newPhone) {
+                alert('⚠️ Please enter a phone number');
+                return;
+            }
+            saveUser({ phone: newPhone });
+            closeModal('editPhoneModal');
+            alert('✅ Phone number updated successfully');
         }
 
-        function closeDeleteAccountModal() {
-            document.getElementById('deleteAccountModal').classList.remove('show');
+        function changePassword() {
+            alert('🔐 Password Change\n\nFor security, use a strong password with:\n• At least 8 characters\n• Uppercase & lowercase letters\n• Numbers & special characters');
         }
 
-        function deleteAccount() {
-            const confirm = document.getElementById('delete-confirm').value.trim().toUpperCase();
-            if (confirm !== 'DELETE') return alert('⚠️ Type DELETE to confirm');
+        function togglePushNotifications() {
+            const toggle = document.getElementById('push-toggle');
+            const isActive = toggle.classList.toggle('active');
+            saveSettings('pushNotifications', isActive);
+            alert(isActive ? '✅ Push notifications enabled' : '✅ Push notifications disabled');
+        }
 
-            const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
-            const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
-            delete users[email];
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-            localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
+        function toggleSMSNotifications() {
+            const toggle = document.getElementById('sms-toggle');
+            const isActive = toggle.classList.toggle('active');
+            saveSettings('smsNotifications', isActive);
+            alert(isActive ? '✅ SMS notifications enabled' : '✅ SMS notifications disabled');
+        }
 
-            alert('✅ Account deleted successfully');
-            window.location.href = './login.html';
+        function toggleEmailNotifications() {
+            const toggle = document.getElementById('email-toggle');
+            const isActive = toggle.classList.toggle('active');
+            saveSettings('emailNotifications', isActive);
+            alert(isActive ? '✅ Email notifications enabled' : '✅ Email notifications disabled');
+        }
+
+        function enable2FA() {
+            alert('🔐 Two-Factor Authentication\n\nFeature coming soon!\n\nThis will add an extra layer of security to your account.');
+        }
+
+        function viewPrivacyPolicy() {
+            alert('📋 Privacy Policy\n\nWe respect your privacy and protect your data.\n\nFull policy available on our website.');
+        }
+
+        function viewTerms() {
+            alert('📄 Terms & Conditions\n\nPlease review our terms before using TapWealth.\n\nFull terms available on our website.');
+        }
+
+        function changeLanguage() {
+            alert('🌐 Language\n\nSupported languages:\n• English\n• Español\n• Français\n• Deutsch\n• Yorùbá');
+        }
+
+        function contactSupport() {
+            alert('📞 Contact Support\n\nEmail: support@tapwealth.com\nPhone: +234 800 000 0000\n\nWe\'re here to help!');
+        }
+
+        function reportIssue() {
+            alert('🐛 Report Issue\n\nDescribe the problem you\'re experiencing.\n\nOur team will investigate and get back to you soon.');
         }
 
         function logoutUser() {
             if (confirm('Are you sure you want to logout?')) {
                 localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
-                alert('✅ Logged out successfully');
                 window.location.href = './login.html';
+            }
+        }
+
+        function deleteAccount() {
+            if (confirm('⚠️ WARNING!\n\nDeleting your account is permanent and cannot be undone.\n\nAre you absolutely sure?')) {
+                if (confirm('This action will delete all your data. Are you certain?')) {
+                    const email = localStorage.getItem(CURRENT_USER_EMAIL_KEY);
+                    const users = JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+                    delete users[email];
+                    localStorage.setItem(USERS_KEY, JSON.stringify(users));
+                    localStorage.removeItem(CURRENT_USER_EMAIL_KEY);
+                    alert('❌ Account deleted successfully');
+                    window.location.href = './login.html';
+                }
             }
         }
 
